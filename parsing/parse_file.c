@@ -19,14 +19,12 @@
  */
 int	is_cub_ext(char *filepath)
 {
-	char	*tmp;
+	size_t	len;
 
-	if (ft_strlen(filepath) < 4)
+	len = ft_strlen(filepath);
+	if (len < 4)
 		return (FALSE);
-	tmp = filepath;
-	while (*(tmp + 4) != '\0')
-		tmp++;
-	if (ft_strcmp(".cub", tmp) != 0)
+	if (ft_strcmp(filepath + len - 4, ".cub") != 0)
 		return (FALSE);
 	return (TRUE);
 }
