@@ -17,7 +17,7 @@ LIBFT = libft/libft.a
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(PARSING_SRC) $(LIBFT)  -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(PARSING_SRC) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	make -C libft
