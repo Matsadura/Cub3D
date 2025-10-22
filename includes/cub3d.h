@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 12:42:35 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/10/22 12:42:40 by zzaoui           ###   ########.fr       */
+/*   Created: 2025/10/22 15:27:32 by zzaoui            #+#    #+#             */
+/*   Updated: 2025/10/22 15:29:24 by zzaoui           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#ifndef CUB3D_H
+# define CUB3D_H
 
-/**
- * Main entry point of the program
- * Returns: 0 on success otherwise 1.
- */
-int	main(int ac, char **av)
-{
-	(void)av;
-	if (ac != 2)
-		return (EXIT_FAILURE);
-	ft_printf("%d", ac);
-	return (EXIT_SUCCESS);
-}
+# include <stdio.h>
+# include <stdlib.h>
+# include <math.h>
+# include "libft.h"
+
+#endif /* CUB3D_H  */
