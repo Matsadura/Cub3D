@@ -16,16 +16,14 @@
  * Main entry point of the program
  * Returns: 0 on success otherwise 1.
  */
-
 int	main(int ac, char **av)
 {
 	(void)av;
 	if (ac != 2)
 		return (EXIT_FAILURE);
-
-	if (is_cub_ext(av[1]) == TRUE)
-		printf("is .cub\n");
+	if (does_file_exist(av[1]) == TRUE)
+		printf("exists\n");
 	else
-		printf("not .cub\n");
+		printf("does not exist\n");
 	return (EXIT_SUCCESS);
 }

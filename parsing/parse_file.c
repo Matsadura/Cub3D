@@ -30,3 +30,19 @@ int	is_cub_ext(char *filepath)
 		return (FALSE);
 	return (TRUE);
 }
+
+/**
+ * does_file_exist - Checks if the file exists
+ * @filepath: The path of the file to check
+ * Returns: True if it exists, otherwise False.
+ */
+int	does_file_exist(char *filepath)
+{
+	int	fd;
+
+	fd = open(filepath, O_RDONLY);
+	if (fd < 0)
+		return (FALSE);
+	close(fd);
+	return (TRUE);
+}
