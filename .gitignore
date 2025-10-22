@@ -2,3 +2,4 @@
 **/**.o
 objects
 cub3d
+.vscode

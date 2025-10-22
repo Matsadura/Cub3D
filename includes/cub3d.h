@@ -18,4 +18,13 @@
 # include <math.h>
 # include "libft.h"
 
+/* Macros */
+
+# define TRUE 1
+# define FALSE 0
+
+/* Parsing functions */
+
+int	is_cub_ext(char *filepath);
+
 #endif /* CUB3D_H  */

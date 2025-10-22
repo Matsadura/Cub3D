@@ -1,21 +1,23 @@
 NAME 	= cub3d
 CC      = cc
+INCLUDES_DIR = includes
 CFLAGS  = -Wall -Werror -Wextra -ggdb -I$(INCLUDES_DIR)
 
 SRC = main.c
 
-INCLUDES_DIR = includes
+PARSING_SRC = parsing/parse_file.c
+
 
 OBJ_DIR = objects
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
-LIBFT      = libft/libft.a
+LIBFT = libft/libft.a
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LDFLAGS)
+	$(CC) $(CFLAGS) $(OBJ) $(PARSING_SRC) $(LIBFT)  -o $(NAME)
 
 $(LIBFT):
 	make -C libft
