@@ -21,7 +21,6 @@
 int	main(int ac, char **av)
 {
 	(void)av;
-
 	if (ac != 2)
 		return (EXIT_FAILURE);
 	ft_printf("%d", ac);
