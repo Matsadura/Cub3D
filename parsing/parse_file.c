@@ -21,13 +21,15 @@
 int	is_file_ext(char *filepath, char *ext)
 {
 	size_t	len_f;
+	size_t	len_e;
 
 	if (filepath == NULL || ext == NULL)
 		return (FALSE);
 	len_f = ft_strlen(filepath);
-	if (len_f <= 4)
+	len_e = ft_strlen(ext);
+	if (len_f <= len_e)
 		return (FALSE);
-	if (ft_strcmp(filepath + len_f - 4, ext) != 0)
+	if (ft_strcmp(filepath + len_f - len_e, ext) != 0)
 		return (FALSE);
 	return (TRUE);
 }
