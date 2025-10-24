@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 	(void)av;
 	if (ac != 2)
 		return (EXIT_FAILURE);
-	if (does_file_exist(av[1]) == TRUE)
+	if (is_file_ext(av[1], ".cub") == TRUE)
 		printf("exists\n");
 	else
 		printf("does not exist\n");

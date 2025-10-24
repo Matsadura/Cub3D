@@ -13,18 +13,23 @@
 #include "cub3d.h"
 
 /**
- * is_cub_ext - Checks if the file is a .cub
+ * is_file_ext - Checks if the file is a .cub
  * @filepath: The path of the file map to check
- * Returns: True if .cub, otherwise False.
+ * @ext: The file extention 
+ * Returns: True if the extention matches, otherwise False.
  */
-int	is_cub_ext(char *filepath)
+int	is_file_ext(char *filepath, char *ext)
 {
-	size_t	len;
+	size_t	len_f;
+	size_t	len_e;
 
-	len = ft_strlen(filepath);
-	if (len < 4)
+	if (filepath == NULL || ext == NULL)
 		return (FALSE);
-	if (ft_strcmp(filepath + len - 4, ".cub") != 0)
+	len_f = ft_strlen(filepath);
+	len_e = ft_strlen(ext);
+	if (len_f <= len_e)
+		return (FALSE);
+	if (ft_strcmp(filepath + len_f - len_e, ext) != 0)
 		return (FALSE);
 	return (TRUE);
 }
