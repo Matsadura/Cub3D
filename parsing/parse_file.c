@@ -13,9 +13,10 @@
 #include "cub3d.h"
 
 /**
- * is_cub_ext - Checks if the file is a .cub
+ * is_file_ext - Checks if the file is a .cub
  * @filepath: The path of the file map to check
- * Returns: True if .cub, otherwise False.
+ * @ext: The file extention 
+ * Returns: True if the extention matches, otherwise False.
  */
 int	is_file_ext(char *filepath, char *ext)
 {
