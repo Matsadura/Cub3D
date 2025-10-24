@@ -25,7 +25,7 @@
 
 /* Parsing functions */
 
-int	is_cub_ext(char *filepath);
+int	is_file_ext(char *filepath, char *ext);
 int	does_file_exist(char *file_path);
 
 #endif /* CUB3D_H  */

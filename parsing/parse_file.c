@@ -17,14 +17,16 @@
  * @filepath: The path of the file map to check
  * Returns: True if .cub, otherwise False.
  */
-int	is_cub_ext(char *filepath)
+int	is_file_ext(char *filepath, char *ext)
 {
-	size_t	len;
+	size_t	len_f;
 
-	len = ft_strlen(filepath);
-	if (len < 4)
+	if (filepath == NULL || ext == NULL)
 		return (FALSE);
-	if (ft_strcmp(filepath + len - 4, ".cub") != 0)
+	len_f = ft_strlen(filepath);
+	if (len_f <= 4)
+		return (FALSE);
+	if (ft_strcmp(filepath + len_f - 4, ext) != 0)
 		return (FALSE);
 	return (TRUE);
 }
