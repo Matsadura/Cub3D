@@ -4,3 +4,4 @@
 objects
 cub3d
 .vscode
+**/**.a

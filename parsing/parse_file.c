@@ -49,3 +49,78 @@ int	does_file_exist(char *filepath)
 	close(fd);
 	return (TRUE);
 }
+
+/**
+ * open_map - Opens a file map
+ * @file_name: The map's name
+ * Return: The map's file descriptor
+ */
+int	open_file(char *file_name)
+{
+	int	fd;
+
+	if (file_name == NULL)
+		return (-1);
+	if (is_file_ext(file_name, ".cub") == FALSE)
+	{
+		ft_dprintf(STDERR, "%s: is not a valid .cub file\n", file_name);
+		exit(EXIT_FAILURE);
+	}
+	fd = open(file_name, O_RDONLY);
+	if (fd < 0)
+	{
+		perror(file_name);
+		exit(EXIT_FAILURE);
+	}
+	return (fd);
+}
+
+/**
+ * free_and_exit - Frees the remaining lines and exits with an error
+ * @line: The current line
+ * @fd: The file descriptor
+ */
+void	free_and_exit(char *line, int fd)
+{
+	while (line != NULL)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+	ft_dprintf(2, "Error: Invalid map\n");
+	exit(1);
+}
+
+/**
+ * read_file - Reads the entire file and splits it into lines
+ * @fd: The file descriptor
+ * Return: An array of strings representing the file lines
+ */
+char	**read_file(int fd)
+{
+	char	*line;
+	char	*tmp;
+	char	**file_lines;
+
+	if (fd < 0)
+		return (NULL);
+	tmp = NULL;
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		// if (line[0] == '\n')
+		// {
+		// 	free(tmp);
+		// 	free_and_exit(line, fd);
+		// }
+		tmp = ft_strjoin_gnl(tmp, line);
+		free(line);
+		line = get_next_line(fd);
+		if (tmp == NULL)
+			return (NULL);
+	}
+	if (tmp == NULL)
+		return (NULL);
+	file_lines = ft_split(tmp, '\n');
+	return (free(tmp), file_lines);
+}
