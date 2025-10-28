@@ -28,6 +28,7 @@
 
 typedef struct s_config
 {
+	char	**tmp_lines;
 	char	*no_path;
 	char	*so_path;
 	char	*we_path;
@@ -43,8 +44,19 @@ typedef struct s_config
 /* Parsing functions */
 
 int		is_file_ext(char *filepath, char *ext);
-int		does_file_exist(char *file_path);
+// int		does_file_exist(char *file_path);
 int		open_file(char *file_name);
 char	**read_file(int fd);
+int		parse_textures_colors(t_config *config);
+
+/* Parsing Utils functions */
+
+int		all_elements_found(int *mask);
+int		is_valid_element(char *line, int *mask);
+
+/* Utils functions */
+
+int		arraylen(char **array);
+void	free_array(char **array);
 
 #endif /* CUB3D_H  */

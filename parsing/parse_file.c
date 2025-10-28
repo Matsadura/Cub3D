@@ -34,21 +34,21 @@ int	is_file_ext(char *filepath, char *ext)
 	return (TRUE);
 }
 
-/**
- * does_file_exist - Checks if the file exists
- * @filepath: The path of the file to check
- * Returns: True if it exists, otherwise False.
- */
-int	does_file_exist(char *filepath)
-{
-	int	fd;
+// /**
+//  * does_file_exist - Checks if the file exists
+//  * @filepath: The path of the file to check
+//  * Returns: True if it exists, otherwise False.
+//  */
+// int	does_file_exist(char *filepath)
+// {
+// 	int	fd;
 
-	fd = open(filepath, O_RDONLY);
-	if (fd < 0)
-		return (FALSE);
-	close(fd);
-	return (TRUE);
-}
+// 	fd = open(filepath, O_RDONLY);
+// 	if (fd < 0)
+// 		return (FALSE);
+// 	close(fd);
+// 	return (TRUE);
+// }
 
 /**
  * open_map - Opens a file map
@@ -76,22 +76,6 @@ int	open_file(char *file_name)
 }
 
 /**
- * free_and_exit - Frees the remaining lines and exits with an error
- * @line: The current line
- * @fd: The file descriptor
- */
-void	free_and_exit(char *line, int fd)
-{
-	while (line != NULL)
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	ft_dprintf(2, "Error: Invalid map\n");
-	exit(1);
-}
-
-/**
  * read_file - Reads the entire file and splits it into lines
  * @fd: The file descriptor
  * Return: An array of strings representing the file lines
@@ -108,11 +92,6 @@ char	**read_file(int fd)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		// if (line[0] == '\n')
-		// {
-		// 	free(tmp);
-		// 	free_and_exit(line, fd);
-		// }
 		tmp = ft_strjoin_gnl(tmp, line);
 		free(line);
 		line = get_next_line(fd);
@@ -122,5 +101,8 @@ char	**read_file(int fd)
 	if (tmp == NULL)
 		return (NULL);
 	file_lines = ft_split(tmp, '\n');
-	return (free(tmp), file_lines);
+	free(tmp);
+	return (file_lines);
 }
+
+// char	**

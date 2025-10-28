@@ -3,9 +3,13 @@ CC      = cc
 INCLUDES_DIR = includes
 CFLAGS  = -Wall -Werror -Wextra -ggdb -I$(INCLUDES_DIR)
 
-SRC = main.c $(PARSING_SRC)
+SRC = main.c $(PARSING_SRC) $(UTILS_SRC)
 
-PARSING_SRC = parsing/parse_file.c
+PARSING_SRC = parsing/parse_file.c \
+			  parsing/parse_textures_colors.c \
+			  parsing/parse_textures_colors_utils.c \
+
+UTILS_SRC = utils/arrays.c
 
 OBJ_DIR = objects
 

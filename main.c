@@ -19,27 +19,29 @@
 int	main(int ac, char **av)
 {
 	int	fd;
-	char	**file_lines;
+	t_config	config;
 
 	if (ac != 2)
 		return (EXIT_FAILURE);
 	fd = open_file(av[1]);
 	if (fd < 0)
 		return (EXIT_FAILURE);
-	file_lines = read_file(fd);
-	int i = 0;
-	while (file_lines[i] != NULL)
+	config.tmp_lines = read_file(fd);
+	if (parse_textures_colors(&config) == FALSE)
 	{
-		ft_printf("%s\n", file_lines[i]);
-		i++;
+		free_array(config.tmp_lines);
+		close(fd);
+		return (EXIT_FAILURE);
 	}
-	i = 0;
-	while (file_lines[i] != NULL)
-	{
-		free(file_lines[i]);
-		i++;
-	}
-	free(file_lines);
+	printf("NO Texture Path: %s\n", config.no_path);
+	printf("SO Texture Path: %s\n", config.so_path);
+	printf("WE Texture Path: %s\n", config.we_path);
+	printf("EA Texture Path: %s\n", config.ea_path);
+	printf("Floor Color: R=%d, G=%d, B=%d\n", config.floor_color[0],
+		config.floor_color[1], config.floor_color[2]);
+	printf("Ceiling Color: R=%d, G=%d, B=%d\n", config.ceiling_color[0],
+		config.ceiling_color[1], config.ceiling_color[2]);
+	free_array(config.tmp_lines);
 	close(fd);
 	return (EXIT_SUCCESS);
 }
