@@ -9,7 +9,8 @@ PARSING_SRC = parsing/parse_file.c \
 			  parsing/parse_textures_colors.c \
 			  parsing/parse_textures_colors_utils.c \
 
-UTILS_SRC = utils/arrays.c
+UTILS_SRC = utils/arrays.c \
+			utils/extras.c \
 
 OBJ_DIR = objects
 

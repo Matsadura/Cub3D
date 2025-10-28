@@ -24,7 +24,6 @@ static int	assign_texture_path(t_config *config, char **line, int *mask)
 	if (ft_strcmp(line[0], "NO") == 0 && mask[0] == 0)
 	{
 		config->no_path = ft_strtrim(line[1], " ");
-		printf("NO texture path assigned: %s\n", config->no_path);
 		mask[0] = 1;
 		return (TRUE);
 	}
@@ -54,35 +53,25 @@ static int	assign_texture_path(t_config *config, char **line, int *mask)
  * @config: The main config structure
  * @color_string: The string containing color values
  */
-static void	create_color_from_string(t_config *config, char *color_string)
+static void	create_color_from_string(char *color_string, int *color_array)
 {
 	char	**color_values;
 	int		i;
 	char	*trimmed_string;
 
 	color_values = ft_split(color_string, ',');
-	printf("Color string: '%s'\n", color_string);
-
-	print_array(color_values);
-
 	if (color_values != NULL && arraylen(color_values) == 3)
 	{
-		printf("Parsing color from string: '%s'\n", color_string);
 		i = 0;
 		while (i < 3)
 		{
 			trimmed_string = ft_strtrim(color_values[i], " ");
-
-			printf("Color value %d: '%s'\n", i, trimmed_string);
-
 			if (ft_isnumber(trimmed_string) == TRUE)
 			{
 				if (ft_atoi(trimmed_string) >= 0
 					&& ft_atoi(trimmed_string) <= 255)
-					config->floor_color[i] = ft_atoi(trimmed_string);
+					color_array[i] = ft_atoi(trimmed_string);
 			}
-			else
-				config->floor_color[i] = -1; /* FLAG TO PRINT ERROR MESSAGE */
 			i++;
 			free(trimmed_string);
 		}
@@ -96,16 +85,16 @@ static void	create_color_from_string(t_config *config, char *color_string)
  * @line: The current line to check
  * @mask: The mask array to track assigned colors
  */
-static void	assign_color_value(t_config *config, char **line, int *mask)
+static void	assign_color_value(t_config *config, char *line, int *mask)
 {
-	if (ft_strcmp(line[0], "F") == 0 && mask[4] == 0)
+	if (ft_strncmp(line, "F ", 2) == 0 && mask[4] == 0)
 	{
-		create_color_from_string(config, line[1]);
+		create_color_from_string(line + 2, config->floor_color);
 		mask[4] = 1;
 	}
-	else if (ft_strcmp(line[0], "C") == 0 && mask[5] == 0)
+	else if (ft_strncmp(line, "C ", 2) == 0 && mask[5] == 0)
 	{
-		create_color_from_string(config, line[1]);
+		create_color_from_string(line + 2, config->ceiling_color);
 		mask[5] = 1;
 	}
 }
@@ -129,22 +118,16 @@ int	parse_textures_colors(t_config *config)
 			break ;
 		line = ft_strtrim(config->tmp_lines[i], "  ");
 		splited_line = ft_split(line, ' ');
-
 		if (is_valid_element(splited_line[0], mask) == FALSE)
 		{
-			printf(" IAM HERE\n");
-			free(line);
-			free_array(splited_line);
+			free_array_and_ptr(splited_line, line);
 			break ;
 		}
-		printf(" IAM HERE 2\n");
 		if (assign_texture_path(config, splited_line, mask) == FALSE)
-			assign_color_value(config, splited_line, mask);
-		free_array(splited_line);
-		free(line);
+			assign_color_value(config, line, mask);
+		free_array_and_ptr(splited_line, line);
 		i++;
 	}
-	printf("I am here 3\n");
 	if (all_elements_found(mask) == FALSE)
 		return (ft_dprintf(2, "Error: Missing required elements\n"), FALSE);
 	return (TRUE);
