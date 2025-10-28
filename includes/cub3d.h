@@ -58,5 +58,6 @@ int		is_valid_element(char *line, int *mask);
 
 int		arraylen(char **array);
 void	free_array(char **array);
+void	print_array(char **array);
 
 #endif /* CUB3D_H  */

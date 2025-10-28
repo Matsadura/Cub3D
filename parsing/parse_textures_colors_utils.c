@@ -39,27 +39,15 @@ int	all_elements_found(int *mask)
  */
 int	is_valid_element(char *line, int *mask)
 {
-	char	**splited_line;
+	int		is_valid;
 
-	splited_line = ft_split(line, ' ');
-
-	int	i;
-	while (splited_line[i] != NULL)
-	{
-		printf("splited_line[%d]: '%s'\n", i, splited_line[i]);
-		i++;
-	}
-
-	if ((ft_strcmp(splited_line[0], "NO") == 0 && mask[0] == 0)
-		|| (ft_strcmp(splited_line[0], "SO") == 0 && mask[1] == 0)
-		|| (ft_strcmp(splited_line[0], "WE") == 0 && mask[2] == 0)
-		|| (ft_strcmp(splited_line[0], "EA") == 0 && mask[3] == 0)
-		|| (ft_strcmp(splited_line[0], "F") == 0 && mask[4] == 0)
-		|| (ft_strcmp(splited_line[0], "C") == 0 && mask[5] == 0))
-	{
-		free_array(splited_line);
-		return (TRUE);
-	}
-	free_array(splited_line);
-	return (FALSE);
+	is_valid = FALSE;
+	if ((ft_strcmp(line, "NO") == 0 && mask[0] == 0)
+		|| (ft_strcmp(line, "SO") == 0 && mask[1] == 0)
+		|| (ft_strcmp(line, "WE") == 0 && mask[2] == 0)
+		|| (ft_strcmp(line, "EA") == 0 && mask[3] == 0)
+		|| (ft_strcmp(line, "F") == 0 && mask[4] == 0)
+		|| (ft_strcmp(line, "C") == 0 && mask[5] == 0))
+		is_valid = TRUE;
+	return (is_valid);
 }

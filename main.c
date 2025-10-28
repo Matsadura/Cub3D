@@ -12,6 +12,24 @@
 
 #include "cub3d.h"
 
+void	config_init(t_config *config)
+{
+	config->no_path = NULL;
+	config->so_path = NULL;
+	config->we_path = NULL;
+	config->ea_path = NULL;
+	config->floor_color[0] = -1;
+	config->floor_color[1] = -1;
+	config->floor_color[2] = -1;
+	config->ceiling_color[0] = -1;
+	config->ceiling_color[1] = -1;
+	config->ceiling_color[2] = -1;
+	config->map = NULL;
+	config->player_x = -1;
+	config->player_y = -1;
+	config->player_camera = '\0';
+}
+
 /**
  * Main entry point of the program
  * Returns: 0 on success otherwise 1.
@@ -26,6 +44,7 @@ int	main(int ac, char **av)
 	fd = open_file(av[1]);
 	if (fd < 0)
 		return (EXIT_FAILURE);
+	config_init(&config);
 	config.tmp_lines = read_file(fd);
 	if (parse_textures_colors(&config) == FALSE)
 	{
@@ -43,5 +62,12 @@ int	main(int ac, char **av)
 		config.ceiling_color[1], config.ceiling_color[2]);
 	free_array(config.tmp_lines);
 	close(fd);
+
+	/* Free all */
+	free(config.no_path);
+	free(config.so_path);
+	free(config.we_path);
+	free(config.ea_path);
+	free_array(config.map);
 	return (EXIT_SUCCESS);
 }

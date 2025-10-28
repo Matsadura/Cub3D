@@ -47,3 +47,20 @@ void	free_array(char **array)
 	}
 	free(array);
 }
+
+void	print_array(char **array)
+{
+	int	i;
+
+	if (array == NULL)
+	{
+		printf("Array is NULL\n");
+		return ;
+	}
+	i = 0;
+	while (array[i] != NULL)
+	{
+		printf("Array[%d]: %s\n", i, array[i]);
+		i++;
+	}
+}

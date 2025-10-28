@@ -61,12 +61,20 @@ static void	create_color_from_string(t_config *config, char *color_string)
 	char	*trimmed_string;
 
 	color_values = ft_split(color_string, ',');
+	printf("Color string: '%s'\n", color_string);
+
+	print_array(color_values);
+
 	if (color_values != NULL && arraylen(color_values) == 3)
 	{
+		printf("Parsing color from string: '%s'\n", color_string);
 		i = 0;
 		while (i < 3)
 		{
 			trimmed_string = ft_strtrim(color_values[i], " ");
+
+			printf("Color value %d: '%s'\n", i, trimmed_string);
+
 			if (ft_isnumber(trimmed_string) == TRUE)
 			{
 				if (ft_atoi(trimmed_string) >= 0
@@ -78,8 +86,8 @@ static void	create_color_from_string(t_config *config, char *color_string)
 			i++;
 			free(trimmed_string);
 		}
-		free_array(color_values);
 	}
+	free_array(color_values);
 }
 
 /**
@@ -121,7 +129,8 @@ int	parse_textures_colors(t_config *config)
 			break ;
 		line = ft_strtrim(config->tmp_lines[i], "  ");
 		splited_line = ft_split(line, ' ');
-		if (is_valid_element(splited_line, mask) == FALSE)
+
+		if (is_valid_element(splited_line[0], mask) == FALSE)
 		{
 			printf(" IAM HERE\n");
 			free(line);
