@@ -3,10 +3,9 @@ CC      = cc
 INCLUDES_DIR = includes
 CFLAGS  = -Wall -Werror -Wextra -ggdb -I$(INCLUDES_DIR)
 
-SRC = main.c
+SRC = main.c $(PARSING_SRC)
 
 PARSING_SRC = parsing/parse_file.c
-
 
 OBJ_DIR = objects
 
@@ -17,7 +16,7 @@ LIBFT = libft/libft.a
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(PARSING_SRC) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	make -C libft
