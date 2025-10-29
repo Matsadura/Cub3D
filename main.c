@@ -47,12 +47,7 @@ int	main(int ac, char **av)
 	config_init(&config);
 	config.tmp_lines = read_file(config.fd);
 	if (config.tmp_lines == NULL)
-	{
-		ft_dprintf(2, "Error: Empty file\n");
-		if (config.fd >= 0)
-			close(config.fd);
-		return (EXIT_FAILURE);
-	}
+		error_and_exit("Failed to read configuration file", &config);
 
 	parse_textures_colors(&config);
 

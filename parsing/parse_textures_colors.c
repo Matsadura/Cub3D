@@ -48,35 +48,35 @@ static int	assign_texture_path(t_config *config, char **line, int *mask)
 	return (FALSE);
 }
 
-/**
- * create_color_from_string - Parses color values from a string
- * @config: The main config structure
- * @color_string: The string containing color values
+/** 
+ * create_color_from_str - Parses a color string and fills the color array
+ * @color_str: The color string in the format "R,G,B"
+ * @color_arr: The array to fill with the parsed color components
+ * @config: The main config structure (for error handling)
+ * Returns: 1 on success, otherwise 0.
  */
-static void	create_color_from_string(char *color_string, int *color_array)
+static int	create_color_from_str(char *color_str, int *color_arr)
 {
-	char	**color_values;
-	int		i;
-	char	*trimmed_string;
+    char	**color_values;
+    int		i;
+    int		error_flag;
 
-	color_values = ft_split(color_string, ',');
-	if (color_values != NULL && arraylen(color_values) == 3)
-	{
-		i = 0;
-		while (i < 3)
-		{
-			trimmed_string = ft_strtrim(color_values[i], " ");
-			if (ft_isnumber(trimmed_string) == TRUE)
-			{
-				if (ft_atoi(trimmed_string) >= 0
-					&& ft_atoi(trimmed_string) <= 255)
-					color_array[i] = ft_atoi(trimmed_string);
-			}
-			i++;
-			free(trimmed_string);
-		}
-	}
-	free_array(color_values);
+    error_flag = FALSE;
+    color_values = ft_split(color_str, ',');
+    if (color_values == NULL || arraylen(color_values) != 3)
+        error_flag = TRUE;
+    i = 0;
+    while (error_flag == FALSE && i < 3)
+    {
+        if (validate_color_component(color_values[i], &color_arr[i]) == FALSE)
+            error_flag = TRUE;
+        i++;
+    }
+    if (color_values != NULL)
+        free_array(color_values);
+    if (error_flag == TRUE)
+        return (FALSE);
+    return (TRUE);
 }
 
 /**
@@ -85,18 +85,21 @@ static void	create_color_from_string(char *color_string, int *color_array)
  * @line: The current line to check
  * @mask: The mask array to track assigned colors
  */
-static void	assign_color_value(t_config *config, char *line, int *mask)
+static int	assign_color_value(t_config *config, char *line, int *mask)
 {
 	if (ft_strncmp(line, "F ", 2) == 0 && mask[4] == 0)
 	{
-		create_color_from_string(line + 2, config->floor_color);
+		if (create_color_from_str(line + 2, config->floor_color) == FALSE)
+			return (FALSE);
 		mask[4] = 1;
 	}
 	else if (ft_strncmp(line, "C ", 2) == 0 && mask[5] == 0)
 	{
-		create_color_from_string(line + 2, config->ceiling_color);
+		if (create_color_from_str(line + 2, config->ceiling_color) == FALSE)
+			return (FALSE);
 		mask[5] = 1;
 	}
+	return (TRUE);
 }
 
 /**
@@ -124,7 +127,13 @@ int	parse_textures_colors(t_config *config)
 			error_and_exit("Invalid or duplicate element", config);
 		}
 		if (assign_texture_path(config, splited_line, mask) == FALSE)
-			assign_color_value(config, line, mask);
+		{
+			if (assign_color_value(config, line, mask) == FALSE)
+			{
+				free_array_and_ptr(splited_line, line);
+				error_and_exit("Invalid color format", config);
+			}
+		}
 		free_array_and_ptr(splited_line, line);
 	}
 	if (all_elements_found(mask) == FALSE)

@@ -54,6 +54,7 @@ int		parse_textures_colors(t_config *config);
 
 int		all_elements_found(int *mask);
 int		is_valid_element(char *line, int *mask);
+int		validate_color_component(char *value, int *component);
 
 /* Utils functions */
 

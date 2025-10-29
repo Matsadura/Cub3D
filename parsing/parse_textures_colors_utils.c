@@ -66,3 +66,30 @@ void	check_texture_paths(t_config *config)
 		error_and_exit("One or more texture paths have invalid file extensions", config);
 	}
 }
+
+/**
+ * validate_color_component - Validates and assigns a color component
+ * @value: The string value of the color component
+ * @component: Pointer to store the validated color component
+ * Returns: 1 if valid, otherwise 0.
+ */
+int	validate_color_component(char *value, int *component)
+{
+    char	*trimmed;
+    int		number;
+    int		is_valid;
+
+    is_valid = FALSE;
+    trimmed = ft_strtrim(value, " ");
+    if (trimmed != NULL && ft_isnumber(trimmed) == TRUE)
+    {
+        number = ft_atoi(trimmed);
+        if (number >= 0 && number <= 255)
+        {
+            *component = number;
+            is_valid = TRUE;
+        }
+    }
+    free(trimmed);
+    return (is_valid);
+}
