@@ -57,26 +57,26 @@ static int	assign_texture_path(t_config *config, char **line, int *mask)
  */
 static int	create_color_from_str(char *color_str, int *color_arr)
 {
-    char	**color_values;
-    int		i;
-    int		error_flag;
+	char	**color_values;
+	int		i;
+	int		error_flag;
 
-    error_flag = FALSE;
-    color_values = ft_split(color_str, ',');
-    if (color_values == NULL || arraylen(color_values) != 3)
-        error_flag = TRUE;
-    i = 0;
-    while (error_flag == FALSE && i < 3)
-    {
-        if (validate_color_component(color_values[i], &color_arr[i]) == FALSE)
-            error_flag = TRUE;
-        i++;
-    }
-    if (color_values != NULL)
-        free_array(color_values);
-    if (error_flag == TRUE)
-        return (FALSE);
-    return (TRUE);
+	error_flag = FALSE;
+	color_values = ft_split(color_str, ',');
+	if (color_values == NULL || arraylen(color_values) != 3)
+		error_flag = TRUE;
+	i = 0;
+	while (error_flag == FALSE && i < 3)
+	{
+		if (validate_color_component(color_values[i], &color_arr[i]) == FALSE)
+			error_flag = TRUE;
+		i++;
+	}
+	if (color_values != NULL)
+		free_array(color_values);
+	if (error_flag == TRUE)
+		return (FALSE);
+	return (TRUE);
 }
 
 /**
@@ -102,39 +102,48 @@ static int	assign_color_value(t_config *config, char *line, int *mask)
 	return (TRUE);
 }
 
-/**
- * parse_textures - Parses the texture paths from the config lines
+/** 
+ * process_line - Processes a single line for texture/color assignment
  * @config: The main config structure
- * Returns: 0 on success, otherwise an error code.
+ * @raw_line: The raw line to process
+ * @mask: The mask array to track assigned elements
+ */
+static void	process_line(t_config *config, char *raw_line, int *mask)
+{
+	char	*trimmed;
+	char	**split;
+
+	trimmed = ft_strtrim(raw_line, "  ");
+	split = ft_split(trimmed, ' ');
+	if (split[0] == NULL || is_valid_element(split[0], mask) == FALSE)
+	{
+		free_array_and_ptr(split, trimmed);
+		error_and_exit("Bad map position or wrong/duplicate element", config);
+	}
+	if (assign_texture_path(config, split, mask) == FALSE
+		&& assign_color_value(config, trimmed, mask) == FALSE)
+	{
+		free_array_and_ptr(split, trimmed);
+		error_and_exit("Invalid color format", config);
+	}
+	free_array_and_ptr(split, trimmed);
+}
+
+/**
+ * parse_textures_colors - Parses texture paths and color values from config
+ * @config: The main config structure
+ * Returns: 1 on success, otherwise exits on failure.
  */
 int	parse_textures_colors(t_config *config)
 {
 	static int	mask[6] = {0, 0, 0, 0, 0, 0};
 	int			i;
-	char		*line;
-	char		**splited_line;
 
-	i = -1;
-	while (config->tmp_lines[++i] != NULL)
+	i = 0;
+	while (config->tmp_lines[i] != NULL && all_elements_found(mask) == FALSE)
 	{
-		if (all_elements_found(mask) == TRUE)
-			break ;
-		line = ft_strtrim(config->tmp_lines[i], "  ");
-		splited_line = ft_split(line, ' ');
-		if (is_valid_element(splited_line[0], mask) == FALSE)
-		{
-			free_array_and_ptr(splited_line, line);
-			error_and_exit("Invalid or duplicate element", config);
-		}
-		if (assign_texture_path(config, splited_line, mask) == FALSE)
-		{
-			if (assign_color_value(config, line, mask) == FALSE)
-			{
-				free_array_and_ptr(splited_line, line);
-				error_and_exit("Invalid color format", config);
-			}
-		}
-		free_array_and_ptr(splited_line, line);
+		process_line(config, config->tmp_lines[i], mask);
+		i++;
 	}
 	if (all_elements_found(mask) == FALSE)
 		error_and_exit("Missing required elements", config);

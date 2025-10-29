@@ -62,9 +62,9 @@ void	check_texture_paths(t_config *config)
 		|| is_file_ext(config->so_path, ".xpm") == FALSE
 		|| is_file_ext(config->we_path, ".xpm") == FALSE
 		|| is_file_ext(config->ea_path, ".xpm") == FALSE)
-	{
-		error_and_exit("One or more texture paths have invalid file extensions", config);
-	}
+		error_and_exit(
+			"One or more texture paths have invalid file extensions",
+			config);
 }
 
 /**
@@ -75,21 +75,21 @@ void	check_texture_paths(t_config *config)
  */
 int	validate_color_component(char *value, int *component)
 {
-    char	*trimmed;
-    int		number;
-    int		is_valid;
+	char	*trimmed;
+	int		number;
+	int		is_valid;
 
-    is_valid = FALSE;
-    trimmed = ft_strtrim(value, " ");
-    if (trimmed != NULL && ft_isnumber(trimmed) == TRUE)
-    {
-        number = ft_atoi(trimmed);
-        if (number >= 0 && number <= 255)
-        {
-            *component = number;
-            is_valid = TRUE;
-        }
-    }
-    free(trimmed);
-    return (is_valid);
+	is_valid = FALSE;
+	trimmed = ft_strtrim(value, " ");
+	if (trimmed != NULL && ft_isnumber(trimmed) == TRUE)
+	{
+		number = ft_atoi(trimmed);
+		if (number >= 0 && number <= 255)
+		{
+			*component = number;
+			is_valid = TRUE;
+		}
+	}
+	free(trimmed);
+	return (is_valid);
 }

@@ -42,8 +42,6 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return (EXIT_FAILURE);
 	config.fd = open_file(av[1]);
-	if (config.fd < 0)
-		return (EXIT_FAILURE);
 	config_init(&config);
 	config.tmp_lines = read_file(config.fd);
 	if (config.tmp_lines == NULL)
