@@ -36,6 +36,8 @@ void	error_and_exit(const char *message, t_config *config)
 	free(config->so_path);
 	free(config->we_path);
 	free(config->ea_path);
-	close(config->fd);
+	free_array(config->map);
+	if (config->fd >= 0)
+		close(config->fd);
 	exit(EXIT_FAILURE);
 }
