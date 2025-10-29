@@ -28,6 +28,7 @@ void	config_init(t_config *config)
 	config->player_x = -1;
 	config->player_y = -1;
 	config->player_camera = '\0';
+	// config->fd = -1;
 }
 
 /**
@@ -36,22 +37,26 @@ void	config_init(t_config *config)
  */
 int	main(int ac, char **av)
 {
-	int	fd;
 	t_config	config;
 
 	if (ac != 2)
 		return (EXIT_FAILURE);
-	fd = open_file(av[1]);
-	if (fd < 0)
+	config.fd = open_file(av[1]);
+	if (config.fd < 0)
 		return (EXIT_FAILURE);
 	config_init(&config);
-	config.tmp_lines = read_file(fd);
-	if (parse_textures_colors(&config) == FALSE)
+	config.tmp_lines = read_file(config.fd);
+	if (config.tmp_lines == NULL)
 	{
-		free_array(config.tmp_lines);
-		close(fd);
+		ft_dprintf(2, "Error: Empty file\n");
+		if (config.fd >= 0)
+			close(config.fd);
 		return (EXIT_FAILURE);
 	}
+
+	parse_textures_colors(&config);
+
+	/* TMP PRINTS */
 	printf("NO Texture Path: %s\n", config.no_path);
 	printf("SO Texture Path: %s\n", config.so_path);
 	printf("WE Texture Path: %s\n", config.we_path);
@@ -60,14 +65,16 @@ int	main(int ac, char **av)
 		config.floor_color[1], config.floor_color[2]);
 	printf("Ceiling Color: R=%d, G=%d, B=%d\n", config.ceiling_color[0],
 		config.ceiling_color[1], config.ceiling_color[2]);
-	free_array(config.tmp_lines);
-	close(fd);
+	/* END TMP PRINTS */
 
+	
 	/* Free all */
+	free_array(config.tmp_lines);
 	free(config.no_path);
 	free(config.so_path);
 	free(config.we_path);
 	free(config.ea_path);
 	free_array(config.map);
+	close(config.fd);
 	return (EXIT_SUCCESS);
 }

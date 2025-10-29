@@ -51,3 +51,18 @@ int	is_valid_element(char *line, int *mask)
 		is_valid = TRUE;
 	return (is_valid);
 }
+
+/**
+ * check_texture_paths - Validates the texture file extensions
+ * @config: The main config structure
+ */
+void	check_texture_paths(t_config *config)
+{
+	if (is_file_ext(config->no_path, ".xpm") == FALSE
+		|| is_file_ext(config->so_path, ".xpm") == FALSE
+		|| is_file_ext(config->we_path, ".xpm") == FALSE
+		|| is_file_ext(config->ea_path, ".xpm") == FALSE)
+	{
+		error_and_exit("One or more texture paths have invalid file extensions", config);
+	}
+}

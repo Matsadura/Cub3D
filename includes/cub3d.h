@@ -39,6 +39,7 @@ typedef struct s_config
 	int		player_x;
 	int		player_y;
 	char	player_camera;
+	int		fd;
 }	t_config;
 
 /* Parsing functions */
@@ -60,5 +61,7 @@ int		arraylen(char **array);
 void	free_array(char **array);
 void	print_array(char **array);
 void	free_array_and_ptr(char **array, char *ptr);
+void	error_and_exit(const char *message, t_config *config);
+void	check_texture_paths(t_config *config);
 
 #endif /* CUB3D_H  */

@@ -111,8 +111,8 @@ int	parse_textures_colors(t_config *config)
 	char		*line;
 	char		**splited_line;
 
-	i = 0;
-	while (config->tmp_lines[i] != NULL)
+	i = -1;
+	while (config->tmp_lines[++i] != NULL)
 	{
 		if (all_elements_found(mask) == TRUE)
 			break ;
@@ -121,14 +121,14 @@ int	parse_textures_colors(t_config *config)
 		if (is_valid_element(splited_line[0], mask) == FALSE)
 		{
 			free_array_and_ptr(splited_line, line);
-			break ;
+			error_and_exit("Invalid or duplicate element", config);
 		}
 		if (assign_texture_path(config, splited_line, mask) == FALSE)
 			assign_color_value(config, line, mask);
 		free_array_and_ptr(splited_line, line);
-		i++;
 	}
 	if (all_elements_found(mask) == FALSE)
-		return (ft_dprintf(2, "Error: Missing required elements\n"), FALSE);
+		error_and_exit("Missing required elements", config);
+	check_texture_paths(config);
 	return (TRUE);
 }
