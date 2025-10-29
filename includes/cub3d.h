@@ -57,6 +57,7 @@ int		all_elements_found(int *mask);
 int		is_valid_element(char *line, int *mask);
 int		validate_color_component(char *value, int *component);
 int		is_valid_map_line(char *line);
+int		check_player_position(t_config *config);
 
 /* Utils functions */
 

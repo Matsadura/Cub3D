@@ -32,3 +32,36 @@ int	is_valid_map_line(char *line)
 	}
 	return (TRUE);
 }
+
+/**
+ * check_player_position - Checks for exactly one player starting position
+ * @config: The main config structure
+ * Returns: the number of player positions found.
+ */
+int	check_player_position(t_config *config)
+{
+	int	i;
+	int	j;
+	int	player_count;
+
+	player_count = 0;
+	i = 0;
+	while (config->map[i] != NULL)
+	{
+		j = 0;
+		while (config->map[i][j] != '\0')
+		{
+			if (config->map[i][j] == 'N' || config->map[i][j] == 'S' ||
+				config->map[i][j] == 'E' || config->map[i][j] == 'W')
+			{
+				config->player_x = j;
+				config->player_y = i;
+				config->player_camera = config->map[i][j];
+				player_count++;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (player_count);
+}

@@ -26,6 +26,8 @@ int	parse_map_lines(t_config *config)
 	{
 		if (is_valid_map_line(config->map[i]) == FALSE)
 			error_and_exit("Invalid char in map line", config);
+		if (check_player_position(config) != 1)
+			error_and_exit("Player pos not found in map or duplicate", config);
 		i++;
 	}
 	return (TRUE);
