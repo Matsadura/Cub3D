@@ -63,12 +63,13 @@ int	open_file(char *file_name)
 		return (-1);
 	if (is_file_ext(file_name, ".cub") == FALSE)
 	{
-		ft_dprintf(STDERR, "%s: is not a valid .cub file\n", file_name);
+		ft_dprintf(STDERR, "Error\n%s: is not a valid .cub file\n", file_name);
 		exit(EXIT_FAILURE);
 	}
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 	{
+		ft_dprintf(STDERR, "Error\n");
 		perror(file_name);
 		exit(EXIT_FAILURE);
 	}
@@ -78,13 +79,13 @@ int	open_file(char *file_name)
 /**
  * read_file - Reads the entire file and splits it into lines
  * @fd: The file descriptor
+ * @config: The main config structure
  * Return: An array of strings representing the file lines
  */
-char	**read_file(int fd)
+char	**read_file(int fd, t_config *config)
 {
 	char	*line;
 	char	*tmp;
-	char	**file_lines;
 
 	if (fd < 0)
 		return (NULL);
@@ -100,9 +101,9 @@ char	**read_file(int fd)
 	}
 	if (tmp == NULL)
 		return (NULL);
-	file_lines = ft_split(tmp, '\n');
+	config->tmp_lines = ft_split(tmp, '\n');
 	free(tmp);
-	return (file_lines);
+	if (config->tmp_lines == NULL)
+		error_and_exit("Failed to read configuration file", config);
+	return (config->tmp_lines);
 }
-
-// char	**

@@ -14,21 +14,36 @@
 
 void	config_init(t_config *config)
 {
+	config->tmp_lines = NULL;
 	config->no_path = NULL;
 	config->so_path = NULL;
 	config->we_path = NULL;
 	config->ea_path = NULL;
-	config->floor_color[0] = -1;
-	config->floor_color[1] = -1;
-	config->floor_color[2] = -1;
 	config->ceiling_color[0] = -1;
 	config->ceiling_color[1] = -1;
 	config->ceiling_color[2] = -1;
+	config->floor_color[0] = -1;
+	config->floor_color[1] = -1;
+	config->floor_color[2] = -1;
 	config->map = NULL;
+	config->map_width = -1;
+	config->map_height = -1;
 	config->player_x = -1;
 	config->player_y = -1;
 	config->player_camera = '\0';
-	// config->fd = -1;
+}
+
+/**
+ * 
+ */
+static void	cleanup(t_config *config)
+{
+	free_array(config->tmp_lines);
+	free(config->no_path);
+	free(config->so_path);
+	free(config->we_path);
+	free(config->ea_path);
+	close(config->fd);
 }
 
 /**
@@ -43,40 +58,10 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	config.fd = open_file(av[1]);
 	config_init(&config);
-	config.tmp_lines = read_file(config.fd);
-	if (config.tmp_lines == NULL)
-		error_and_exit("Failed to read configuration file", &config);
-
+	read_file(config.fd, &config);
 	parse_textures_colors(&config);
-
-	/* TMP PRINTS */
-	ft_printf("NO Texture Path: %s\n", config.no_path);
-	ft_printf("SO Texture Path: %s\n", config.so_path);
-	ft_printf("WE Texture Path: %s\n", config.we_path);
-	ft_printf("EA Texture Path: %s\n", config.ea_path);
-	ft_printf("Floor Color: R=%d, G=%d, B=%d\n", config.floor_color[0],
-		config.floor_color[1], config.floor_color[2]);
-	ft_printf("Ceiling Color: R=%d, G=%d, B=%d\n", config.ceiling_color[0],
-		config.ceiling_color[1], config.ceiling_color[2]);
-
-	ft_printf("TMP Map Lines:\n");
-	int i = 0;
-	while (config.map[i] != NULL)
-	{
-		ft_printf("%s\n", config.map[i]);
-		i++;
-	}
-	/* END TMP PRINTS */
-		
 	parse_map_lines(&config);
-	
-	/* Free all */
-	free_array(config.tmp_lines);
-	free(config.no_path);
-	free(config.so_path);
-	free(config.we_path);
-	free(config.ea_path);
-	//free_array(config.map);
-	close(config.fd);
+	print_array(config.map);
+	cleanup(&config);
 	return (EXIT_SUCCESS);
 }

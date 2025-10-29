@@ -36,6 +36,8 @@ typedef struct s_config
 	int		floor_color[3];
 	int		ceiling_color[3];
 	char	**map;
+	int		map_width;
+	int		map_height;
 	int		player_x;
 	int		player_y;
 	char	player_camera;
@@ -47,7 +49,7 @@ typedef struct s_config
 int		is_file_ext(char *filepath, char *ext);
 // int		does_file_exist(char *file_path);
 int		open_file(char *file_name);
-char	**read_file(int fd);
+char	**read_file(int fd, t_config *config);
 int		parse_textures_colors(t_config *config);
 int		parse_map_lines(t_config *config);
 
@@ -58,6 +60,9 @@ int		is_valid_element(char *line, int *mask);
 int		validate_color_component(char *value, int *component);
 int		is_valid_map_line(char *line);
 int		check_player_position(t_config *config);
+int		is_void_inside(t_config *config);
+int		is_player_on_edge(t_config *config);
+int		is_map_wall_enclosed(char **map);
 
 /* Utils functions */
 
