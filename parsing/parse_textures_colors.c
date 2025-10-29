@@ -148,5 +148,6 @@ int	parse_textures_colors(t_config *config)
 	if (all_elements_found(mask) == FALSE)
 		error_and_exit("Missing required elements", config);
 	check_texture_paths(config);
+	config->map = &config->tmp_lines[i];
 	return (TRUE);
 }

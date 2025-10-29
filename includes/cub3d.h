@@ -49,12 +49,14 @@ int		is_file_ext(char *filepath, char *ext);
 int		open_file(char *file_name);
 char	**read_file(int fd);
 int		parse_textures_colors(t_config *config);
+int		parse_map_lines(t_config *config);
 
 /* Parsing Utils functions */
 
 int		all_elements_found(int *mask);
 int		is_valid_element(char *line, int *mask);
 int		validate_color_component(char *value, int *component);
+int		is_valid_map_line(char *line);
 
 /* Utils functions */
 

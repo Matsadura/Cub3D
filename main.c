@@ -50,16 +50,25 @@ int	main(int ac, char **av)
 	parse_textures_colors(&config);
 
 	/* TMP PRINTS */
-	printf("NO Texture Path: %s\n", config.no_path);
-	printf("SO Texture Path: %s\n", config.so_path);
-	printf("WE Texture Path: %s\n", config.we_path);
-	printf("EA Texture Path: %s\n", config.ea_path);
-	printf("Floor Color: R=%d, G=%d, B=%d\n", config.floor_color[0],
+	ft_printf("NO Texture Path: %s\n", config.no_path);
+	ft_printf("SO Texture Path: %s\n", config.so_path);
+	ft_printf("WE Texture Path: %s\n", config.we_path);
+	ft_printf("EA Texture Path: %s\n", config.ea_path);
+	ft_printf("Floor Color: R=%d, G=%d, B=%d\n", config.floor_color[0],
 		config.floor_color[1], config.floor_color[2]);
-	printf("Ceiling Color: R=%d, G=%d, B=%d\n", config.ceiling_color[0],
+	ft_printf("Ceiling Color: R=%d, G=%d, B=%d\n", config.ceiling_color[0],
 		config.ceiling_color[1], config.ceiling_color[2]);
-	/* END TMP PRINTS */
 
+	ft_printf("TMP Map Lines:\n");
+	int i = 0;
+	while (config.map[i] != NULL)
+	{
+		ft_printf("%s\n", config.map[i]);
+		i++;
+	}
+	/* END TMP PRINTS */
+		
+	parse_map_lines(&config);
 	
 	/* Free all */
 	free_array(config.tmp_lines);
@@ -67,7 +76,7 @@ int	main(int ac, char **av)
 	free(config.so_path);
 	free(config.we_path);
 	free(config.ea_path);
-	free_array(config.map);
+	//free_array(config.map);
 	close(config.fd);
 	return (EXIT_SUCCESS);
 }
