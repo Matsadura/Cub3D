@@ -99,8 +99,6 @@ char	**read_file(int fd, t_config *config)
 		if (tmp == NULL)
 			return (NULL);
 	}
-	if (tmp == NULL)
-		return (NULL);
 	config->tmp_lines = ft_split(tmp, '\n');
 	free(tmp);
 	if (config->tmp_lines == NULL)
