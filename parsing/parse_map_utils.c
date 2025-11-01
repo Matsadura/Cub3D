@@ -73,28 +73,28 @@ int	check_player_position(t_config *config)
  */
 int	is_void_inside(t_config *config)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	cell;
 
-	i = 1;
-	while (config->map[i + 1] != NULL)
+	i = -1;
+	while (config->map[++i] != NULL)
 	{
-		j = 1;
-		while (config->map[i][j + 1] != '\0')
+		j = -1;
+		while (config->map[i][++j] != '\0')
 		{
-			if (config->map[i][j] == '0' || config->map[i][j] == 'N'
-				|| config->map[i][j] == 'S' || config->map[i][j] == 'E'
-				|| config->map[i][j] == 'W')
+			cell = config->map[i][j];
+			if (cell == '0' || cell == 'N'
+				|| cell == 'S' || cell == 'E'
+				|| cell == 'W')
 			{
-				if (config->map[i - 1][j] == ' '
-					|| config->map[i + 1][j] == ' '
-					|| config->map[i][j - 1] == ' '
-					|| config->map[i][j + 1] == ' ')
+				if (get_map_char(config->map, i - 1, j) == ' '
+					|| get_map_char(config->map, i + 1, j) == ' '
+					|| get_map_char(config->map, i, j - 1) == ' '
+					|| get_map_char(config->map, i, j + 1) == ' ')
 					return (TRUE);
 			}
-			j++;
 		}
-		i++;
 	}
 	return (FALSE);
 }

@@ -19,7 +19,7 @@
  * @mask: The mask array to track assigned textures
  * Returns: 1 if a texture was assigned, otherwise 0.
  */
-static int	assign_texture_path(t_config *config, char **line, int *mask)
+int	assign_texture_path(t_config *config, char **line, int *mask)
 {
 	if (ft_strcmp(line[0], "NO") == 0 && mask[0] == 0)
 	{
@@ -85,7 +85,7 @@ static int	create_color_from_str(char *color_str, int *color_arr)
  * @line: The current line to check
  * @mask: The mask array to track assigned colors
  */
-static int	assign_color_value(t_config *config, char *line, int *mask)
+int	assign_color_value(t_config *config, char *line, int *mask)
 {
 	if (ft_strncmp(line, "F ", 2) == 0 && mask[4] == 0)
 	{
@@ -102,7 +102,7 @@ static int	assign_color_value(t_config *config, char *line, int *mask)
 	return (TRUE);
 }
 
-/** 
+/**
  * process_line - Processes a single line for texture/color assignment
  * @config: The main config structure
  * @raw_line: The raw line to process
@@ -113,19 +113,12 @@ static void	process_line(t_config *config, char *raw_line, int *mask)
 	char	*trimmed;
 	char	**split;
 
-	trimmed = ft_strtrim(raw_line, "  ");
-	split = ft_split(trimmed, ' ');
-	if (split[0] == NULL || is_valid_element(split[0], mask) == FALSE)
-	{
-		free_array_and_ptr(split, trimmed);
-		error_and_exit("Bad map position or wrong/duplicate element", config);
-	}
-	if (assign_texture_path(config, split, mask) == FALSE
-		&& assign_color_value(config, trimmed, mask) == FALSE)
-	{
-		free_array_and_ptr(split, trimmed);
-		error_and_exit("Invalid color format", config);
-	}
+	trimmed = prepare_trimmed_line(raw_line, config);
+	if (trimmed == NULL)
+		return ;
+	split = split_config_line(trimmed, config);
+	validate_element_or_exit(split, trimmed, mask, config);
+	handle_assignment(config, split, trimmed, mask);
 	free_array_and_ptr(split, trimmed);
 }
 
@@ -136,9 +129,11 @@ static void	process_line(t_config *config, char *raw_line, int *mask)
  */
 int	parse_textures_colors(t_config *config)
 {
-	static int	mask[6] = {0, 0, 0, 0, 0, 0};
+	int			mask[6];
 	int			i;
+	char		**map_start;
 
+	ft_bzero(mask, sizeof(mask));
 	i = 0;
 	while (config->tmp_lines[i] != NULL && all_elements_found(mask) == FALSE)
 	{
@@ -148,6 +143,13 @@ int	parse_textures_colors(t_config *config)
 	if (all_elements_found(mask) == FALSE)
 		error_and_exit("Missing required elements", config);
 	check_texture_paths(config);
-	config->map = &config->tmp_lines[i];
+	while (config->tmp_lines[i] != NULL
+		&& line_is_empty(config->tmp_lines[i]) == TRUE)
+		i++;
+	map_start = &config->tmp_lines[i];
+	if (*map_start == NULL)
+		error_and_exit("Map is missing", config);
+	validate_map_block(map_start, config);
+	config->map = map_start;
 	return (TRUE);
 }
