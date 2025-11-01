@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map_utils2.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 13:34:06 by zzaoui            #+#    #+#             */
+/*   Updated: 2025/11/01 13:34:09 by zzaoui           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 /**
@@ -29,28 +41,26 @@ int	line_is_empty(const char *line)
 void	validate_map_block(char **lines, t_config *config)
 {
 	int		map_started;
+	int		empty_after_start;
 	int		i;
 
 	map_started = FALSE;
-	i = -1;
-	while (lines[++i] != NULL)
+	empty_after_start = FALSE;
+	i = 0;
+	while (lines[i] != NULL)
 	{
-		if (line_is_empty(lines[i]) == FALSE)
+		if (line_is_empty(lines[i]) == TRUE)
 		{
+			if (map_started == TRUE)
+				empty_after_start = TRUE;
+		}
+		else
+		{
+			if (empty_after_start == TRUE)
+				error_and_exit("Map contains empty line", config);
 			map_started = TRUE;
-			i++;
-			continue ;
 		}
-		if (map_started == FALSE)
-		{
-			i++;
-			continue ;
-		}
-		while (lines[i] != NULL && line_is_empty(lines[i]) == TRUE)
-			i++;
-		if (lines[i] != NULL)
-			error_and_exit("Map contains empty line", config);
-		break ;
+		i++;
 	}
 	if (map_started == FALSE)
 		error_and_exit("Map is missing", config);

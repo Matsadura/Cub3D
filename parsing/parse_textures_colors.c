@@ -102,7 +102,7 @@ static int	assign_color_value(t_config *config, char *line, int *mask)
 	return (TRUE);
 }
 
-/** 
+/**
  * process_line - Processes a single line for texture/color assignment
  * @config: The main config structure
  * @raw_line: The raw line to process
