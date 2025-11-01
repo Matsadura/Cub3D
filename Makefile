@@ -6,10 +6,12 @@ CFLAGS  = -Wall -Werror -Wextra -ggdb -I$(INCLUDES_DIR)
 SRC = main.c $(PARSING_SRC) $(UTILS_SRC)
 
 PARSING_SRC = parsing/parse_file.c \
+			  parsing/parse_file_utils.c \
 			  parsing/parse_textures_colors.c \
 			  parsing/parse_textures_colors_utils.c \
 			  parsing/parse_map.c \
 			  parsing/parse_map_utils.c \
+			  parsing/parse_map_utils2.c \
 
 UTILS_SRC = utils/arrays.c \
 			utils/extras.c \

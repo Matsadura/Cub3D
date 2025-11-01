@@ -63,6 +63,9 @@ int		check_player_position(t_config *config);
 int		is_void_inside(t_config *config);
 int		is_player_on_edge(t_config *config);
 int		is_map_wall_enclosed(char **map);
+char	**split_lines_preserve_empty(const char *str);
+void	validate_map_block(char **lines, t_config *config);
+int		line_is_empty(const char *line);
 
 /* Utils functions */
 

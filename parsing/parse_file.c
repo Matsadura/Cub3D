@@ -34,22 +34,6 @@ int	is_file_ext(char *filepath, char *ext)
 	return (TRUE);
 }
 
-// /**
-//  * does_file_exist - Checks if the file exists
-//  * @filepath: The path of the file to check
-//  * Returns: True if it exists, otherwise False.
-//  */
-// int	does_file_exist(char *filepath)
-// {
-// 	int	fd;
-
-// 	fd = open(filepath, O_RDONLY);
-// 	if (fd < 0)
-// 		return (FALSE);
-// 	close(fd);
-// 	return (TRUE);
-// }
-
 /**
  * open_map - Opens a file map
  * @file_name: The map's name
@@ -99,9 +83,7 @@ char	**read_file(int fd, t_config *config)
 		if (tmp == NULL)
 			return (NULL);
 	}
-	if (tmp == NULL)
-		return (NULL);
-	config->tmp_lines = ft_split(tmp, '\n');
+	config->tmp_lines = split_lines_preserve_empty(tmp);
 	free(tmp);
 	if (config->tmp_lines == NULL)
 		error_and_exit("Failed to read configuration file", config);

@@ -114,7 +114,19 @@ static void	process_line(t_config *config, char *raw_line, int *mask)
 	char	**split;
 
 	trimmed = ft_strtrim(raw_line, "  ");
+	if (trimmed == NULL)
+		error_and_exit("Failed to allocate memory", config);
+	if (trimmed[0] == '\0')
+	{
+		free(trimmed);
+		return ;
+	}
 	split = ft_split(trimmed, ' ');
+	if (split == NULL)
+	{
+		free(trimmed);
+		error_and_exit("Failed to parse configuration line", config);
+	}
 	if (split[0] == NULL || is_valid_element(split[0], mask) == FALSE)
 	{
 		free_array_and_ptr(split, trimmed);
@@ -136,9 +148,11 @@ static void	process_line(t_config *config, char *raw_line, int *mask)
  */
 int	parse_textures_colors(t_config *config)
 {
-	static int	mask[6] = {0, 0, 0, 0, 0, 0};
+	int			mask[6];
 	int			i;
+	char		**map_start;
 
+	ft_bzero(mask, sizeof(mask));
 	i = 0;
 	while (config->tmp_lines[i] != NULL && all_elements_found(mask) == FALSE)
 	{
@@ -148,6 +162,13 @@ int	parse_textures_colors(t_config *config)
 	if (all_elements_found(mask) == FALSE)
 		error_and_exit("Missing required elements", config);
 	check_texture_paths(config);
-	config->map = &config->tmp_lines[i];
+	while (config->tmp_lines[i] != NULL
+		&& line_is_empty(config->tmp_lines[i]) == TRUE)
+		i++;
+	map_start = &config->tmp_lines[i];
+	if (*map_start == NULL)
+		error_and_exit("Map is missing", config);
+	validate_map_block(map_start, config);
+	config->map = map_start;
 	return (TRUE);
 }
