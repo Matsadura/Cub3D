@@ -13,6 +13,25 @@
 #include "cub3d.h"
 
 /**
+ * get_map_char - Safely retrieves a character from the map
+ * @map: The 2D map array
+ * @row: The row index
+ * @col: The column index
+ * Returns: The character at the specified position or ' ' if out of bounds.
+ */
+char	get_map_char(char **map, int row, int col)
+{
+	size_t	len;
+
+	if (row < 0 || col < 0 || map[row] == NULL)
+		return (' ');
+	len = ft_strlen(map[row]);
+	if ((size_t)col >= len)
+		return (' ');
+	return (map[row][col]);
+}
+
+/**
  * line_is_empty - Checks if a line is empty or contains only whitespace
  * @line: The line to check
  * Returns: 1 if the line is empty, otherwise 0.

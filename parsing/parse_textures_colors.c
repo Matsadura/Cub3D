@@ -19,7 +19,7 @@
  * @mask: The mask array to track assigned textures
  * Returns: 1 if a texture was assigned, otherwise 0.
  */
-static int	assign_texture_path(t_config *config, char **line, int *mask)
+int	assign_texture_path(t_config *config, char **line, int *mask)
 {
 	if (ft_strcmp(line[0], "NO") == 0 && mask[0] == 0)
 	{
@@ -85,7 +85,7 @@ static int	create_color_from_str(char *color_str, int *color_arr)
  * @line: The current line to check
  * @mask: The mask array to track assigned colors
  */
-static int	assign_color_value(t_config *config, char *line, int *mask)
+int	assign_color_value(t_config *config, char *line, int *mask)
 {
 	if (ft_strncmp(line, "F ", 2) == 0 && mask[4] == 0)
 	{
@@ -113,31 +113,12 @@ static void	process_line(t_config *config, char *raw_line, int *mask)
 	char	*trimmed;
 	char	**split;
 
-	trimmed = ft_strtrim(raw_line, "  ");
+	trimmed = prepare_trimmed_line(raw_line, config);
 	if (trimmed == NULL)
-		error_and_exit("Failed to allocate memory", config);
-	if (trimmed[0] == '\0')
-	{
-		free(trimmed);
 		return ;
-	}
-	split = ft_split(trimmed, ' ');
-	if (split == NULL)
-	{
-		free(trimmed);
-		error_and_exit("Failed to parse configuration line", config);
-	}
-	if (split[0] == NULL || is_valid_element(split[0], mask) == FALSE)
-	{
-		free_array_and_ptr(split, trimmed);
-		error_and_exit("Bad map position or wrong/duplicate element", config);
-	}
-	if (assign_texture_path(config, split, mask) == FALSE
-		&& assign_color_value(config, trimmed, mask) == FALSE)
-	{
-		free_array_and_ptr(split, trimmed);
-		error_and_exit("Invalid color format", config);
-	}
+	split = split_config_line(trimmed, config);
+	validate_element_or_exit(split, trimmed, mask, config);
+	handle_assignment(config, split, trimmed, mask);
 	free_array_and_ptr(split, trimmed);
 }
 

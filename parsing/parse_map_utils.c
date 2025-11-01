@@ -12,18 +12,6 @@
 
 #include "cub3d.h"
 
-static char	get_map_char(char **map, int row, int col)
-{
-	size_t	len;
-
-	if (row < 0 || col < 0 || map[row] == NULL)
-		return (' ');
-	len = ft_strlen(map[row]);
-	if ((size_t)col >= len)
-		return (' ');
-	return (map[row][col]);
-}
-
 /**
  * is_valid_map_line - Checks if a map line contains only valid characters
  * @line: The map line to check
@@ -85,15 +73,15 @@ int	check_player_position(t_config *config)
  */
 int	is_void_inside(t_config *config)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	cell;
 
-	i = 0;
-	while (config->map[i] != NULL)
+	i = -1;
+	while (config->map[++i] != NULL)
 	{
-		j = 0;
-		while (config->map[i][j] != '\0')
+		j = -1;
+		while (config->map[i][++j] != '\0')
 		{
 			cell = config->map[i][j];
 			if (cell == '0' || cell == 'N'
@@ -106,9 +94,7 @@ int	is_void_inside(t_config *config)
 					|| get_map_char(config->map, i, j + 1) == ' ')
 					return (TRUE);
 			}
-			j++;
 		}
-		i++;
 	}
 	return (FALSE);
 }
