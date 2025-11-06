@@ -126,15 +126,15 @@ int	parse_map_lines(t_config *config)
 	while (config->map[i] != NULL)
 	{
 		if (is_valid_map_line(config->map[i]) == FALSE)
-		error_and_exit("Invalid char in map line", config);
+			error_and_exit("Invalid char in map line", config);
 		if (check_player_position(config) != 1)
-		error_and_exit("Player pos not found in map or duplicate", config);
+			error_and_exit("Player pos not found in map or duplicate", config);
 		if (is_void_inside(config) == TRUE)
-		error_and_exit("Map have a void inside or player on edge", config);
+			error_and_exit("Map have a void inside or player on edge", config);
 		if (is_player_on_edge(config) == TRUE)
-		error_and_exit("Player can't be on the edge of the map", config);
+			error_and_exit("Player can't be on the edge of the map", config);
 		if (is_map_wall_enclosed(config->map) == FALSE)
-		error_and_exit("Map is not wall enclosed", config);
+			error_and_exit("Map is not wall enclosed", config);
 		i++;
 	}
 	rectangulate_map(config);
