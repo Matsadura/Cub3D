@@ -90,6 +90,29 @@ static void	rectangulate_map(t_config *config)
 }
 
 /**
+ * space_to_wall - Converts all spaces in the map to walls ('1')
+ * @config: The main config structure
+ */
+static void	space_to_wall(t_config *config)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < config->map_height)
+	{
+		j = 0;
+		while (j < config->map_width)
+		{
+			if (config->map[i][j] == ' ')
+				config->map[i][j] = '1';
+			j++;
+		}
+		i++;
+	}
+}
+
+/**
  * parse_map_lines - Parses the map lines from the configuration
  * @config: The main config structure
  * Returns: 1 on success, otherwise exits on failure.
@@ -115,5 +138,6 @@ int	parse_map_lines(t_config *config)
 			error_and_exit("Map is not wall enclosed", config);
 		i++;
 	}
+	space_to_wall(config);
 	return (TRUE);
 }
