@@ -93,7 +93,7 @@ static void	rectangulate_map(t_config *config)
  * space_to_wall - Converts all spaces in the map to walls ('1')
  * @config: The main config structure
  */
-static void	space_to_wall(t_config *config)
+static void	space_to_cell(t_config *config)
 {
 	int	i;
 	int	j;
@@ -105,7 +105,7 @@ static void	space_to_wall(t_config *config)
 		while (j < config->map_width)
 		{
 			if (config->map[i][j] == ' ')
-				config->map[i][j] = '1';
+				config->map[i][j] = '0';
 			j++;
 		}
 		i++;
@@ -138,6 +138,6 @@ int	parse_map_lines(t_config *config)
 		i++;
 	}
 	rectangulate_map(config);
-	space_to_wall(config);
+	space_to_cell(config);
 	return (TRUE);
 }
