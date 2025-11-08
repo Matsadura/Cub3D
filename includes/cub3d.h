@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include "libft.h"
+# include "mlx.h"
 
 /* Macros */
 
@@ -81,6 +82,12 @@ typedef struct s_img
 
 /* Main data structure */
 
+typedef struct s_coord
+{
+	double	x_l;
+	double	y_l;
+}
+			t_coord;
 typedef struct s_data
 {
 	t_win		win;
@@ -88,12 +95,6 @@ typedef struct s_data
 	t_img		img;
 	t_coord		coord;
 }			t_data;
-
-typedef struct s_coord
-{
-	double	x_l;
-	double	y_l;
-}			t_coord;
 
 /* Parsing functions */
 
@@ -138,7 +139,11 @@ void	validate_element_or_exit(char **split, char *trimmed, int *mask,
 
 /* Rendering functions */
 
+void	window(t_data *data);
 void	data_init(t_data *data);
+void    setup_image(t_data *data);
+void    setup_window(t_data *data);
+void	cleanup_and_exit(t_config *config);
 void	init_player_direction(t_data *data);
 
 #endif /* CUB3D_H  */
