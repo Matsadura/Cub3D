@@ -15,7 +15,7 @@
 /**
  * data_init - Converts map coordinates to pixel coordinates and
  * inits player direction.
- * @data: The main config structure
+ * @data: The main data structure
  */
 void	data_init(t_data *data)
 {
@@ -26,7 +26,7 @@ void	data_init(t_data *data)
 
 /**
  * init_player_direction - Sets the player's initial angle and direction vector.
- * @data: The main config structure
+ * @data: The main data structure
  */
 void	init_player_direction(t_data *data)
 {
