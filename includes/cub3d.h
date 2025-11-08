@@ -23,26 +23,77 @@
 # define TRUE 1
 # define FALSE 0
 # define STDERR 2
+# define PI 3.141592653
+# define RED 0xFF0000
+# define BLACK 0x000000
+# define WHITE 0xFFFFFF
+# define TILE_SIZE 64
+# define MOVE_SPEED 0.1
+# define COLLISION_PADDING 0.3
+# define FORWARD 119
+# define BACKWARD 115
+# define LEFT 97
+# define RIGHT 100
+# define ESC 65307
+# define LINE_LEN 50
 
 /* Main config structure */
 
 typedef struct s_config
 {
-	char	**tmp_lines;
-	char	*no_path;
-	char	*so_path;
-	char	*we_path;
-	char	*ea_path;
-	int		floor_color[3];
-	int		ceiling_color[3];
-	char	**map;
-	int		map_width;
-	int		map_height;
-	int		player_x;
-	int		player_y;
-	char	player_camera;
-	int		fd;
+	char		**tmp_lines;
+	char		*no_path;
+	char		*so_path;
+	char		*we_path;
+	char		*ea_path;
+	int			floor_color[3];
+	int			ceiling_color[3];
+	char		**map;
+	int			map_width;
+	int			map_height;
+	double		player_x;
+	double		player_y;
+	double		player_angle;
+	double      delta_x;
+	double      delta_y;
+	char		player_camera;
+	int			fd;
 }	t_config;
+
+/* Main window structure */
+
+typedef struct s_win
+{
+	void	*mlx_ptr;
+	void	*win_ptr;
+}			t_win;
+
+
+/* Main image structure */
+
+typedef struct	s_img {
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+}				t_img;
+
+/* Main data structure */
+
+typedef struct s_data
+{
+	t_win		win;
+	t_config	config;
+	t_img		img;
+	t_coord		coord;
+}			t_data;
+
+typedef struct s_coord
+{
+	double x_l;
+	double y_l;
+}			t_coord;
 
 /* Parsing functions */
 
@@ -84,5 +135,10 @@ char	*prepare_trimmed_line(char *raw_line, t_config *config);
 char	**split_config_line(char *trimmed, t_config *config);
 void	validate_element_or_exit(char **split, char *trimmed, int *mask,
 			t_config *config);
+
+/* Rendering functions */
+
+void	data_init(t_data *data);
+void	init_player_direction(t_data *data);
 
 #endif /* CUB3D_H  */
