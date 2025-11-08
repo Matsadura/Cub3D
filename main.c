@@ -65,6 +65,7 @@ int	main(int ac, char **av)
 	print_array(config.map);
 	data.config = config;
 	data_init(&data);
+	window(&data);
 	cleanup(&config);
 	return (EXIT_SUCCESS);
 }
