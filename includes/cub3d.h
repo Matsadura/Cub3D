@@ -47,9 +47,11 @@ typedef struct s_config
 	char		*so_path;
 	char		*we_path;
 	char		*ea_path;
+	char		**map;
+	char		player_camera;
 	int			floor_color[3];
 	int			ceiling_color[3];
-	char		**map;
+	int			fd;
 	int			map_width;
 	int			map_height;
 	double		player_x;
@@ -57,8 +59,6 @@ typedef struct s_config
 	double		player_angle;
 	double		delta_x;
 	double		delta_y;
-	char		player_camera;
-	int			fd;
 }	t_config;
 
 /* Main window structure */
@@ -99,7 +99,6 @@ typedef struct s_data
 /* Parsing functions */
 
 int		is_file_ext(char *filepath, char *ext);
-// int		does_file_exist(char *file_path);
 int		open_file(char *file_name);
 char	**read_file(int fd, t_config *config);
 int		parse_textures_colors(t_config *config);
@@ -139,11 +138,21 @@ void	validate_element_or_exit(char **split, char *trimmed, int *mask,
 
 /* Rendering functions */
 
+int		choose_color(char **map, int x, int y);
 void	window(t_data *data);
+void	dda_algo(t_data *data);
+void	get_coord(t_data *data);
 void	data_init(t_data *data);
+void	draw_direction(t_data *data);
+void	draw_player(t_data *data);
 void    setup_image(t_data *data);
+void	render_2Dmap(t_data *data);
 void    setup_window(t_data *data);
 void	cleanup_and_exit(t_config *config);
 void	init_player_direction(t_data *data);
+void	color_pixels(t_data *data, int color, int x, int y);
+void	color_pixels(t_data *data, int color, int x, int y);
+void	draw_circle(t_data *data, int center_x, int center_y);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 #endif /* CUB3D_H  */

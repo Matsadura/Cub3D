@@ -15,7 +15,9 @@ PARSING_SRC = parsing/parse_file.c \
 			  parsing/parse_map_utils.c \
 			  parsing/parse_map_utils2.c \
 
-RENDERING_SRC = rendering/init.c rendering/window.c
+RENDERING_SRC = rendering/init.c rendering/window.c \
+				rendering/drawing.c rendering/drawing_utils.c \
+				rendering/dda_algo.c
 
 UTILS_SRC = utils/arrays.c \
 			utils/extras.c \
