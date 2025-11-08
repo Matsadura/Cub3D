@@ -54,8 +54,8 @@ typedef struct s_config
 	double		player_x;
 	double		player_y;
 	double		player_angle;
-	double      delta_x;
-	double      delta_y;
+	double		delta_x;
+	double		delta_y;
 	char		player_camera;
 	int			fd;
 }	t_config;
@@ -68,10 +68,10 @@ typedef struct s_win
 	void	*win_ptr;
 }			t_win;
 
-
 /* Main image structure */
 
-typedef struct	s_img {
+typedef struct s_img
+{
 	void	*img;
 	char	*addr;
 	int		bpp;
@@ -91,8 +91,8 @@ typedef struct s_data
 
 typedef struct s_coord
 {
-	double x_l;
-	double y_l;
+	double	x_l;
+	double	y_l;
 }			t_coord;
 
 /* Parsing functions */
