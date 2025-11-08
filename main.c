@@ -53,6 +53,7 @@ static void	cleanup(t_config *config)
 int	main(int ac, char **av)
 {
 	t_config	config;
+	t_data		data;
 
 	if (ac != 2)
 		return (EXIT_FAILURE);
@@ -62,6 +63,8 @@ int	main(int ac, char **av)
 	parse_textures_colors(&config);
 	parse_map_lines(&config);
 	print_array(config.map);
+	data.config = config;
+	data_init(&data);
 	cleanup(&config);
 	return (EXIT_SUCCESS);
 }
