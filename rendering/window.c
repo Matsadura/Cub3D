@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:41:52 by claghrab          #+#    #+#             */
-/*   Updated: 2025/11/08 15:41:55 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/10 17:32:09 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@
  */
 void	window(t_data *data)
 {
-    //data_init(data);
 	setup_window(data);
 	setup_image(data);
     render_2Dmap(data);
 	draw_direction(data);
 	draw_player(data);
 	mlx_put_image_to_window(data->win.mlx_ptr, data->win.win_ptr, data->img.img, 0, 0);
+	mlx_hook(data->win.win_ptr, 2, 1L<<0, handle_key, data);
+	mlx_hook(data->win.win_ptr, 3, 1L<<1, handle_key_release, data);
+	mlx_loop_hook(data->win.mlx_ptr, game_loop, data);
 	mlx_loop(data->win.mlx_ptr);
 }
 

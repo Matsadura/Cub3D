@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zzaoui <zzaoui@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:27:32 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/10/22 15:29:24 by zzaoui           ###   ########.fr       */
+/*   Updated: 2025/11/10 16:27:19 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@
 # include <stdlib.h>
 # include <math.h>
 # include "libft.h"
-# include "mlx.h"
+# include "../minilibx-linux/mlx.h"
 
 /* Macros */
 
 # define TRUE 1
 # define FALSE 0
 # define STDERR 2
-# define PI 3.141592653
 # define RED 0xFF0000
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
@@ -36,7 +35,10 @@
 # define LEFT 97
 # define RIGHT 100
 # define ESC 65307
+# define LEFT_ARROW 65361
+# define RIGHT_ARROW 65363
 # define LINE_LEN 50
+# define PI 3.141592653
 
 /* Main config structure */
 
@@ -86,13 +88,21 @@ typedef struct s_coord
 {
 	double	x_l;
 	double	y_l;
-}
-			t_coord;
+}			t_coord;
+
+typedef struct s_mvmnt
+{
+	double	turn_direc;
+	double	walk_direc;
+	double	rotation_direc;
+}			t_mvmnt;
+
 typedef struct s_data
 {
 	t_win		win;
 	t_config	config;
 	t_img		img;
+	t_mvmnt		mvmnt;
 	t_coord		coord;
 }			t_data;
 
@@ -138,6 +148,9 @@ void	validate_element_or_exit(char **split, char *trimmed, int *mask,
 
 /* Rendering functions */
 
+int		game_loop(t_data *data);
+int		handle_key_release(int keycode, t_data *data);
+int		handle_key(int keycode, t_data *data);
 int		choose_color(char **map, int x, int y);
 void	window(t_data *data);
 void	dda_algo(t_data *data);
@@ -148,9 +161,7 @@ void	draw_player(t_data *data);
 void    setup_image(t_data *data);
 void	render_2Dmap(t_data *data);
 void    setup_window(t_data *data);
-void	cleanup_and_exit(t_config *config);
 void	init_player_direction(t_data *data);
-void	color_pixels(t_data *data, int color, int x, int y);
 void	color_pixels(t_data *data, int color, int x, int y);
 void	draw_circle(t_data *data, int center_x, int center_y);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
