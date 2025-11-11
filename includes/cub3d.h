@@ -28,8 +28,9 @@
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
 # define TILE_SIZE 64
-# define MOVE_SPEED 0.1
-# define COLLISION_PADDING 0.3
+# define ROTATION_SPEED 0.01
+# define WALK_SPEED 0.5
+# define COLLISION_PADDING 15
 # define FORWARD 119
 # define BACKWARD 115
 # define LEFT 97
@@ -153,6 +154,10 @@ int		handle_key_release(int keycode, t_data *data);
 int		handle_key(int keycode, t_data *data);
 int		choose_color(char **map, int x, int y);
 void	window(t_data *data);
+void	rotate_player(t_data *data);
+void	walk_player(t_data *data);
+void	turn_player(t_data *data);
+void	add_padding(double target, double player_coord, double *padding);
 void	dda_algo(t_data *data);
 void	get_coord(t_data *data);
 void	data_init(t_data *data);
