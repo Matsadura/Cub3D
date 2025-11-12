@@ -29,7 +29,7 @@
 # define WHITE 0xFFFFFF
 # define TILE_SIZE 64
 # define ROTATION_SPEED 0.01
-# define WALK_SPEED 0.5
+# define WALK_SPEED 0.7
 # define COLLISION_PADDING 15
 # define FORWARD 119
 # define BACKWARD 115
@@ -150,25 +150,26 @@ void	validate_element_or_exit(char **split, char *trimmed, int *mask,
 /* Rendering functions */
 
 int		game_loop(t_data *data);
-int		handle_key_release(int keycode, t_data *data);
 int		handle_key(int keycode, t_data *data);
 int		choose_color(char **map, int x, int y);
+int		handle_key_release(int keycode, t_data *data);
 void	window(t_data *data);
-void	rotate_player(t_data *data);
-void	walk_player(t_data *data);
-void	turn_player(t_data *data);
-void	add_padding(double target, double player_coord, double *padding);
 void	dda_algo(t_data *data);
 void	get_coord(t_data *data);
 void	data_init(t_data *data);
-void	draw_direction(t_data *data);
 void	draw_player(t_data *data);
-void    setup_image(t_data *data);
-void	render_2Dmap(t_data *data);
-void    setup_window(t_data *data);
+void	setup_image(t_data *data);
+void	walk_player(t_data *data);
+void	turn_player(t_data *data);
+void	render_2dmap(t_data *data);
+void	setup_window(t_data *data);
+void	rotate_player(t_data *data);
+void	draw_direction(t_data *data);
 void	init_player_direction(t_data *data);
+void	cleanup_and_exit(t_config *config, t_data *data);
 void	color_pixels(t_data *data, int color, int x, int y);
 void	draw_circle(t_data *data, int center_x, int center_y);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	add_padding(double target, double player_coord, double *padding);
 
 #endif /* CUB3D_H  */

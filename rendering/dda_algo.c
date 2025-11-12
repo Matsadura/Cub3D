@@ -18,10 +18,9 @@
  */
 void	dda_algo(t_data *data)
 {
-	double	(dx), (dy), (step);
-	double	(x_inc), (y_inc), (x), (y);
-	int		i;
-
+	double (dx), (dy), (step);
+	double (x_inc), (y_inc), (x), (y);
+	int (i);
 	dx = data->coord.x_l - data->config.player_x;
 	dy = data->coord.y_l - data->config.player_y;
 	if (fabs(dx) > fabs(dy))
@@ -43,12 +42,12 @@ void	dda_algo(t_data *data)
 }
 
 /**
- * get_coord - Calculates the end-point coordinates for the player's direction line.
+ * get_coord - Calculates the end-point coordinates for
+ * the player's direction line.
  * @data: The main data structure.
  */
 void	get_coord(t_data *data)
 {
-
 	if (data == NULL)
 		return ;
 	data->coord.x_l = (data->config.delta_x * LINE_LEN) + data->config.player_x;

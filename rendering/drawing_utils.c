@@ -23,10 +23,12 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x < 0 || y < 0 || x >= data->config.map_width * 64 || y >= data->config.map_height * 64)
-    	return;
-	dst = data->img.addr + (y * data->img.line_length + x * (data->img.bpp / 8));
-	*(unsigned int*)dst = color;
+	if (x < 0 || y < 0 || x >= data->config.map_width * 64
+		|| y >= data->config.map_height * 64)
+		return ;
+	dst = data->img.addr + (y * data->img.line_length + x * (data->img.bpp
+				/ 8));
+	*(unsigned int *)dst = color;
 }
 
 /**
@@ -40,9 +42,9 @@ int	choose_color(char **map, int x, int y)
 	if (map == NULL || *map == NULL)
 		return (FALSE);
 	if (map[y][x] == '1')
-		return(RED);
+		return (RED);
 	else if (map[y][x] == '0' || map[y][x] == 'S' || map[y][x] == 'N'
-				|| map[y][x] == 'W' || map[y][x] == 'E')
+			|| map[y][x] == 'W' || map[y][x] == 'E')
 		return (WHITE);
 	else
 		return (BLACK);
@@ -58,7 +60,7 @@ int	choose_color(char **map, int x, int y)
 void	color_pixels(t_data *data, int color, int x, int y)
 {
 	int	x_start;
-	int y_start;
+	int	y_start;
 
 	if (data == NULL)
 		return ;
@@ -83,21 +85,21 @@ void	color_pixels(t_data *data, int color, int x, int y)
  */
 void	draw_circle(t_data *data, int center_x, int center_y)
 {
-	int radius;
+	int	radius;
 	int	x;
-	int y;
+	int	y;
 
 	if (data == NULL)
 		return ;
 	radius = 15;
 	y = center_y - radius;
-	while ( y < center_y + radius)
+	while (y < center_y + radius)
 	{
 		x = center_x - radius;
 		while (x < center_x + radius)
 		{
-			if ((x - center_x) * (x - center_x) + (y - center_y) * (y - center_y)
-				< radius * radius)
+			if ((x - center_x) * (x - center_x) + (y - center_y) * (y
+					- center_y) < radius * radius)
 				my_mlx_pixel_put(data, x, y, BLACK);
 			x++;
 		}

@@ -16,7 +16,7 @@
  * render_2Dmap - Renders the complete 2D mini-map tile by tile.
  * @data: The main data structure.
  */
-void    render_2Dmap(t_data *data)
+void	render_2dmap(t_data *data)
 {
 	int	x_weight;
 	int	y_height;
@@ -30,7 +30,7 @@ void    render_2Dmap(t_data *data)
 		while (x_weight < data->config.map_width)
 		{
 			color_pixels(data, choose_color(data->config.map,
-            x_weight, y_height), x_weight, y_height);
+					x_weight, y_height), x_weight, y_height);
 			x_weight++;
 		}
 		y_height++;

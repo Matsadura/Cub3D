@@ -13,14 +13,16 @@
 #include "cub3d.h"
 
 /**
- * data_init - Converts map coordinates to pixel coordinates and
- * inits player direction.
- * @data: The main data structure
+ * data_init - Initializes player position, direction, and movement state.
+ * @data: The main data structure.
  */
 void	data_init(t_data *data)
 {
 	data->config.player_x = (data->config.player_x + 0.5) * 64;
 	data->config.player_y = (data->config.player_y + 0.5) * 64;
+	data->mvmnt.rotation_direc = 0;
+	data->mvmnt.turn_direc = 0;
+	data->mvmnt.walk_direc = 0;
 	init_player_direction(data);
 }
 
