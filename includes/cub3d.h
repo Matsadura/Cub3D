@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:27:32 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/11/10 16:27:19 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:32:47 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define RIGHT_ARROW 65363
 # define LINE_LEN 50
 # define PI 3.141592653
+# define SCREEN_WIDTH 400
 
 /* Main config structure */
 
@@ -62,6 +63,8 @@ typedef struct s_config
 	double		player_angle;
 	double		delta_x;
 	double		delta_y;
+	double		plane_x;
+	double		plane_y;
 }	t_config;
 
 /* Main window structure */
@@ -87,8 +90,8 @@ typedef struct s_img
 
 typedef struct s_coord
 {
-	double	x_l;
-	double	y_l;
+	double	ray_end_x;
+	double	ray_end_y;
 }			t_coord;
 
 typedef struct s_mvmnt
@@ -163,6 +166,7 @@ void	walk_player(t_data *data);
 void	turn_player(t_data *data);
 void	render_2dmap(t_data *data);
 void	setup_window(t_data *data);
+void	draw_rays_2d(t_data *data);
 void	rotate_player(t_data *data);
 void	draw_direction(t_data *data);
 void	init_player_direction(t_data *data);

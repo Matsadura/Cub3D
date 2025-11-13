@@ -6,11 +6,11 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:42:02 by claghrab          #+#    #+#             */
-/*   Updated: 2025/11/08 15:42:05 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:19:20 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 /**
  * data_init - Initializes player position, direction, and movement state.
@@ -42,4 +42,6 @@ void	init_player_direction(t_data *data)
 		data->config.player_angle = (PI / 2) * 3;
 	data->config.delta_x = cos(data->config.player_angle);
 	data->config.delta_y = sin(data->config.player_angle);
+	data->config.plane_x = -sin(data->config.player_angle) * 0.66;
+	data->config.plane_y = cos(data->config.player_angle) * 0.66;
 }
