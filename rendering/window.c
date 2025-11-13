@@ -58,6 +58,10 @@ void	setup_image(t_data *data)
 		return ;
 	data->img.img = mlx_new_image(data->win.mlx_ptr, data->config.map_width
 			* 64, data->config.map_height * 64);
+	if (data->img.img == NULL)
+		error_and_exit("Mlx failure", &data->config);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bpp,
 			&data->img.line_length, &data->img.endian);
+	if (data->img.addr == NULL)
+		error_and_exit("Mlx failure", &data->config);
 }

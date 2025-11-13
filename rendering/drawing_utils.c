@@ -52,7 +52,7 @@ int	choose_color(char **map, int x, int y)
 
 /**
  * color_pixels - Fills an entire map grid tile with a single color.
- * @data: The main data structur.
+ * @data: The main data structure.
  * @color: The integer color to fill the tile with.
  * @x: The map grid's x-coordinate (row).
  * @y: The map grid's y-coordinate (column).

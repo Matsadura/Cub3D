@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   clean_up.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -24,10 +24,14 @@ void	cleanup_and_exit(t_config *config, t_data *data)
 	free(config->so_path);
 	free(config->we_path);
 	free(config->ea_path);
-	mlx_destroy_image(data->win.mlx_ptr, data->img.img);
-	mlx_destroy_window(data->win.mlx_ptr, data->win.win_ptr);
-	mlx_destroy_display(data->win.mlx_ptr);
-	free(data->win.mlx_ptr);
+	if (data->win.mlx_ptr != NULL && data->img.img != NULL)
+		mlx_destroy_image(data->win.mlx_ptr, data->img.img);
+	if (data->win.mlx_ptr != NULL && data->win.win_ptr != NULL)
+		mlx_destroy_window(data->win.mlx_ptr, data->win.win_ptr);
+	if (data->win.mlx_ptr != NULL)
+		mlx_destroy_display(data->win.mlx_ptr);
+	if (data->win.mlx_ptr != NULL)
+		free(data->win.mlx_ptr);
 	if (config->fd >= 0)
 		close(config->fd);
 	exit(EXIT_SUCCESS);

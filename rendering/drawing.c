@@ -13,7 +13,7 @@
 #include "cub3d.h"
 
 /**
- * render_2Dmap - Renders the complete 2D mini-map tile by tile.
+ * render_2dmap - Renders the complete 2D mini-map tile by tile.
  * @data: The main data structure.
  */
 void	render_2dmap(t_data *data)
@@ -51,7 +51,6 @@ void	draw_player(t_data *data)
 	center_x = (data->config.player_x);
 	center_y = (data->config.player_y);
 	draw_circle(data, center_x, center_y);
-	return ;
 }
 
 /**
