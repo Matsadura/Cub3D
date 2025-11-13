@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 16:26:35 by claghrab          #+#    #+#             */
-/*   Updated: 2025/11/12 16:26:38 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:19:48 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	game_loop(t_data *data)
 	walk_player(data);
 	turn_player(data);
 	render_2dmap(data);
-	draw_direction(data);
+	// draw_direction(data);
+	draw_rays_2d(data);
 	draw_player(data);
 	mlx_put_image_to_window(data->win.mlx_ptr, data->win.win_ptr, data->img.img,
 		0, 0);
@@ -45,6 +46,8 @@ void	rotate_player(t_data *data)
 			* ROTATION_SPEED;
 		data->config.delta_x = cos(data->config.player_angle);
 		data->config.delta_y = sin(data->config.player_angle);
+		data->config.plane_x = -sin(data->config.player_angle) * 0.66;
+		data->config.plane_y = cos(data->config.player_angle) * 0.66;
 	}
 }
 

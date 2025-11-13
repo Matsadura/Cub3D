@@ -6,11 +6,11 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 17:25:00 by claghrab          #+#    #+#             */
-/*   Updated: 2025/11/08 17:25:02 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:23:50 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 /**
  * render_2Dmap - Renders the complete 2D mini-map tile by tile.
@@ -62,6 +62,28 @@ void	draw_direction(t_data *data)
 {
 	if (data == NULL)
 		return ;
-	get_coord(data);
+	//get_coord(data);
 	dda_algo(data);
+}
+
+void	draw_rays_2d(t_data *data)
+{
+	int 	i;
+	double	camera;
+	double raydir_x;
+    double raydir_y;
+	
+	if (data == NULL)
+		return ;
+	i = 0;
+	while(i < SCREEN_WIDTH)
+	{
+		camera = 2 * i / (double)SCREEN_WIDTH - 1;
+		raydir_x = data->config.delta_x + data->config.plane_x * camera;
+        raydir_y = data->config.delta_y + data->config.plane_y * camera;
+		data->coord.ray_end_x = data->config.player_x + raydir_x * LINE_LEN;
+		data->coord.ray_end_y = data->config.player_y + raydir_y * LINE_LEN;
+		dda_algo(data);
+		i++;
+	}
 }
