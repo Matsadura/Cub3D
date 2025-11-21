@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 17:57:45 by claghrab          #+#    #+#             */
-/*   Updated: 2025/11/13 18:17:56 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/20 13:52:05 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	dda_algo(t_data *data)
 	{
 		x = x + x_inc;
 		y = y + y_inc;
-		my_mlx_pixel_put(data, x, y, RED);
+		my_mlx_pixel_put(data, x, y, BLACK);
 		i++;
 	}
 }

@@ -18,7 +18,8 @@ PARSING_SRC = parsing/parse_file.c \
 RENDERING_SRC = rendering/init.c rendering/window.c \
                 rendering/drawing.c rendering/drawing_utils.c \
                 rendering/dda_algo.c rendering/player_moves.c \
-                rendering/moves_utils.c rendering/clean_up.c
+                rendering/moves_utils.c rendering/clean_up.c \
+                rendering/raycasting.c rendering/raycasting_utils.c
 
 UTILS_SRC = utils/arrays.c \
             utils/extras.c \
@@ -32,22 +33,22 @@ LIBFT = libft/libft.a
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(MLX_FLAGS) $(LIBFT) -o $(NAME)
+    $(CC) $(CFLAGS) $(OBJ) $(MLX_FLAGS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
-	make -C libft
+    make -C libft
 
 $(OBJ_DIR)/%.o: %.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+    @mkdir -p $(dir $@)
+    $(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ_DIR)
-	make -C libft clean
+    rm -rf $(OBJ_DIR)
+    make -C libft clean
 
 fclean: clean
-	rm -f $(NAME)
-	make -C libft fclean
+    rm -f $(NAME)
+    make -C libft fclean
 
 re: fclean all
 

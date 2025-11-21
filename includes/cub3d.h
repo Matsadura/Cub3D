@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:27:32 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/11/13 18:32:47 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/21 13:19:29 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define LINE_LEN 50
 # define PI 3.141592653
 # define SCREEN_WIDTH 400
+# define FOV (60 * (PI / 180))
 
 /* Main config structure */
 
@@ -92,6 +93,12 @@ typedef struct s_coord
 {
 	double	ray_end_x;
 	double	ray_end_y;
+	double	x_inter;
+	double	y_inter;
+	double	x_step;
+	double	y_step;
+	int		x_map;
+	int		y_map;
 }			t_coord;
 
 typedef struct s_mvmnt
@@ -153,6 +160,10 @@ void	validate_element_or_exit(char **split, char *trimmed, int *mask,
 /* Rendering functions */
 
 int		game_loop(t_data *data);
+int		is_facing_up(double angle);
+int		is_facing_down(double angle);
+int		is_facing_left(double angle);
+int		is_facing_right(double angle);
 int		handle_key(int keycode, t_data *data);
 int		choose_color(char **map, int x, int y);
 int		handle_key_release(int keycode, t_data *data);
@@ -170,10 +181,16 @@ void	draw_rays_2d(t_data *data);
 void	rotate_player(t_data *data);
 void	draw_direction(t_data *data);
 void	init_player_direction(t_data *data);
+void	set_v_coord(t_data *data, double ray_angle);
+void	set_h_coord(t_data *data, double ray_angle);
 void	cleanup_and_exit(t_config *config, t_data *data);
 void	color_pixels(t_data *data, int color, int x, int y);
 void	draw_circle(t_data *data, int center_x, int center_y);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	add_padding(double target, double player_coord, double *padding);
+double	calc_distance(t_data *data);
+double	cast_ray(double ray_angle, t_data *data);
+double	v_intersection(double ray_angle, t_data *data);
+double	h_intersection(double ray_angle, t_data *data);
 
 #endif /* CUB3D_H  */

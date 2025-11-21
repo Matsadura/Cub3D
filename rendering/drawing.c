@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 17:25:00 by claghrab          #+#    #+#             */
-/*   Updated: 2025/11/13 18:23:50 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/21 13:44:50 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,28 +61,44 @@ void	draw_direction(t_data *data)
 {
 	if (data == NULL)
 		return ;
-	//get_coord(data);
 	dda_algo(data);
 }
 
-void	draw_rays_2d(t_data *data)
+/**
+ * normalize_angle - Resets the angle to the range [0, 2*PI].
+ * @angle: The angle to normalize.
+ */
+double  normalize_angle(double angle)
 {
-	int 	i;
-	double	camera;
-	double raydir_x;
-    double raydir_y;
-	
-	if (data == NULL)
-		return ;
-	i = 0;
-	while(i < SCREEN_WIDTH)
-	{
-		camera = 2 * i / (double)SCREEN_WIDTH - 1;
-		raydir_x = data->config.delta_x + data->config.plane_x * camera;
-        raydir_y = data->config.delta_y + data->config.plane_y * camera;
-		data->coord.ray_end_x = data->config.player_x + raydir_x * LINE_LEN;
-		data->coord.ray_end_y = data->config.player_y + raydir_y * LINE_LEN;
-		dda_algo(data);
-		i++;
-	}
+    angle = fmod(angle, 2 * PI);
+    if (angle < 0)
+        angle += 2 * PI;
+    return (angle);
 }
+
+/**
+ * draw_rays_2d - Renders the full field of view (FOV) rays on the 2D map.
+ * @data: The main data structure.
+ */
+void    draw_rays_2d(t_data *data)
+{
+    int     i;
+    double  ray_angle;
+	double	line_len;
+    
+    if (data == NULL)
+        return ;
+    ray_angle = data->config.player_angle - (FOV / 2);
+    i = 0;
+    while (i < SCREEN_WIDTH)
+    {
+        ray_angle = normalize_angle(ray_angle);
+		line_len = cast_ray(ray_angle, data);
+		data->coord.ray_end_x = data->config.player_x + cos(ray_angle) * line_len;
+		data->coord.ray_end_y = data->config.player_y + sin(ray_angle) * line_len;
+		dda_algo(data);
+        ray_angle += FOV / SCREEN_WIDTH;
+        i++;
+    }
+}
+
