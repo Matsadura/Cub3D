@@ -2,7 +2,6 @@ NAME     = cub3d
 CC      = cc
 INCLUDES_DIR = includes
 CFLAGS  = -Wall -Werror -Wextra -ggdb -I$(INCLUDES_DIR)
-MLX_FLAGS = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 SRC = main.c $(PARSING_SRC) $(UTILS_SRC) $(RENDERING_SRC)
 
@@ -19,7 +18,8 @@ RENDERING_SRC = rendering/init.c rendering/window.c \
                 rendering/drawing.c rendering/drawing_utils.c \
                 rendering/dda_algo.c rendering/player_moves.c \
                 rendering/moves_utils.c rendering/clean_up.c \
-                rendering/raycasting.c rendering/raycasting_utils.c
+                rendering/raycasting.c rendering/raycasting_utils.c \
+                rendering/projection.c
 
 UTILS_SRC = utils/arrays.c \
             utils/extras.c \
@@ -28,27 +28,33 @@ OBJ_DIR = objects
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
+MLX = minilibx-linux/libmlx.a
+
 LIBFT = libft/libft.a
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ)
-    $(CC) $(CFLAGS) $(OBJ) $(MLX_FLAGS) $(LIBFT) -o $(NAME)
+$(NAME): $(LIBFT) $(MLX) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ)  $(LIBFT) $(MLX) -lX11 -lXext -lm -o $(NAME)
 
 $(LIBFT):
-    make -C libft
+	make -C libft
+
+$(MLX):
+	make -C minilibx-linux
 
 $(OBJ_DIR)/%.o: %.c
-    @mkdir -p $(dir $@)
-    $(CC) $(CFLAGS) -c $< -o $@
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-    rm -rf $(OBJ_DIR)
-    make -C libft clean
+	rm -rf $(OBJ_DIR)
+	make -C libft clean
 
 fclean: clean
-    rm -f $(NAME)
-    make -C libft fclean
+	rm -f $(NAME)
+	make -C libft fclean
+	make -C minilibx-linux
 
 re: fclean all
 

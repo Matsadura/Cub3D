@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 17:25:00 by claghrab          #+#    #+#             */
-/*   Updated: 2025/11/23 14:59:08 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/23 22:12:22 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void    draw_rays_2d(t_data *data)
 		line_len = cast_ray(ray_angle, data);
 		data->coord.ray_end_x = (data->config.player_x + cos(ray_angle) * line_len) * MINIMAP_SCALE;
 		data->coord.ray_end_y = (data->config.player_y + sin(ray_angle) * line_len) * MINIMAP_SCALE;
+		draw_wall(data, line_len, i);
 		dda_algo(data);
         ray_angle += FOV / SCREEN_WIDTH;
         i++;

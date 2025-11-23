@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:41:52 by claghrab          #+#    #+#             */
-/*   Updated: 2025/11/16 13:39:29 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/23 21:01:49 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	window(t_data *data)
 {
 	setup_window(data);
 	setup_image(data);
-	render_2dmap(data);
 	draw_rays_2d(data);
+	render_2dmap(data);
 	draw_player(data);
 	mlx_put_image_to_window(data->win.mlx_ptr, data->win.win_ptr, data->img.img,
 		0, 0);

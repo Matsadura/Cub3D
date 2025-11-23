@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:27:32 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/11/23 18:24:12 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/23 22:03:25 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@
 # define RIGHT_ARROW 65363
 # define LINE_LEN 50
 # define PI 3.141592653
-# define SCREEN_WIDTH 400
+# define SCREEN_WIDTH 1600
+# define SCREEN_HEIGHT 1200
 # define FOV (60 * (PI / 180))
 # define MINIMAP_SCALE 0.3
 
@@ -182,7 +183,10 @@ void	draw_rays_2d(t_data *data);
 void	rotate_player(t_data *data);
 void	draw_direction(t_data *data);
 void	init_player_direction(t_data *data);
+void	draw_wall(t_data *data, double ray, int x);
 void	set_v_coord(t_data *data, double ray_angle);
+void	draw_floor(t_data *data, int wall_end, int x);
+void	draw_ceiling(t_data *data, int wall_start, int x);
 void	set_h_coord(t_data *data, double ray_angle);
 void	cleanup_and_exit(t_config *config, t_data *data);
 void	color_pixels(t_data *data, int color, int x, int y);
