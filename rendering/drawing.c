@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 17:25:00 by claghrab          #+#    #+#             */
-/*   Updated: 2025/11/21 13:44:50 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/23 14:59:08 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	draw_player(t_data *data)
 
 	if (data == NULL)
 		return ;
-	center_x = (data->config.player_x);
-	center_y = (data->config.player_y);
+	center_x = (int)(data->config.player_x * MINIMAP_SCALE);
+	center_y = (int)(data->config.player_y * MINIMAP_SCALE);
 	draw_circle(data, center_x, center_y);
 }
 
@@ -94,11 +94,10 @@ void    draw_rays_2d(t_data *data)
     {
         ray_angle = normalize_angle(ray_angle);
 		line_len = cast_ray(ray_angle, data);
-		data->coord.ray_end_x = data->config.player_x + cos(ray_angle) * line_len;
-		data->coord.ray_end_y = data->config.player_y + sin(ray_angle) * line_len;
+		data->coord.ray_end_x = (data->config.player_x + cos(ray_angle) * line_len) * MINIMAP_SCALE;
+		data->coord.ray_end_y = (data->config.player_y + sin(ray_angle) * line_len) * MINIMAP_SCALE;
 		dda_algo(data);
         ray_angle += FOV / SCREEN_WIDTH;
         i++;
     }
 }
-

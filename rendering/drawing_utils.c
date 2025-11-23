@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 17:25:07 by claghrab          #+#    #+#             */
-/*   Updated: 2025/11/08 17:25:09 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/23 14:43:01 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ void	color_pixels(t_data *data, int color, int x, int y)
 
 	if (data == NULL)
 		return ;
-	y_start = y * TILE_SIZE;
-	while (y_start < (y + 1) * TILE_SIZE)
+	y_start = y * TILE_SIZE * MINIMAP_SCALE;
+	while (y_start < (y + 1) * TILE_SIZE * MINIMAP_SCALE)
 	{
-		x_start = x * TILE_SIZE;
-		while (x_start < (x + 1) * TILE_SIZE)
+		x_start = x * TILE_SIZE * MINIMAP_SCALE;
+		while (x_start < (x + 1) * TILE_SIZE * MINIMAP_SCALE)
 		{
 			my_mlx_pixel_put(data, x_start, y_start, color);
 			x_start++;
@@ -91,7 +91,7 @@ void	draw_circle(t_data *data, int center_x, int center_y)
 
 	if (data == NULL)
 		return ;
-	radius = 15;
+	radius = 25 * MINIMAP_SCALE;
 	y = center_y - radius;
 	while (y < center_y + radius)
 	{

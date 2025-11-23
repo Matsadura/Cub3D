@@ -6,7 +6,7 @@
 /*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:27:32 by zzaoui            #+#    #+#             */
-/*   Updated: 2025/11/21 13:19:29 by claghrab         ###   ########.fr       */
+/*   Updated: 2025/11/23 18:24:12 by claghrab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # define PI 3.141592653
 # define SCREEN_WIDTH 400
 # define FOV (60 * (PI / 180))
+# define MINIMAP_SCALE 0.3
 
 /* Main config structure */
 
