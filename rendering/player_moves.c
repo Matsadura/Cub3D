@@ -24,9 +24,6 @@ int	game_loop(t_data *data)
 	walk_player(data);
 	turn_player(data);
 	draw_rays_2d(data);
-	render_2dmap(data);
-	// draw_direction(data);
-	draw_player(data);
 	mlx_put_image_to_window(data->win.mlx_ptr, data->win.win_ptr, data->img.img,
 		0, 0);
 	return (0);
@@ -46,8 +43,6 @@ void	rotate_player(t_data *data)
 			* ROTATION_SPEED;
 		data->config.delta_x = cos(data->config.player_angle);
 		data->config.delta_y = sin(data->config.player_angle);
-		data->config.plane_x = -sin(data->config.player_angle) * 0.66;
-		data->config.plane_y = cos(data->config.player_angle) * 0.66;
 	}
 }
 
@@ -57,28 +52,17 @@ void	rotate_player(t_data *data)
  */
 void	walk_player(t_data *data)
 {
-	double (tmp_x), (tmp_y), (x_padding), (y_padding);
-	int (map_check_x), (map_check_y);
+	double (tmp_x), (tmp_y);
 	if (data == NULL)
 		return ;
 	if (data->mvmnt.walk_direc != 0)
 	{
 		tmp_x = (data->config.delta_x * (WALK_SPEED * data->mvmnt.walk_direc))
 			+ data->config.player_x;
+		validate_move_x(data, tmp_x);
 		tmp_y = (data->config.delta_y * (WALK_SPEED * data->mvmnt.walk_direc))
 			+ data->config.player_y;
-		add_padding(tmp_x, data->config.player_x, &x_padding);
-		map_check_x = (int)(tmp_x + x_padding) / TILE_SIZE;
-		map_check_y = (int)data->config.player_y / TILE_SIZE;
-		if (data->config.map[map_check_y][map_check_x] != '1' &&
-			data->config.map[map_check_y][map_check_x] != ' ')
-			data->config.player_x = tmp_x;
-		add_padding(tmp_y, data->config.player_y, &y_padding);
-		map_check_x = (int)data->config.player_x / TILE_SIZE;
-		map_check_y = (int)(tmp_y + y_padding) / TILE_SIZE;
-		if (data->config.map[map_check_y][map_check_x] != '1' &&
-			data->config.map[map_check_y][map_check_x] != ' ')
-			data->config.player_y = tmp_y;
+		validate_move_y(data, tmp_y);
 	}
 }
 
@@ -88,8 +72,7 @@ void	walk_player(t_data *data)
  */
 void	turn_player(t_data *data)
 {
-	double (tmp_x), (tmp_y), (x_padding), (y_padding), (teta_x), (teta_y);
-	int (map_check_x), (map_check_y);
+	double (tmp_x), (tmp_y), (teta_x), (teta_y);
 	if (data == NULL)
 		return ;
 	if (data->mvmnt.turn_direc != 0)
@@ -98,19 +81,9 @@ void	turn_player(t_data *data)
 		teta_y = sin(data->config.player_angle + (PI / 2));
 		tmp_x = (teta_x * (WALK_SPEED * data->mvmnt.turn_direc))
 			+ data->config.player_x;
+		validate_move_x(data, tmp_x);
 		tmp_y = (teta_y * (WALK_SPEED * data->mvmnt.turn_direc))
 			+ data->config.player_y;
-		add_padding(tmp_x, data->config.player_x, &x_padding);
-		map_check_x = (int)(tmp_x + x_padding) / TILE_SIZE;
-		map_check_y = (int)data->config.player_y / TILE_SIZE;
-		if (data->config.map[map_check_y][map_check_x] != '1' &&
-			data->config.map[map_check_y][map_check_x] != ' ')
-			data->config.player_x = tmp_x;
-		add_padding(tmp_y, data->config.player_y, &y_padding);
-		map_check_x = (int)data->config.player_x / TILE_SIZE;
-		map_check_y = (int)(tmp_y + y_padding) / TILE_SIZE;
-		if (data->config.map[map_check_y][map_check_x] != '1' &&
-			data->config.map[map_check_y][map_check_x] != ' ')
-			data->config.player_y = tmp_y;
+		validate_move_y(data, tmp_y);
 	}
 }

@@ -27,6 +27,8 @@
 # define RED 0xFF0000
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
+# define BLUE 0x0000FF
+# define BROWN 0x8B4513
 # define TILE_SIZE 64
 # define ROTATION_SPEED 0.01
 # define WALK_SPEED 0.7
@@ -40,7 +42,7 @@
 # define RIGHT_ARROW 65363
 # define LINE_LEN 50
 # define PI 3.141592653
-# define SCREEN_WIDTH 1600
+# define SCREEN_WIDTH 1900
 # define SCREEN_HEIGHT 1200
 # define FOV (60 * (PI / 180))
 # define MINIMAP_SCALE 0.3
@@ -66,8 +68,6 @@ typedef struct s_config
 	double		player_angle;
 	double		delta_x;
 	double		delta_y;
-	double		plane_x;
-	double		plane_y;
 }	t_config;
 
 /* Main window structure */
@@ -184,11 +184,13 @@ void	rotate_player(t_data *data);
 void	draw_direction(t_data *data);
 void	init_player_direction(t_data *data);
 void	draw_wall(t_data *data, double ray, int x);
+void    validate_move_y(t_data *data, double new_y);
+void    validate_move_x(t_data *data, double new_x);
+void	set_h_coord(t_data *data, double ray_angle);
 void	set_v_coord(t_data *data, double ray_angle);
 void	draw_floor(t_data *data, int wall_end, int x);
-void	draw_ceiling(t_data *data, int wall_start, int x);
-void	set_h_coord(t_data *data, double ray_angle);
 void	cleanup_and_exit(t_config *config, t_data *data);
+void	draw_ceiling(t_data *data, int wall_start, int x);
 void	color_pixels(t_data *data, int color, int x, int y);
 void	draw_circle(t_data *data, int center_x, int center_y);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);

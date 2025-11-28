@@ -23,8 +23,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x < 0 || y < 0 || x >= data->config.map_width * 64
-		|| y >= data->config.map_height * 64)
+	if (x < 0 || y < 0 || x >= SCREEN_WIDTH || y >= SCREEN_HEIGHT)
 		return ;
 	dst = data->img.addr + (y * data->img.line_length + x * (data->img.bpp
 				/ 8));

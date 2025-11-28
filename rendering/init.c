@@ -42,6 +42,4 @@ void	init_player_direction(t_data *data)
 		data->config.player_angle = (PI / 2) * 3;
 	data->config.delta_x = cos(data->config.player_angle);
 	data->config.delta_y = sin(data->config.player_angle);
-	data->config.plane_x = -sin(data->config.player_angle) * 0.66;
-	data->config.plane_y = cos(data->config.player_angle) * 0.66;
 }

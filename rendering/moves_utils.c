@@ -69,3 +69,47 @@ int	handle_key_release(int keycode, t_data *data)
 		data->mvmnt.turn_direc = 0;
 	return (TRUE);
 }
+
+/**
+ * validate_move_x
+	- Checks for collisions and updates the player's X coordinate.
+ * @data: The main data structure.
+ * @new_x: The potential new X coordinate to move to.
+ */
+void	validate_move_x(t_data *data, double new_x)
+{
+	double	padding;
+	int		map_x;
+	int		map_y;
+
+	if (data == NULL)
+		return ;
+	add_padding(new_x, data->config.player_x, &padding);
+	map_x = (int)(new_x + padding) / TILE_SIZE;
+	map_y = (int)data->config.player_y / TILE_SIZE;
+	if (data->config.map[map_y][map_x] != '1' &&
+		data->config.map[map_y][map_x] != ' ')
+		data->config.player_x = new_x;
+}
+
+/**
+ * validate_move_y
+	- Checks for collisions and updates the player's Y coordinate.
+ * @data: The main data structure.
+ * @new_y: The potential new Y coordinate to move to.
+ */
+void	validate_move_y(t_data *data, double new_y)
+{
+	double	padding;
+	int		map_x;
+	int		map_y;
+
+	if (data == NULL)
+		return ;
+	add_padding(new_y, data->config.player_y, &padding);
+	map_x = (int)data->config.player_x / TILE_SIZE;
+	map_y = (int)(new_y + padding) / TILE_SIZE;
+	if (data->config.map[map_y][map_x] != '1' &&
+		data->config.map[map_y][map_x] != ' ')
+		data->config.player_y = new_y;
+}

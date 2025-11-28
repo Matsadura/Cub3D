@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   projection.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: claghrab <claghrab@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/28 15:34:58 by claghrab          #+#    #+#             */
+/*   Updated: 2025/11/28 15:35:04 by claghrab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 /**
@@ -13,7 +25,7 @@ void	draw_wall(t_data *data, double ray, int x)
 	int		end;
 	double	dist_proj;
 	double	wall_height;
-	
+
 	if (data == NULL)
 		return ;
 	dist_proj = (SCREEN_WIDTH / 2) / tan(FOV / 2);
@@ -43,13 +55,13 @@ void	draw_wall(t_data *data, double ray, int x)
 void	draw_ceiling(t_data *data, int wall_start, int x)
 {
 	int	start;
-	
+
 	if (data == NULL)
 		return ;
 	start = 0;
 	while (start < wall_start)
 	{
-		my_mlx_pixel_put(data, x, start, 0x87CEEB);
+		my_mlx_pixel_put(data, x, start, BLUE);
 		start++;
 	}
 }
@@ -66,7 +78,7 @@ void	draw_floor(t_data *data, int wall_end, int x)
 		return ;
 	while (wall_end < SCREEN_HEIGHT)
 	{
-		my_mlx_pixel_put(data, x, wall_end, 0x8B4513);
+		my_mlx_pixel_put(data, x, wall_end, BROWN);
 		wall_end++;
 	}
 }

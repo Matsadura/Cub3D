@@ -13,15 +13,19 @@
 #include "cub3d.h"
 
 /**
- * calc_distance - Calculates the Euclidean distance between player and wall hit.
- * @data: The main data structure containing player and intersection coordinates.
+ * calc_distance - Calculates the Euclidean distance between
+ * player and wall hit.
+ * @data: The main data structure containing player and
+ * intersection coordinates.
  */
 double	calc_distance(t_data *data)
 {
 	double	dist;
-	if  (data == NULL)
+
+	if (data == NULL)
 		return (FALSE);
-	dist = sqrt(pow(data->coord.x_inter - data->config.player_x, 2) + pow(data->coord.y_inter - data->config.player_y, 2));
+	dist = sqrt(pow(data->coord.x_inter - data->config.player_x, 2)
+			+ pow(data->coord.y_inter - data->config.player_y, 2));
 	return (dist);
 }
 
@@ -29,18 +33,18 @@ double	calc_distance(t_data *data)
  * is_facing_down - Checks if the ray angle is pointing downwards (0 to PI).
  * @angle: The current ray angle in radians.
  */
-int is_facing_down(double angle)
+int	is_facing_down(double angle)
 {
-    return (angle > 0 && angle < PI);
+	return (angle > 0 && angle < PI);
 }
 
 /**
  * is_facing_up - Checks if the ray angle is pointing upwards.
  * @angle: The current ray angle in radians.
  */
-int is_facing_up(double angle)
+int	is_facing_up(double angle)
 {
-    return (!is_facing_down(angle));
+	return (!is_facing_down(angle));
 }
 
 /**

@@ -21,8 +21,6 @@ void	window(t_data *data)
 	setup_window(data);
 	setup_image(data);
 	draw_rays_2d(data);
-	render_2dmap(data);
-	draw_player(data);
 	mlx_put_image_to_window(data->win.mlx_ptr, data->win.win_ptr, data->img.img,
 		0, 0);
 	mlx_hook(data->win.win_ptr, 2, 1L << 0, handle_key, data);
@@ -42,8 +40,8 @@ void	setup_window(t_data *data)
 	data->win.mlx_ptr = mlx_init();
 	if (data->win.mlx_ptr == NULL)
 		error_and_exit("Mlx failure", &data->config);
-	data->win.win_ptr = mlx_new_window(data->win.mlx_ptr, data->config.map_width
-			* 64, data->config.map_height * 64, "CUB3D");
+	data->win.win_ptr = mlx_new_window(data->win.mlx_ptr, SCREEN_WIDTH,
+			SCREEN_HEIGHT, "CUB3D");
 	if (data->win.win_ptr == NULL)
 		error_and_exit("Mlx failure", &data->config);
 }
@@ -56,8 +54,8 @@ void	setup_image(t_data *data)
 {
 	if (data == NULL)
 		return ;
-	data->img.img = mlx_new_image(data->win.mlx_ptr, data->config.map_width
-			* 64, data->config.map_height * 64);
+	data->img.img = mlx_new_image(data->win.mlx_ptr, SCREEN_WIDTH,
+			SCREEN_HEIGHT);
 	if (data->img.img == NULL)
 		error_and_exit("Mlx failure", &data->config);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bpp,
