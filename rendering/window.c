@@ -25,6 +25,7 @@ void	window(t_data *data)
 		0, 0);
 	mlx_hook(data->win.win_ptr, 2, 1L << 0, handle_key, data);
 	mlx_hook(data->win.win_ptr, 3, 1L << 1, handle_key_release, data);
+	mlx_hook(data->win.win_ptr, 17, 0, on_destroy, data);
 	mlx_loop_hook(data->win.mlx_ptr, game_loop, data);
 	mlx_loop(data->win.mlx_ptr);
 }
@@ -62,4 +63,14 @@ void	setup_image(t_data *data)
 			&data->img.line_length, &data->img.endian);
 	if (data->img.addr == NULL)
 		error_and_exit("Mlx failure", &data->config);
+}
+
+/**
+ * on_destroy - Handles the clean exit when the window is closed (X button).
+ * @data: The main data structure.
+ */
+int	on_destroy(t_data *data)
+{
+	cleanup_and_exit(&data->config, data);
+	return (0);
 }

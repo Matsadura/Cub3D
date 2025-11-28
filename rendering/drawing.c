@@ -94,6 +94,7 @@ void	draw_rays_2d(t_data *data)
 	{
 		ray_angle = normalize_angle(ray_angle);
 		line_len = cast_ray(ray_angle, data);
+		line_len = line_len * cos(ray_angle - data->config.player_angle);
 		data->coord.ray_end_x = (data->config.player_x + cos(ray_angle)
 				* line_len) * MINIMAP_SCALE;
 		data->coord.ray_end_y = (data->config.player_y + sin(ray_angle)

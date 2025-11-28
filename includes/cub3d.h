@@ -162,6 +162,7 @@ void			validate_element_or_exit(char **split, char *trimmed, int *mask,
 /* Rendering functions */
 
 int				game_loop(t_data *data);
+int				on_destroy(t_data *data);
 int				is_facing_up(double angle);
 int				is_facing_down(double angle);
 int				is_facing_left(double angle);
