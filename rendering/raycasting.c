@@ -137,8 +137,8 @@ double	cast_ray(double ray_angle, t_data *data)
 	if (fabs(ray_angle - PI) < 0.000001)
 		ray_angle += 0.000001;
 	if (fabs(ray_angle - (PI / 2)) < 0.000001)
-        ray_angle += 0.000001;
-    if (fabs(ray_angle - (3 * PI / 2)) < 0.000001)
+		ray_angle += 0.000001;
+	if (fabs(ray_angle - (3 * PI / 2)) < 0.000001)
 		ray_angle += 0.000001;
 	h_dis = h_intersection(ray_angle, data);
 	v_dis = v_intersection(ray_angle, data);
