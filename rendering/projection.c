@@ -20,16 +20,14 @@
  */
 void	draw_wall(t_data *data, double ray, int x)
 {
-	int		y;
-	int		start;
-	int		end;
-	double	dist_proj;
-	double	wall_height;
-
+	int (y), (start), (end);
+	double (dist_proj), (wall_height);
 	if (data == NULL)
 		return ;
 	dist_proj = (SCREEN_WIDTH / 2) / tan(FOV / 2);
 	wall_height = (TILE_SIZE / ray) * dist_proj;
+	if (ray < 0.00001)
+		ray = 0.00001;
 	start = (SCREEN_HEIGHT / 2) - (wall_height / 2);
 	if (start < 0)
 		start = 0;
