@@ -50,11 +50,12 @@ $(OBJ_DIR)/%.o: %.c
 clean:
 	rm -rf $(OBJ_DIR)
 	make -C libft clean
+    make -C minilibx-linux clean
 
 fclean: clean
 	rm -f $(NAME)
 	make -C libft fclean
-	make -C minilibx-linux
+	make -C minilibx-linux fclean
 
 re: fclean all
 

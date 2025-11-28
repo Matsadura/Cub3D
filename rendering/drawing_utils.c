@@ -14,7 +14,7 @@
 
 /**
  * my_mlx_pixel_put - Safely draws a pixel to the in-memory image buffer.
- * @data: The main data structur.
+ * @data: The main data structure.
  * @x: The x-coordinate (horizontal) of the pixel.
  * @y: The y-coordinate (vertical) of the pixel.
  * @color: The integer value of the color to draw (e.g., 0x00RRGGBB).

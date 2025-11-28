@@ -171,7 +171,6 @@ int				choose_color(char **map, int x, int y);
 int				handle_key_release(int keycode, t_data *data);
 void			window(t_data *data);
 void			dda_algo(t_data *data);
-void			get_coord(t_data *data);
 void			data_init(t_data *data);
 void			draw_player(t_data *data);
 void			setup_image(t_data *data);
@@ -197,6 +196,7 @@ void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void			add_padding(double target, double player_coord,
 					double *padding);
 double			calc_distance(t_data *data);
+double			normalize_angle(double angle);
 double			cast_ray(double ray_angle, t_data *data);
 double			v_intersection(double ray_angle, t_data *data);
 double			h_intersection(double ray_angle, t_data *data);

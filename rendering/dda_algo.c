@@ -41,15 +41,3 @@ void	dda_algo(t_data *data)
 	}
 }
 
-/**
- * get_coord - Calculates the end-point coordinates for
- * the player's direction line.
- * @data: The main data structure.
- */
-// void	get_coord(t_data *data)
-// {
-// 	if (data == NULL)
-// 		return ;
-// 	data->coord.x_l = (data->config.delta_x * LINE_LEN) + data->config.player_x;
-// 	data->coord.y_l = (data->config.delta_y * LINE_LEN) + data->config.player_y;
-// }
