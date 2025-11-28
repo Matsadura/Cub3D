@@ -40,4 +40,3 @@ void	dda_algo(t_data *data)
 		i++;
 	}
 }
-

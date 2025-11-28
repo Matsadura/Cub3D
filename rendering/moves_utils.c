@@ -89,7 +89,7 @@ void	validate_move_x(t_data *data, double new_x)
 	map_y = (int)data->config.player_y / TILE_SIZE;
 	if (map_x >= 0 && map_x < data->config.map_width && map_y >= 0
 		&& map_y < data->config.map_height
-		&&  data->config.map[map_y][map_x] != '1'
+		&& data->config.map[map_y][map_x] != '1'
 		&& data->config.map[map_y][map_x] != ' ')
 		data->config.player_x = new_x;
 }
@@ -113,7 +113,7 @@ void	validate_move_y(t_data *data, double new_y)
 	map_y = (int)(new_y + padding) / TILE_SIZE;
 	if (map_x >= 0 && map_x < data->config.map_width
 		&& map_y >= 0 && map_y < data->config.map_height
-		&&  data->config.map[map_y][map_x] != '1'
+		&& data->config.map[map_y][map_x] != '1'
 		&& data->config.map[map_y][map_x] != ' ')
 		data->config.player_y = new_y;
 }
