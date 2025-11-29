@@ -31,20 +31,31 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 }
 
 /**
+ * rgb_to_hex - Converts RGB color components to a single integer.
+ * @color: An array containing the red, green, and blue components.
+ * Returns: The combined integer color value.
+ */
+int	rgb_to_hex(int *color)
+{
+	return ((color[0] << 16) | (color[1] << 8) | color[2]);
+}
+
+/**
  * choose_color - Chooses a color based on the map tile character.
  * @map: The map of the game.
  * @x: The row index to check.
  * @y: The column index to check.
  */
-int	choose_color(char **map, int x, int y)
+int	choose_color(t_data *data, int x, int y)
 {
-	if (map == NULL || *map == NULL)
+	if (data == NULL || data->config.map == NULL)
 		return (FALSE);
-	if (map[y][x] == '1')
-		return (RED);
-	else if (map[y][x] == '0' || map[y][x] == 'S' || map[y][x] == 'N'
-			|| map[y][x] == 'W' || map[y][x] == 'E')
-		return (WHITE);
+	if (data->config.map[y][x] == '1')
+		return (rgb_to_hex(data->config.ceiling_color));
+	else if (data->config.map[y][x] == '0' || data->config.map[y][x] == 'S'
+			|| data->config.map[y][x] == 'N' || data->config.map[y][x] == 'W'
+			|| data->config.map[y][x] == 'E')
+		return (rgb_to_hex(data->config.floor_color));
 	else
 		return (BLACK);
 }

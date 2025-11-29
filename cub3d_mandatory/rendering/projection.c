@@ -59,7 +59,8 @@ void	draw_ceiling(t_data *data, int wall_start, int x)
 	start = 0;
 	while (start < wall_start)
 	{
-		my_mlx_pixel_put(data, x, start, BLUE);
+		my_mlx_pixel_put(data, x, start,
+			rgb_to_hex(data->config.ceiling_color));
 		start++;
 	}
 }
@@ -76,7 +77,8 @@ void	draw_floor(t_data *data, int wall_end, int x)
 		return ;
 	while (wall_end < SCREEN_HEIGHT)
 	{
-		my_mlx_pixel_put(data, x, wall_end, BROWN);
+		my_mlx_pixel_put(data, x, wall_end,
+			rgb_to_hex(data->config.floor_color));
 		wall_end++;
 	}
 }

@@ -29,7 +29,7 @@ void	render_2dmap(t_data *data)
 		x_weight = 0;
 		while (x_weight < data->config.map_width)
 		{
-			color_pixels(data, choose_color(data->config.map, x_weight,
+			color_pixels(data, choose_color(data, x_weight,
 					y_height), x_weight, y_height);
 			x_weight++;
 		}

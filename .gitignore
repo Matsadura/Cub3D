@@ -1,8 +1,8 @@
-1
+**/1
 *.out
 **/**.o
-objects
-cub3d
+**/objects
+**/cub3d
 .vscode
 **/**.a
-minilibx-linux
+**/minilibx-linux
