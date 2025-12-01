@@ -48,12 +48,12 @@
 # define FOV 1.047197551
 # define MINIMAP_SCALE 2
 # define MINIMAP_LINE_LEN 50
-# define X_START_POINT (TILE_SIZE / 2)
-# define Y_START_POINT (SCREEN_HEIGHT / 17)
-# define MINIMAP_SIZE (SCREEN_HEIGHT / 4)
-# define MINIMAP_RADIUS (MINIMAP_SIZE / 2)
-# define MINIMAP_XCENTER (X_START_POINT + MINIMAP_RADIUS)
-# define MINIMAP_YCENTER (Y_START_POINT + MINIMAP_RADIUS)
+# define X_START_POINT 32
+# define Y_START_POINT 70.588235294
+# define MINIMAP_SIZE 300
+# define MINIMAP_RADIUS 150
+# define MINIMAP_XCENTER 182
+# define MINIMAP_YCENTER 220.588235294
 
 /* Main config structure */
 
@@ -177,7 +177,7 @@ int				is_facing_down(double angle);
 int				is_facing_left(double angle);
 int				is_facing_right(double angle);
 int				handle_key(int keycode, t_data *data);
-int				handle_mouse(int x, int y, t_data * data);
+int				handle_mouse(int x, int y, t_data *data);
 int				handle_key_release(int keycode, t_data *data);
 void			window(t_data *data);
 void			dda_algo(t_data *data);
