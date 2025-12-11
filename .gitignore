@@ -3,6 +3,7 @@
 **/**.o
 **/objects
 **/cub3d
+**/cub3d_bonus
 .vscode
 **/**.a
 **/minilibx-linux
