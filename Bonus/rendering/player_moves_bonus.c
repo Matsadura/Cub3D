@@ -98,20 +98,27 @@ int	handle_mouse(int x, int y, t_data *data)
 {
 	static int	old_x = -1;
 
+	//mlx_mouse_hide(data->win.mlx_ptr, data->win.win_ptr);
+	(void)y;
 	if (data == NULL)
 		return (FALSE);
-	(void)y;
 	if (old_x == -1)
 	{
+		mlx_mouse_move(data->win.mlx_ptr, data->win.win_ptr, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 		old_x = x;
 		return (TRUE);
 	}
-	if (x > old_x)
-		data->config.player_angle += ROTATION_SPEED;
-	else if (x < old_x)
-		data->config.player_angle -= ROTATION_SPEED;
-	data->config.delta_x = cos(data->config.player_angle);
-	data->config.delta_y = sin(data->config.player_angle);
-	old_x = x;
+	int mouse_pos_x = x - SCREEN_WIDTH / 2;
+	if (mouse_pos_x != 0)
+	{
+		if (x > old_x)
+			data->config.player_angle += ROTATION_SPEED;
+		else if (x < old_x)
+			data->config.player_angle -= ROTATION_SPEED;
+		data->config.delta_x = cos(data->config.player_angle);
+		data->config.delta_y = sin(data->config.player_angle);
+		old_x = x;
+		mlx_mouse_move(data->win.mlx_ptr, data->win.win_ptr, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	}
 	return (TRUE);
 }
