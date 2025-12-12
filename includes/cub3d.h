@@ -89,6 +89,17 @@ typedef struct s_img
 
 /* Main data structure */
 
+typedef struct s_tex
+{
+	void		*img;
+	char		*addr;
+	int			w;
+	int			h;
+	int			bpp;
+	int			line_length;
+	int			endian;
+}				t_tex;
+
 typedef struct s_coord
 {
 	double		ray_end_x;
@@ -99,6 +110,15 @@ typedef struct s_coord
 	double		y_step;
 	int			x_map;
 	int			y_map;
+
+	double		ray_angle;
+	double		h_hit_x;
+	double		h_hit_y;
+	double		v_hit_x;
+	double		v_hit_y;
+	double		hit_x;
+	double		hit_y;
+	int			hit_vertical;
 }				t_coord;
 
 typedef struct s_mvmnt
@@ -115,6 +135,7 @@ typedef struct s_data
 	t_img		img;
 	t_mvmnt		mvmnt;
 	t_coord		coord;
+	t_tex		tex[4];
 }				t_data;
 
 /* Parsing functions */
@@ -193,5 +214,7 @@ double			normalize_angle(double angle);
 double			cast_ray(double ray_angle, t_data *data);
 double			v_intersection(double ray_angle, t_data *data);
 double			h_intersection(double ray_angle, t_data *data);
+
+void			textures_init(t_data *data);
 
 #endif /* CUB3D_H  */
