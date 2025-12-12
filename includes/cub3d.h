@@ -203,6 +203,10 @@ int				is_facing_left(double angle);
 int				is_facing_right(double angle);
 int				handle_key(int keycode, t_data *data);
 int				rgb_to_hex(int *color);
+int				wall_mirror_tex_x(t_data *data, t_tex *tex, int tex_x);
+int				wall_tex_x(t_data *data, t_tex *tex);
+int				texture_get_pixel(t_tex *t, int x, int y);
+int				clamp_int(int v, int min, int max);
 int				handle_key_release(int keycode, t_data *data);
 void			window(t_data *data);
 void			data_init(t_data *data);
@@ -224,21 +228,19 @@ void			draw_ceiling(t_data *data, int wall_start, int x);
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void			add_padding(double target, double player_coord,
 					double *padding);
+void			textures_init(t_data *data);
+void			wall_compute(double ray, t_wallstrip *w);
 double			calc_distance(t_data *data);
 double			normalize_angle(double angle);
 double			cast_ray(double ray_angle, t_data *data);
 double			v_intersection(double ray_angle, t_data *data);
 double			h_intersection(double ray_angle, t_data *data);
+double			fix_singular_angles(double ray_angle);
+double			set_ray_hit(t_data *data, double h_dis, double v_dis);
+double			clamp_ray(double ray);
+double			wall_hit_ratio(t_data *data);
 
-void			textures_init(t_data *data);
-void	wall_compute(double ray, t_wallstrip *w);
-double	wall_hit_ratio(t_data *data);
-int		wall_mirror_tex_x(t_data *data, t_tex *tex, int tex_x);
-int		wall_tex_x(t_data *data, t_tex *tex);
-t_tex	*choose_wall_texture(t_data *data, double ray_angle);
-int		texture_get_pixel(t_tex *t, int x, int y);
-double	clamp_ray(double ray);
-int		clamp_int(int v, int min, int max);
+t_tex			*choose_wall_texture(t_data *data, double ray_angle);
 
 
 #endif /* CUB3D_H  */

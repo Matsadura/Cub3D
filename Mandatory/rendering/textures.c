@@ -80,7 +80,8 @@ int	texture_get_pixel(t_tex *t, int x, int y)
 }
 
 /**
- * choose_wall_texture - Selects the appropriate wall texture based on ray angle and hit side.
+ * choose_wall_texture - Selects the appropriate wall texture based
+ * 		on ray angle and hit side.
  * @data: The main data structure.
  * @ray_angle: The angle of the ray being cast.
  * Return: Pointer to the selected texture structure.
@@ -97,6 +98,6 @@ t_tex	*choose_wall_texture(t_data *data, double ray_angle)
 	{
 		if (is_facing_down(ray_angle))
 			return (&data->tex[NO]);
-		return (&data->tex[SO]);	
+		return (&data->tex[SO]);
 	}
 }

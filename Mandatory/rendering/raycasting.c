@@ -63,7 +63,6 @@ double	h_intersection(double ray_angle, t_data *data)
 		data->coord.y_map = (int)check_y / TILE_SIZE;
 		data->coord.x_map = (int)data->coord.x_inter / TILE_SIZE;
 	}
-
 	data->coord.h_hit_x = data->coord.x_inter;
 	data->coord.h_hit_y = data->coord.y_inter;
 	return (calc_distance(data));
@@ -119,7 +118,6 @@ double	v_intersection(double ray_angle, t_data *data)
 		data->coord.y_map = (int)data->coord.y_inter / TILE_SIZE;
 		data->coord.x_map = (int)check_x / TILE_SIZE;
 	}
-
 	data->coord.v_hit_x = data->coord.x_inter;
 	data->coord.v_hit_y = data->coord.y_inter;
 	return (calc_distance(data));
@@ -132,35 +130,13 @@ double	v_intersection(double ray_angle, t_data *data)
  */
 double	cast_ray(double ray_angle, t_data *data)
 {
-	double	final_dis;
 	double	h_dis;
 	double	v_dis;
 
 	if (data == NULL)
 		return (FALSE);
-	if (fabs(ray_angle) < 0.000001)
-		ray_angle += 0.000001;
-	if (fabs(ray_angle - PI) < 0.000001)
-		ray_angle += 0.000001;
-	if (fabs(ray_angle - (PI / 2)) < 0.000001)
-		ray_angle += 0.000001;
-	if (fabs(ray_angle - (3 * PI / 2)) < 0.000001)
-		ray_angle += 0.000001;
+	ray_angle = fix_singular_angles(ray_angle);
 	h_dis = h_intersection(ray_angle, data);
 	v_dis = v_intersection(ray_angle, data);
-	if (h_dis < v_dis)
-	{
-		final_dis = h_dis;
-		data->coord.hit_vertical = 0;
-		data->coord.hit_x = data->coord.h_hit_x;
-		data->coord.hit_y = data->coord.h_hit_y;
-	}
-	else
-	{
-		final_dis = v_dis;
-		data->coord.hit_vertical = 1;
-		data->coord.hit_x = data->coord.v_hit_x;
-		data->coord.hit_y = data->coord.v_hit_y;
-	}
-	return (final_dis);
+	return (set_ray_hit(data, h_dis, v_dis));
 }

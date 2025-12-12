@@ -5,7 +5,7 @@ INCLUDES_DIR = includes
 CFLAGS  = -Wall -Werror -Wextra -ggdb -I$(INCLUDES_DIR)
 
 SRC = Mandatory/main.c $(PARSING_SRC) $(UTILS_SRC) $(RENDERING_SRC)
-BSRC = Bonus/main.c $(PARSING_SRC_BONUS) $(UTILS_SRC_BONUS) $(RENDERING_SRC_BONUS)
+BSRC = Bonus/main_bonus.c $(PARSING_SRC_BONUS) $(UTILS_SRC_BONUS) $(RENDERING_SRC_BONUS)
 
 PARSING_SRC = Mandatory/parsing/parse_file.c \
               Mandatory/parsing/parse_file_utils.c \
@@ -20,7 +20,9 @@ RENDERING_SRC = Mandatory/rendering/init.c Mandatory/rendering/window.c \
                 Mandatory/rendering/drawing.c Mandatory/rendering/drawing_utils.c \
                 Mandatory/rendering/player_moves.c \
                 Mandatory/rendering/moves_utils.c Mandatory/rendering/clean_up.c \
-                Mandatory/rendering/raycasting.c Mandatory/rendering/raycasting_utils.c \
+                Mandatory/rendering/raycasting.c \
+                Mandatory/rendering/raycasting_utils.c \
+                Mandatory/rendering/raycasting_utils2.c \
                 Mandatory/rendering/projection.c \
                 Mandatory/rendering/projection_utils.c \
                 Mandatory/rendering/projection_utils2.c \

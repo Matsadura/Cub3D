@@ -21,11 +21,11 @@
  */
 static void	draw_wall_fallback(t_data *data, int x, int start, int end)
 {
-    int	y;
+	int	y;
 
-    y = start;
-    while (y < end)
-        my_mlx_pixel_put(data, x, y++, RED);
+	y = start;
+	while (y < end)
+		my_mlx_pixel_put(data, x, y++, RED);
 }
 
 /**
@@ -37,20 +37,20 @@ static void	draw_wall_fallback(t_data *data, int x, int start, int end)
  */
 static void	draw_wall_textured(t_data *data, t_tex *tex, int x, t_wallstrip *w)
 {
-    int	y;
-    int	tex_y;
+	int	y;
+	int	tex_y;
 
-    w->step = (double)tex->h / w->wall_height;
-    w->tex_pos = (w->start - w->wall_top) * w->step;
-    y = w->start;
-    while (y < w->end)
-    {
-        tex_y = clamp_int((int)w->tex_pos, 0, tex->h - 1);
-        my_mlx_pixel_put(data, x, y,
-            texture_get_pixel(tex, w->tex_x, tex_y));
-        w->tex_pos += w->step;
-        y++;
-    }
+	w->step = (double)tex->h / w->wall_height;
+	w->tex_pos = (w->start - w->wall_top) * w->step;
+	y = w->start;
+	while (y < w->end)
+	{
+		tex_y = clamp_int((int)w->tex_pos, 0, tex->h - 1);
+		my_mlx_pixel_put(data, x, y,
+			texture_get_pixel(tex, w->tex_x, tex_y));
+		w->tex_pos += w->step;
+		y++;
+	}
 }
 
 /**
@@ -61,22 +61,22 @@ static void	draw_wall_textured(t_data *data, t_tex *tex, int x, t_wallstrip *w)
  */
 void	draw_wall(t_data *data, double ray, int x)
 {
-    t_wallstrip	w;
-    t_tex		*tex;
+	t_wallstrip	w;
+	t_tex		*tex;
 
-    if (data == NULL)
-        return ;
-    wall_compute(ray, &w);
-    draw_ceiling(data, w.start, x);
-    tex = choose_wall_texture(data, data->coord.ray_angle);
-    if (!tex || !tex->addr || tex->w <= 0 || tex->h <= 0)
-        draw_wall_fallback(data, x, w.start, w.end);
-    else
-    {
-        w.tex_x = wall_tex_x(data, tex);
-        draw_wall_textured(data, tex, x, &w);
-    }
-    draw_floor(data, w.end, x);
+	if (data == NULL)
+		return ;
+	wall_compute(ray, &w);
+	draw_ceiling(data, w.start, x);
+	tex = choose_wall_texture(data, data->coord.ray_angle);
+	if (!tex || !tex->addr || tex->w <= 0 || tex->h <= 0)
+		draw_wall_fallback(data, x, w.start, w.end);
+	else
+	{
+		w.tex_x = wall_tex_x(data, tex);
+		draw_wall_textured(data, tex, x, &w);
+	}
+	draw_floor(data, w.end, x);
 }
 
 /**

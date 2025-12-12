@@ -21,11 +21,11 @@
  */
 int	clamp_int(int v, int min, int max)
 {
-    if (v < min)
-        return (min);
-    if (v > max)
-        return (max);
-    return (v);
+	if (v < min)
+		return (min);
+	if (v > max)
+		return (max);
+	return (v);
 }
 
 /**
@@ -35,7 +35,7 @@ int	clamp_int(int v, int min, int max)
  */
 double	clamp_ray(double ray)
 {
-    if (ray < 0.00001)
-        return (0.00001);
-    return (ray);
+	if (ray < 0.00001)
+		return (0.00001);
+	return (ray);
 }

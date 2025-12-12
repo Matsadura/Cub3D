@@ -19,18 +19,18 @@
  */
 void	wall_compute(double ray, t_wallstrip *w)
 {
-    double	dist_proj;
+	double	dist_proj;
 
-    ray = clamp_ray(ray);
-    dist_proj = (SCREEN_WIDTH / 2) / tan(FOV / 2);
-    w->wall_height = (TILE_SIZE / ray) * dist_proj;
-    w->wall_top = (SCREEN_HEIGHT / 2) - (w->wall_height / 2);
-    w->start = (int)w->wall_top;
-    if (w->start < 0)
-        w->start = 0;
-    w->end = (SCREEN_HEIGHT / 2) + (w->wall_height / 2);
-    if (w->end >= SCREEN_HEIGHT)
-        w->end = SCREEN_HEIGHT - 1;
+	ray = clamp_ray(ray);
+	dist_proj = (SCREEN_WIDTH / 2) / tan(FOV / 2);
+	w->wall_height = (TILE_SIZE / ray) * dist_proj;
+	w->wall_top = (SCREEN_HEIGHT / 2) - (w->wall_height / 2);
+	w->start = (int)w->wall_top;
+	if (w->start < 0)
+		w->start = 0;
+	w->end = (SCREEN_HEIGHT / 2) + (w->wall_height / 2);
+	if (w->end >= SCREEN_HEIGHT)
+		w->end = SCREEN_HEIGHT - 1;
 }
 
 /**
@@ -40,19 +40,20 @@ void	wall_compute(double ray, t_wallstrip *w)
  */
 double	wall_hit_ratio(t_data *data)
 {
-    double	wallx01;
+	double	wallx01;
 
-    if (data->coord.hit_vertical)
-        wallx01 = fmod(data->coord.hit_y, TILE_SIZE) / (double)TILE_SIZE;
-    else
-        wallx01 = fmod(data->coord.hit_x, TILE_SIZE) / (double)TILE_SIZE;
-    if (wallx01 < 0)
-        wallx01 += 1.0;
-    return (wallx01);
+	if (data->coord.hit_vertical)
+		wallx01 = fmod(data->coord.hit_y, TILE_SIZE) / (double)TILE_SIZE;
+	else
+		wallx01 = fmod(data->coord.hit_x, TILE_SIZE) / (double)TILE_SIZE;
+	if (wallx01 < 0)
+		wallx01 += 1.0;
+	return (wallx01);
 }
 
 /**
- * wall_mirror_tex_x - Adjusts texture x-coordinate for mirroring based on wall side.
+ * wall_mirror_tex_x - Adjusts texture x-coordinate
+ * 		for mirroring based on wall side.
  * @data: The main data structure.
  * @tex: Pointer to the texture structure.
  * @tex_x: The original texture x-coordinate.
@@ -60,11 +61,11 @@ double	wall_hit_ratio(t_data *data)
  */
 int	wall_mirror_tex_x(t_data *data, t_tex *tex, int tex_x)
 {
-    if (data->coord.hit_vertical && is_facing_right(data->coord.ray_angle))
-        return (tex->w - tex_x - 1);
-    if (!data->coord.hit_vertical && is_facing_up(data->coord.ray_angle))
-        return (tex->w - tex_x - 1);
-    return (tex_x);
+	if (data->coord.hit_vertical && is_facing_right(data->coord.ray_angle))
+		return (tex->w - tex_x - 1);
+	if (!data->coord.hit_vertical && is_facing_up(data->coord.ray_angle))
+		return (tex->w - tex_x - 1);
+	return (tex_x);
 }
 
 /**
@@ -75,11 +76,11 @@ int	wall_mirror_tex_x(t_data *data, t_tex *tex, int tex_x)
  */
 int	wall_tex_x(t_data *data, t_tex *tex)
 {
-    double	wallx01;
-    int		tex_x;
+	double	wallx01;
+	int		tex_x;
 
-    wallx01 = wall_hit_ratio(data);
-    tex_x = (int)(wallx01 * (double)tex->w);
-    tex_x = clamp_int(tex_x, 0, tex->w - 1);
-    return (wall_mirror_tex_x(data, tex, tex_x));
+	wallx01 = wall_hit_ratio(data);
+	tex_x = (int)(wallx01 * (double)tex->w);
+	tex_x = clamp_int(tex_x, 0, tex->w - 1);
+	return (wall_mirror_tex_x(data, tex, tex_x));
 }
