@@ -62,7 +62,6 @@ int	main(int ac, char **av)
 	read_file(config.fd, &config);
 	parse_textures_colors(&config);
 	parse_map_lines(&config);
-	print_array(config.map);
 	data.config = config;
 	data_init(&data);
 	window(&data);

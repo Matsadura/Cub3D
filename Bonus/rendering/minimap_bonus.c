@@ -57,11 +57,11 @@ void	render_minimap_helper(t_data *data, int x, int y)
 					* MINIMAP_SCALE)) / TILE_SIZE;
 		y_map = (data->config.player_y + ((y - MINIMAP_YCENTER)
 					* MINIMAP_SCALE)) / TILE_SIZE;
-		color = WHITE;
+		color = 0x1C1C1C;
 		if (y_map >= 0 && y_map < data->config.map_height
 			&& x_map >= 0 && x_map < data->config.map_width)
 			if (data->config.map[y_map][x_map] == '1')
-				color = BLACK;
+				color = 0xDEB887;
 		my_mlx_pixel_put(data, x, y, color);
 	}
 }
@@ -114,7 +114,7 @@ void	render_player(t_data *data)
 		{
 			if (pow((x - x_center), 2) + pow((y - y_center), 2)
 				< pow(radius, 2))
-				my_mlx_pixel_put(data, x, y, RED);
+				my_mlx_pixel_put(data, x, y, 0x00FFFF);
 			x++;
 		}
 		y++;

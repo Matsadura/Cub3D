@@ -5,13 +5,12 @@ NO      textures/no.xpm
 
 SO textures/so.xpm
 
-F      17,    38,     64
+F      160,    120,     80
 
 EA textures/ea.xpm
 
 
-
-C 218, 234, 235
+C 220, 230, 240
 
 1111111111111111111111111
 10S0110000100000000000001

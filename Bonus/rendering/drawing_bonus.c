@@ -80,6 +80,5 @@ void	draw_rays_2d(t_data *data)
 	}
 	minimap_base(data);
 	render_minimap(data);
-	draw_minimap_fov(data);
 	render_player(data);
 }
