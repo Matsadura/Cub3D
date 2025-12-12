@@ -54,6 +54,10 @@
 # define MINIMAP_RADIUS 150
 # define MINIMAP_XCENTER 182
 # define MINIMAP_YCENTER 220.588235294
+# define NO 0
+# define SO 1
+# define WE 2
+# define EA 3
 
 /* Main config structure */
 
@@ -97,6 +101,17 @@ typedef struct s_img
 	int			endian;
 }				t_img;
 
+typedef struct s_tex
+{
+	void		*img;
+	char		*addr;
+	int			w;
+	int			h;
+	int			bpp;
+	int			line_length;
+	int			endian;
+}				t_tex;
+
 /* Main data structure */
 
 typedef struct s_coord
@@ -109,6 +124,15 @@ typedef struct s_coord
 	double		y_step;
 	int			x_map;
 	int			y_map;
+
+	double		ray_angle;
+	double		h_hit_x;
+	double		h_hit_y;
+	double		v_hit_x;
+	double		v_hit_y;
+	double		hit_x;
+	double		hit_y;
+	int			hit_vertical;
 }				t_coord;
 
 typedef struct s_mvmnt
@@ -125,7 +149,19 @@ typedef struct s_data
 	t_img		img;
 	t_mvmnt		mvmnt;
 	t_coord		coord;
+	t_tex		tex[4];
 }				t_data;
+
+typedef struct s_wallstrip
+{
+    int			start;
+    int			end;
+    double		wall_height;
+    double		wall_top;
+    double		step;
+    double		tex_pos;
+    int			tex_x;
+}	t_wallstrip;
 
 /* Parsing functions */
 
@@ -209,5 +245,20 @@ double			normalize_angle(double angle);
 double			cast_ray(double ray_angle, t_data *data);
 double			v_intersection(double ray_angle, t_data *data);
 double			h_intersection(double ray_angle, t_data *data);
+
+/* Textures functions */
+void			textures_init(t_data *data);
+int				texture_get_pixel(t_tex *t, int x, int y);
+t_tex			*choose_wall_texture(t_data *data, double ray_angle);
+double			fix_singular_angles(double ray_angle);
+double			set_ray_hit(t_data *data, double h_dis, double v_dis);
+int				wall_tex_x(t_data *data, t_tex *tex);
+void			wall_compute(double ray, t_wallstrip *w);
+int				clamp_int(int v, int min, int max);
+double			clamp_ray(double ray);
+
+
+
+
 
 #endif /* CUB3D_BONUS_H  */

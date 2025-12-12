@@ -24,6 +24,14 @@ void	cleanup_and_exit(t_config *config, t_data *data)
 	free(config->so_path);
 	free(config->we_path);
 	free(config->ea_path);
+	if (data->tex[NO].img != NULL && data->win.mlx_ptr != NULL)
+		mlx_destroy_image(data->win.mlx_ptr, data->tex[NO].img);
+	if (data->tex[SO].img != NULL && data->win.mlx_ptr != NULL)
+		mlx_destroy_image(data->win.mlx_ptr, data->tex[SO].img);
+	if (data->tex[WE].img != NULL && data->win.mlx_ptr != NULL)
+		mlx_destroy_image(data->win.mlx_ptr, data->tex[WE].img);
+	if (data->tex[EA].img != NULL && data->win.mlx_ptr != NULL)
+		mlx_destroy_image(data->win.mlx_ptr, data->tex[EA].img);
 	if (data->win.mlx_ptr != NULL && data->img.img != NULL)
 		mlx_destroy_image(data->win.mlx_ptr, data->img.img);
 	if (data->win.mlx_ptr != NULL && data->win.win_ptr != NULL)

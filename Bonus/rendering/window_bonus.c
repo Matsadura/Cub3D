@@ -19,6 +19,7 @@
 void	window(t_data *data)
 {
 	setup_window(data);
+	textures_init(data);
 	setup_image(data);
 	draw_rays_2d(data);
 	mlx_put_image_to_window(data->win.mlx_ptr, data->win.win_ptr, data->img.img,

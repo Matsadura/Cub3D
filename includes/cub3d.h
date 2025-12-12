@@ -91,8 +91,6 @@ typedef struct s_img
 	int			endian;
 }				t_img;
 
-/* Main data structure */
-
 typedef struct s_tex
 {
 	void		*img;
@@ -103,6 +101,8 @@ typedef struct s_tex
 	int			line_length;
 	int			endian;
 }				t_tex;
+
+/* Main data structure */
 
 typedef struct s_coord
 {
