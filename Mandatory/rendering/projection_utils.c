@@ -61,9 +61,9 @@ double	wall_hit_ratio(t_data *data)
  */
 int	wall_mirror_tex_x(t_data *data, t_tex *tex, int tex_x)
 {
-	if (data->coord.hit_vertical && is_facing_right(data->coord.ray_angle))
+	if (data->coord.hit_vertical && is_facing_left(data->coord.ray_angle))
 		return (tex->w - tex_x - 1);
-	if (!data->coord.hit_vertical && is_facing_up(data->coord.ray_angle))
+	if (!data->coord.hit_vertical && is_facing_down(data->coord.ray_angle))
 		return (tex->w - tex_x - 1);
 	return (tex_x);
 }
