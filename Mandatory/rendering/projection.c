@@ -13,6 +13,47 @@
 #include "cub3d.h"
 
 /**
+ * draw_wall_fallback - Draws a fallback wall strip in red if texture is missing.
+ * @data: The main data structure.
+ * @x: The current screen column.
+ * @start: The starting y-coordinate of the wall strip.
+ * @end: The ending y-coordinate of the wall strip.
+ */
+static void	draw_wall_fallback(t_data *data, int x, int start, int end)
+{
+    int	y;
+
+    y = start;
+    while (y < end)
+        my_mlx_pixel_put(data, x, y++, RED);
+}
+
+/**
+ * draw_wall_textured - Draws a textured wall strip.
+ * @data: The main data structure.
+ * @tex: Pointer to the texture structure.
+ * @x: The current screen column.
+ * @w: Pointer to the wall strip structure containing drawing parameters.
+ */
+static void	draw_wall_textured(t_data *data, t_tex *tex, int x, t_wallstrip *w)
+{
+    int	y;
+    int	tex_y;
+
+    w->step = (double)tex->h / w->wall_height;
+    w->tex_pos = (w->start - w->wall_top) * w->step;
+    y = w->start;
+    while (y < w->end)
+    {
+        tex_y = clamp_int((int)w->tex_pos, 0, tex->h - 1);
+        my_mlx_pixel_put(data, x, y,
+            texture_get_pixel(tex, w->tex_x, tex_y));
+        w->tex_pos += w->step;
+        y++;
+    }
+}
+
+/**
  * draw_wall - Calculates wall height and draws a vertical strip for the 3D view.
  * @data: The main data structure.
  * @ray: The corrected distance to the wall.
@@ -20,28 +61,22 @@
  */
 void	draw_wall(t_data *data, double ray, int x)
 {
-	int (y), (start), (end);
-	double (dist_proj), (wall_height);
-	if (data == NULL)
-		return ;
-	dist_proj = (SCREEN_WIDTH / 2) / tan(FOV / 2);
-	if (ray < 0.00001)
-		ray = 0.00001;
-	wall_height = (TILE_SIZE / ray) * dist_proj;
-	start = (SCREEN_HEIGHT / 2) - (wall_height / 2);
-	if (start < 0)
-		start = 0;
-	end = (SCREEN_HEIGHT / 2) + (wall_height / 2);
-	if (end >= SCREEN_HEIGHT)
-		end = SCREEN_HEIGHT - 1;
-	y = start;
-	while (y < end)
-	{
-		my_mlx_pixel_put(data, x, y, RED);
-		y++;
-	}
-	draw_ceiling(data, start, x);
-	draw_floor(data, end, x);
+    t_wallstrip	w;
+    t_tex		*tex;
+
+    if (data == NULL)
+        return ;
+    wall_compute(ray, &w);
+    draw_ceiling(data, w.start, x);
+    tex = choose_wall_texture(data, data->coord.ray_angle);
+    if (!tex || !tex->addr || tex->w <= 0 || tex->h <= 0)
+        draw_wall_fallback(data, x, w.start, w.end);
+    else
+    {
+        w.tex_x = wall_tex_x(data, tex);
+        draw_wall_textured(data, tex, x, &w);
+    }
+    draw_floor(data, w.end, x);
 }
 
 /**

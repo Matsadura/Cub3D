@@ -41,6 +41,9 @@ void	draw_rays_2d(t_data *data)
 	while (i < SCREEN_WIDTH)
 	{
 		ray_angle = normalize_angle(ray_angle);
+
+		data->coord.ray_angle = ray_angle;
+
 		line_len = cast_ray(ray_angle, data);
 		line_len = line_len * cos(ray_angle - data->config.player_angle);
 		draw_wall(data, line_len, i);

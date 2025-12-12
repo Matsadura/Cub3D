@@ -44,6 +44,10 @@
 # define SCREEN_WIDTH 1900
 # define SCREEN_HEIGHT 1200
 # define FOV 1.047197551
+# define NO 0
+# define SO 1
+# define WE 2
+# define EA 3
 
 /* Main config structure */
 
@@ -138,6 +142,17 @@ typedef struct s_data
 	t_tex		tex[4];
 }				t_data;
 
+typedef struct s_wallstrip
+{
+    int			start;
+    int			end;
+    double		wall_height;
+    double		wall_top;
+    double		step;
+    double		tex_pos;
+    int			tex_x;
+}	t_wallstrip;
+
 /* Parsing functions */
 
 int				is_file_ext(char *filepath, char *ext);
@@ -216,5 +231,14 @@ double			v_intersection(double ray_angle, t_data *data);
 double			h_intersection(double ray_angle, t_data *data);
 
 void			textures_init(t_data *data);
+void	wall_compute(double ray, t_wallstrip *w);
+double	wall_hit_ratio(t_data *data);
+int		wall_mirror_tex_x(t_data *data, t_tex *tex, int tex_x);
+int		wall_tex_x(t_data *data, t_tex *tex);
+t_tex	*choose_wall_texture(t_data *data, double ray_angle);
+int		texture_get_pixel(t_tex *t, int x, int y);
+double	clamp_ray(double ray);
+int		clamp_int(int v, int min, int max);
+
 
 #endif /* CUB3D_H  */

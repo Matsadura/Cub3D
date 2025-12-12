@@ -22,6 +22,9 @@ RENDERING_SRC = Mandatory/rendering/init.c Mandatory/rendering/window.c \
                 Mandatory/rendering/moves_utils.c Mandatory/rendering/clean_up.c \
                 Mandatory/rendering/raycasting.c Mandatory/rendering/raycasting_utils.c \
                 Mandatory/rendering/projection.c \
+                Mandatory/rendering/projection_utils.c \
+                Mandatory/rendering/projection_utils2.c \
+                Mandatory/rendering/textures.c
 
 UTILS_SRC = Mandatory/utils/arrays.c \
             Mandatory/utils/extras.c \
