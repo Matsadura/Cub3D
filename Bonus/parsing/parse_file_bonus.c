@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /**
  * is_file_ext - Checks if the file is a .cub
@@ -31,6 +31,24 @@ int	is_file_ext(char *filepath, char *ext)
 		return (FALSE);
 	if (ft_strcmp(filepath + len_f - len_e, ext) != 0)
 		return (FALSE);
+	return (TRUE);
+}
+
+/**
+ * is_file_exist - Checks if a file exists and is accessible
+ * @filepath: The path of the file to check
+ * Return: True if the file exists, otherwise False.
+ */
+int	is_file_exist(char *filepath)
+{
+	int	fd;
+
+	if (filepath == NULL)
+		return (FALSE);
+	fd = open(filepath, O_RDONLY);
+	if (fd < 0)
+		return (FALSE);
+	close(fd);
 	return (TRUE);
 }
 

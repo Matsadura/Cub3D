@@ -35,6 +35,24 @@ int	is_file_ext(char *filepath, char *ext)
 }
 
 /**
+ * is_file_exist - Checks if a file exists and is accessible
+ * @filepath: The path of the file to check
+ * Return: True if the file exists, otherwise False.
+ */
+int	is_file_exist(char *filepath)
+{
+	int	fd;
+
+	if (filepath == NULL)
+		return (FALSE);
+	fd = open(filepath, O_RDONLY);
+	if (fd < 0)
+		return (FALSE);
+	close(fd);
+	return (TRUE);
+}
+
+/**
  * open_map - Opens a file map
  * @file_name: The map's name
  * Return: The map's file descriptor

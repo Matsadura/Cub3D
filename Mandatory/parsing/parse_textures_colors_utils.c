@@ -65,6 +65,13 @@ void	check_texture_paths(t_config *config)
 		error_and_exit(
 			"One or more texture paths have invalid file extensions",
 			config);
+	if (is_file_exist(config->no_path) == FALSE
+		|| is_file_exist(config->so_path) == FALSE
+		|| is_file_exist(config->we_path) == FALSE
+		|| is_file_exist(config->ea_path) == FALSE)
+		error_and_exit(
+			"One or more texture files do not exist or are inaccessible",
+			config);
 }
 
 /**

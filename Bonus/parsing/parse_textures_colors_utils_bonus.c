@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /**
  * all_elements_found - Checks if all required elements have been found
@@ -64,6 +64,13 @@ void	check_texture_paths(t_config *config)
 		|| is_file_ext(config->ea_path, ".xpm") == FALSE)
 		error_and_exit(
 			"One or more texture paths have invalid file extensions",
+			config);
+	if (is_file_exist(config->no_path) == FALSE
+		|| is_file_exist(config->so_path) == FALSE
+		|| is_file_exist(config->we_path) == FALSE
+		|| is_file_exist(config->ea_path) == FALSE)
+		error_and_exit(
+			"One or more texture files do not exist or are inaccessible",
 			config);
 }
 

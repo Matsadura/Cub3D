@@ -154,17 +154,18 @@ typedef struct s_data
 
 typedef struct s_wallstrip
 {
-    int			start;
-    int			end;
-    double		wall_height;
-    double		wall_top;
-    double		step;
-    double		tex_pos;
-    int			tex_x;
+	int			start;
+	int			end;
+	double		wall_height;
+	double		wall_top;
+	double		step;
+	double		tex_pos;
+	int			tex_x;
 }	t_wallstrip;
 
 /* Parsing functions */
 
+int				is_file_exist(char *filepath);
 int				is_file_ext(char *filepath, char *ext);
 int				open_file(char *file_name);
 char			**read_file(int fd, t_config *config);
@@ -256,9 +257,5 @@ int				wall_tex_x(t_data *data, t_tex *tex);
 void			wall_compute(double ray, t_wallstrip *w);
 int				clamp_int(int v, int min, int max);
 double			clamp_ray(double ray);
-
-
-
-
 
 #endif /* CUB3D_BONUS_H  */
