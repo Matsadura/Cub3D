@@ -90,14 +90,14 @@ t_tex	*choose_wall_texture(t_data *data, double ray_angle)
 {
 	if (data->coord.hit_vertical == 1)
 	{
-		if (is_facing_right(ray_angle))
+		if (is_facing_left(ray_angle))
 			return (&data->tex[WE]);
 		return (&data->tex[EA]);
 	}
 	else
 	{
 		if (is_facing_down(ray_angle))
-			return (&data->tex[NO]);
-		return (&data->tex[SO]);
+			return (&data->tex[SO]);
+		return (&data->tex[NO]);
 	}
 }
