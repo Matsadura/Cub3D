@@ -56,6 +56,7 @@ RENDERING_SRC_BONUS = Bonus/rendering/init_bonus.c \
 				Bonus/rendering/projection_utils_bonus.c \
 				Bonus/rendering/projection_utils2_bonus.c \
 				Bonus/rendering/textures_bonus.c \
+				Bonus/rendering/textures_bonus_utils.c \
 				Bonus/rendering/minimap_bonus.c
 
 UTILS_SRC_BONUS = Bonus/utils/arrays_bonus.c \

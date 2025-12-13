@@ -18,6 +18,7 @@
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
 
 /* Macros */
 
@@ -149,7 +150,7 @@ typedef struct s_data
 	t_img		img;
 	t_mvmnt		mvmnt;
 	t_coord		coord;
-	t_tex		tex[4];
+	t_tex		tex[23];
 }				t_data;
 
 typedef struct s_wallstrip
@@ -257,5 +258,7 @@ int				wall_tex_x(t_data *data, t_tex *tex);
 void			wall_compute(double ray, t_wallstrip *w);
 int				clamp_int(int v, int min, int max);
 double			clamp_ray(double ray);
+void			init_texture_paths(char ***paths);
+void			draw_gun_texture(t_data *data);
 
 #endif /* CUB3D_BONUS_H  */

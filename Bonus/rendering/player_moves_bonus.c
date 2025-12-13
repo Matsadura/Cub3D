@@ -24,6 +24,7 @@ int	game_loop(t_data *data)
 	walk_player(data);
 	turn_player(data);
 	draw_rays_2d(data);
+	draw_gun_texture(data);
 	mlx_put_image_to_window(data->win.mlx_ptr, data->win.win_ptr, data->img.img,
 		0, 0);
 	return (0);

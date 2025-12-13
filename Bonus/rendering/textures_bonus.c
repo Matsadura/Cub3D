@@ -53,12 +53,22 @@ static void	load_texture(t_data *data, t_tex *t, char *path)
  */
 void	textures_init(t_data *data)
 {
+	char	**paths;
+	int		i;
+
 	if (data == NULL)
 		return ;
 	load_texture(data, &data->tex[NO], data->config.no_path);
 	load_texture(data, &data->tex[SO], data->config.so_path);
 	load_texture(data, &data->tex[WE], data->config.we_path);
 	load_texture(data, &data->tex[EA], data->config.ea_path);
+	init_texture_paths(&paths);
+	i = 0;
+	while (i < 19)
+	{
+		load_texture(data, &data->tex[4 + i], paths[i]);
+		i++;
+	}
 }
 
 /**
