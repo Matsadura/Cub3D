@@ -13,3 +13,6 @@
 
 # Editors / local
 .vscode/
+
+# Browser automation output
+.playwright-mcp/

@@ -1,0 +1,47 @@
+name: Deploy web build to GitHub Pages
+
+# Publishes the WebAssembly build (not the README) from this branch.
+# Requires Settings -> Pages -> Source: "GitHub Actions", and this branch
+# allowed under Settings -> Environments -> github-pages -> Deployment branches.
+on:
+  push:
+    branches: [refactor/horror-maze]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 7.0.0
+      - name: Build WebAssembly
+        run: make wasm
+      - name: Collect site
+        run: |
+          mkdir -p site
+          cp web/index.html web/index.js web/index.wasm web/index.data site/
+          touch site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

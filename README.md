@@ -5,6 +5,18 @@ inspired by Wolfenstein 3D). Find every key, reach the exit door, and stay
 out of the stalkers' sight. Your flashlight is your only light, and it is
 also what gives you away.
 
+**[Play it in your browser](https://matsadura.github.io/Cub3D/)** (keyboard
+and mouse, or touch controls on phones and tablets).
+
+| | |
+|---|---|
+| ![Title screen](docs/screenshots/title.png) | ![A stalker heard you](docs/screenshots/chase.png) |
+| ![A key and a battery in front of the exit](docs/screenshots/key.png) | ![The exit door](docs/screenshots/door.png) |
+
+Written in C11 with SDL2 (no game engine): a software raycaster with
+flashlight lighting, billboard sprites, a software audio mixer, and the same
+code compiled natively and to WebAssembly.
+
 ## How to play
 
 - **Find the keys** (`KEYS 0/3` top right), then reach the green **EXIT**
@@ -36,6 +48,27 @@ make
 ./cub3D path/to/map.cub      # your own map(s), played in order
 ./cub3D --check map.cub      # validate maps without opening a window
 ```
+
+## Web build
+
+```bash
+source ~/emsdk/emsdk_env.sh      # Emscripten 7.0.0
+make wasm                        # web/index.{html,js,wasm,data}
+python3 -m http.server 8000 -d web
+```
+
+In the browser, click the game to look around with the mouse (Esc releases
+it and pauses). On touch screens a stick moves, dragging on the game looks
+around, and RUN / LIGHT / MAP / OK buttons sit beside it; Fullscreen works
+on phones too (with a CSS fallback where the Fullscreen API is missing).
+The best time and mute setting are kept in `localStorage`.
+
+**Deployment:** `.github/workflows/pages.yml` builds and publishes the web
+version from the `refactor/horror-maze` branch. One-time repository setup:
+Settings -> Pages -> Source: *GitHub Actions*, and Settings -> Environments
+-> `github-pages` -> Deployment branches: allow `refactor/horror-maze`.
+`.github/workflows/ci.yml` builds and tests natively (plus Valgrind) and
+builds the WebAssembly version on every push.
 
 ## Map format
 

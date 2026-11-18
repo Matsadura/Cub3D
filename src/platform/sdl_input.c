@@ -1,5 +1,15 @@
 #include "sdl_internal.h"
 
+#ifdef __EMSCRIPTEN__
+# include <emscripten.h>
+
+/* The page requests pointer lock on click (it must happen inside a user
+** gesture); mouse look is active while the canvas holds the lock. */
+EM_JS(int, js_pointer_locked, (void), {
+	return document.pointerLockElement === Module.canvas ? 1 : 0;
+});
+#endif
+
 void	input_push(t_input *in, t_action action)
 {
 	if (in->count < INPUT_MAX_ACTIONS)
@@ -24,6 +34,10 @@ bool	input_held(const t_input *in, t_action action)
 
 void	platform_capture_mouse(t_platform *p, bool on)
 {
+#ifdef __EMSCRIPTEN__
+	p->mouse_wanted = on;
+	return ;
+#endif
 	p->mouse_wanted = on;
 	p->mouse_captured = on && SDL_SetRelativeMouseMode(
 			on ? SDL_TRUE : SDL_FALSE) == 0;
@@ -94,6 +108,9 @@ void	platform_poll_input(t_platform *p, t_input *in)
 
 	in->count = 0;
 	in->mouse_dx = 0.0f;
+#ifdef __EMSCRIPTEN__
+	p->mouse_captured = js_pointer_locked() != 0;
+#endif
 	in->quit_requested = false;
 	in->targets_reset = false;
 	while (SDL_PollEvent(&ev))
@@ -104,9 +121,11 @@ void	platform_poll_input(t_platform *p, t_input *in)
 			map_key(in, ev.key.keysym.sym);
 		else if (ev.type == SDL_MOUSEMOTION && p->mouse_captured)
 			in->mouse_dx += (float)ev.motion.xrel;
+#ifndef __EMSCRIPTEN__
 		else if (ev.type == SDL_MOUSEBUTTONDOWN && p->mouse_wanted
 			&& !p->mouse_captured)
 			platform_capture_mouse(p, true);
+#endif
 		else if (ev.type == SDL_WINDOWEVENT)
 			handle_window(p, &ev);
 		else if (ev.type == SDL_RENDER_TARGETS_RESET

@@ -2,6 +2,7 @@
 #include "platform.h"
 #include "render.h"
 #include "sound.h"
+#include "web.h"
 
 #include <limits.h>
 #include <stdio.h>
@@ -235,6 +236,7 @@ static void	tick(void *arg)
 	app->game.events = 0;
 	platform_poll_input(app->platform, &in);
 	scripted_input(app, &in);
+	web_apply(&in, &app->game);
 	if (in.quit_requested || input_pressed(&in, ACT_QUIT))
 		app->running = false;
 	else
@@ -338,6 +340,7 @@ static int	start(t_app *app)
 		|| !renderer_sync(&app->renderer, &app->game))
 		return (fprintf(stderr, "Error: %s\n", app->renderer.error), 1);
 	sound_init(&app->sounds, app->platform);
+	web_init(app->platform, &app->game);
 	app->saved_best_ms = platform_load_best();
 	app->game.best_time = app->saved_best_ms / 1000.0;
 	if (app->script == NULL && app->frame_limit == 0)
