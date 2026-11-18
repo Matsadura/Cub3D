@@ -2,6 +2,8 @@
 
 #include <math.h>
 
+#define STEP_LENGTH		0.85
+
 double	normalize_angle(double a)
 {
 	a = fmod(a, 2.0 * PI_D);
@@ -24,8 +26,7 @@ void	player_spawn(t_player *pl, const t_map *m)
 		pl->angle = PI_D * 1.5;
 }
 
-/* True when a circle of PLAYER_RADIUS (as its bounding box) at (x, y)
-** overlaps no solid cell. */
+/* True when the player's bounding box at (x, y) overlaps no solid cell. */
 static bool	fits(const t_map *m, double x, double y)
 {
 	return (!map_is_solid(m, (int)floor(x - PLAYER_RADIUS),
@@ -58,13 +59,6 @@ static double	clear_step(const t_map *m, const t_player *pl, double d,
 	return (0.0);
 }
 
-/* Axis-separated so the player slides along walls instead of sticking. */
-static void	move_by(t_player *pl, const t_map *m, double dx, double dy)
-{
-	pl->x += clear_step(m, pl, dx, true);
-	pl->y += clear_step(m, pl, dy, false);
-}
-
 static void	turn(t_player *pl, const t_input *in, double dt)
 {
 	double	t;
@@ -78,23 +72,46 @@ static void	turn(t_player *pl, const t_input *in, double dt)
 			+ in->mouse_dx * MOUSE_SENS);
 }
 
-void	player_update(t_player *pl, const t_map *m, const t_input *in,
-		double dt)
+/* Footsteps: one EV_STEP per stride, louder (noise) when sprinting. */
+static void	walked(t_game *g, double dist)
 {
-	double	fwd;
-	double	side;
-	double	len;
-	double	step;
+	g->walk_dist += dist;
+	g->step_acc += dist;
+	if (dist > 0.0)
+		g->noise = g->sprinting ? NOISE_SPRINT : NOISE_WALK;
+	if (g->step_acc >= STEP_LENGTH)
+	{
+		g->step_acc -= STEP_LENGTH;
+		g->events |= EV_STEP;
+	}
+}
 
+void	player_update(t_game *g, const t_input *in, double dt)
+{
+	t_player	*pl;
+	double		fwd;
+	double		side;
+	double		len;
+	double		ox;
+
+	pl = &g->player;
 	turn(pl, in, dt);
+	g->noise = 0.0;
 	fwd = (double)input_held(in, ACT_FORWARD) - input_held(in, ACT_BACK);
 	side = (double)input_held(in, ACT_STRAFE_R) - input_held(in, ACT_STRAFE_L);
 	len = sqrt(fwd * fwd + side * side);
+	g->sprinting = g->sprinting && len > 0.0;
 	if (len == 0.0)
 		return ;
-	step = MOVE_SPEED * dt / len;
-	fwd *= step;
-	side *= step;
-	move_by(pl, m, cos(pl->angle) * fwd - sin(pl->angle) * side,
-		sin(pl->angle) * fwd + cos(pl->angle) * side);
+	len = MOVE_SPEED * (g->sprinting ? SPRINT_MULT : 1.0) * dt / len;
+	fwd *= len;
+	side *= len;
+	ox = pl->x;
+	len = pl->y;
+	pl->x += clear_step(&g->map, pl,
+			cos(pl->angle) * fwd - sin(pl->angle) * side, true);
+	pl->y += clear_step(&g->map, pl,
+			sin(pl->angle) * fwd + cos(pl->angle) * side, false);
+	walked(g, sqrt((pl->x - ox) * (pl->x - ox) + (pl->y - len) * (pl->y
+				- len)));
 }

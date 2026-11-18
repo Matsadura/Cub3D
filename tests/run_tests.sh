@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# Headless regression tests for the .cub loader and the core game loop.
+# Headless regression tests for the .cub loader, the horror-maze rules,
+# rendering and audio.
 # Usage: tests/run_tests.sh            (VALGRIND=1 to run every case under valgrind)
 set -u
 cd "$(dirname "$0")/.."
 
 BIN=./cub3D
+SUPP="$(pwd)/tests/valgrind.supp"
 export SDL_VIDEODRIVER="${SDL_VIDEODRIVER:-dummy}"
 export SDL_AUDIODRIVER=dummy
 TMP=$(mktemp -d)
@@ -17,7 +19,7 @@ run() {
 		valgrind -q --leak-check=full \
 			--errors-for-leak-kinds=definite,indirect,possible \
 			--track-fds=yes --error-exitcode=99 --num-callers=40 \
-			--suppressions=tests/valgrind.supp --gen-suppressions=all "$@"
+			--suppressions="$SUPP" --gen-suppressions=all "$@"
 	else
 		"$@"
 	fi
@@ -43,7 +45,7 @@ with open(sys.argv[1], "w") as f:
 EOF
 
 echo "== valid maps (expect OK)"
-for m in tests/maps/valid/*.cub tests/maps/valid/rel/*.cub assets/maps/*.cub \
+for m in tests/maps/valid/*.cub tests/maps/valid/rel/*.cub assets/maps/*/*.cub \
 	tests/maps/runtime/*.cub; do
 	out=$(run "$BIN" --check "$m" 2>&1); rc=$?
 	[ $rc -eq 0 ] && ok "$m" || ko "$m" "$out"
@@ -71,55 +73,99 @@ EXPECT="Error: .*not enclosed"; expect_fail "invalid map refuses to start" \
 EXPECT="Error: cannot load texture"; expect_fail "corrupt texture fails cleanly" \
 	--frames 2 tests/maps/runtime/corrupt_texture.cub
 
-echo "== gameplay (scripted input, dummy video driver, fixed steps)"
-# Keys: w/s forward/back, a/d strafe, j/l turn, < > mouse look, e enter,
-# r restart, p pause, n minimap, q quit, . wait one frame.
+echo "== movement (scripted input, dummy video driver, fixed steps)"
+# Keys: w/s forward/back, a/d strafe, j/l turn, z sprint forward, f light,
+# < > mouse look, e enter, r restart, p pause, n minimap, m mute, q quit,
+# . wait one frame. Every run starts on the title screen, hence "e".
 play() { # name expected_status_regex args...
 	local name=$1 expect=$2; shift 2
 	out=$(run "$BIN" --dt 0.1 "$@" 2>&1); rc=$?
 	if [ $rc -eq 0 ] && grep -qE -- "$expect" <<<"$out"; then ok "$name"
 	else ko "$name" "rc=$rc $(tail -n 3 <<<"$out")"; fi
 }
-MIN=tests/maps/valid/min.cub      # 2x2 room, spawn (1.5,1.5) facing north
-TOP=tests/maps/valid/test_pos_top.cub  # 1-wide N-S corridor, spawn at the top
+rep() { printf "%${2}s" '' | tr ' ' "$1"; }  # rep CHAR COUNT
+V=tests/maps/valid
+MIN=$V/min.cub          # 2x2 room, spawn (1.5,1.5) facing north
+TOP=$V/test_pos_top.cub # 1-wide N-S corridor, spawn at the top
+COR=$V/corridor.cub     # long E-W corridor, spawn facing east
 
-play "built-in maps load"            "level=1 state=PLAYING x=26.50 y=11.50" --frames 3
-play "spawn faces north"             "x=1.50 y=1.50 angle=270.0" --frames 1 $MIN
-play "wall stops forward walk flush" "x=1.50 y=1.20 " --keys "wwwww" --frames 6 $MIN
-play "wall stops backward walk"      "x=1.50 y=2.(79|80) " --keys "ssssssss" --frames 9 $MIN
-play "strafe right goes east"        "x=2.(79|80) y=1.50 " --keys "dddddddd" --frames 9 $MIN
-play "strafe left blocked by wall"   "x=1.20 y=1.50 " --keys "aaaaa" --frames 6 $MIN
-play "turn right 0.5s = 63 deg"      "angle=333.0" --keys "lllll" --frames 6 $MIN
-play "turn left 0.5s = 63 deg"       "angle=207.0" --keys "jjjjj" --frames 6 $MIN
-play "mouse look 100px = 14.3 deg"   "angle=284.3" --keys ">" --frames 2 $MIN
-play "mouse look left"               "angle=255.7" --keys "<" --frames 2 $MIN
-play "corridor walk 1.5 tiles"       "x=1.50 y=3.00 " --keys "sssss" --frames 6 $TOP
+play "starts on the title screen"    "level=1 state=TITLE lives=3 keys=0/1" --frames 3
+play "enter starts the campaign"     "level=1 state=PLAYING lives=3 keys=0/1" --keys "e" --frames 3
+play "spawn faces north"             "x=1.50 y=1.50 angle=270.0" --keys "e" --frames 2 $MIN
+play "wall stops forward walk flush" "x=1.50 y=1.20 " --keys "e$(rep w 5)" --frames 7 $MIN
+play "wall stops backward walk"      "x=1.50 y=2.(79|80) " --keys "e$(rep s 8)" --frames 10 $MIN
+play "strafe right goes east"        "x=2.(79|80) y=1.50 " --keys "e$(rep d 8)" --frames 10 $MIN
+play "turn right 0.5s = 63 deg"      "angle=333.0" --keys "e$(rep l 5)" --frames 7 $MIN
+play "mouse look 100px = 14.3 deg"   "angle=284.3" --keys "e>" --frames 3 $MIN
 play "walls slide, no clipping"      "x=1.(20|21) y=1.(20|21) " \
-	--keys "jjjjjjwwwwwwwwwwwwwwwwwwwwwwww" --frames 32 $MIN
-play "pause freezes the player"      "state=PAUSED x=1.50 y=1.50 .*time=0.00" \
-	--keys "psssss" --frames 7 $TOP
-play "enter resumes from pause"      "state=PLAYING x=1.50 y=3.00 " \
-	--keys "pesssss" --frames 8 $TOP
-play "P toggles pause off"           "state=PLAYING" --keys "p.p" --frames 4 $TOP
-play "restart returns to spawn"      "x=1.50 y=1.50 angle=270.0 .*time=0.00" \
-	--keys "ssslllr" --frames 7 $TOP
-play "tab toggles the minimap"       "minimap=0" --keys "n" --frames 2 $MIN
-play "minimap toggles back"          "minimap=1" --keys "n.n" --frames 4 $MIN
-play "ESC/quit exits cleanly"        "level=1" --keys "q" $MIN
+	--keys "e$(rep j 6)$(rep w 24)" --frames 32 $MIN
+play "walk 1 s = 3 tiles"            "x=4.50 .*stamina=1.00" --keys "e$(rep w 10)" --frames 12 $COR
+play "sprint 1 s = 5.1 tiles"        "x=6.60 .*stamina=0.7[0-9]" --keys "e$(rep z 10)" --frames 12 $COR
+play "sprint until out of breath"    "stamina=0.0[0-9]" --keys "e$(rep z 36)" --frames 38 $COR
+play "breath comes back"             "stamina=0.[3-9]" --keys "e$(rep z 36)$(rep . 30)" --frames 68 $COR
+play "pause freezes everything"      "state=PAUSED .*time=0.10 .*stalker=dormant@11.50" \
+	--keys "e.p$(rep s 50)" --frames 55 $V/chase.cub
+play "enter resumes from pause"      "state=PLAYING .*x=1.50 y=3.00 " --keys "epe$(rep s 5)" --frames 9 $TOP
+play "tab toggles the minimap"       "minimap=0" --keys "en" --frames 3 $MIN
+play "ESC/quit exits cleanly"        "state=PLAYING" --keys "eq" $MIN
 
-# Frame-rate independence: 0.5 s of walking and turning gives the same
-# result at 60 Hz and 240 Hz.
-play "walk 0.5s @60Hz"   "y=3.00 " --dt 0.0166666667 --keys "$(printf 's%.0s' {1..30})" --frames 31 $TOP
-play "walk 0.5s @240Hz"  "y=3.00 " --dt 0.0041666667 --keys "$(printf 's%.0s' {1..120})" --frames 121 $TOP
-play "turn 0.5s @60Hz"   "angle=333.0" --dt 0.0166666667 --keys "$(printf 'l%.0s' {1..30})" --frames 31 $MIN
-play "turn 0.5s @240Hz"  "angle=333.0" --dt 0.0041666667 --keys "$(printf 'l%.0s' {1..120})" --frames 121 $MIN
+echo "== keys, door, flashlight"
+play "key opens the exit door"       "state=ESCAPED .*keys=1/1" --keys "e$(rep w 18)" --frames 20 $V/key_door.cub
+play "door stays locked without key" "state=PLAYING .*keys=0/1" --keys "e$(rep w 18)" --frames 20 $V/locked_door.cub
+play "fetch the key, then escape"    "state=ESCAPED .*keys=1/1" \
+	--keys "e$(rep w 18)$(rep s 20)$(rep w 20)" --frames 60 $V/locked_door.cub
+play "door without keys is open"     "state=ESCAPED .*keys=0/0" --keys "e$(rep w 18)" --frames 20 $V/exit_open.cub
+play "last exit -> victory + best"   "state=VICTORY" --keys "e$(rep w 18)e" --frames 21 $V/key_door.cub
+play "escape -> next level"          "level=2 state=PLAYING lives=3 keys=0/1 x=1.50" \
+	--keys "e$(rep w 18)e" --frames 21 $V/key_door.cub $V/key_door.cub
+play "victory -> title"              "state=TITLE" --keys "e$(rep w 18)e.e" --frames 23 $V/key_door.cub
+play "restart drops held keys"       "keys=0/1 x=1.50 .*time=0.00" --keys "e$(rep w 8)r" --frames 10 $V/key_door.cub
+play "flashlight drains 1/150 per s" "battery=0.90 light=1" --keys "e$(rep . 150)" --frames 152 $MIN
+play "light off saves the battery"   "battery=1.00 light=0" --keys "ef$(rep . 150)" --frames 153 $MIN
+play "battery runs out"              "battery=0.00 light=0" --keys "e$(rep . 1505)" --norender --frames 1507 $MIN
+play "dead light cannot turn on"     "battery=0.00 light=0" --keys "e$(rep . 1505)f" --norender --frames 1508 $MIN
+play "battery pickup refills"        "battery=1.00 light=1" --keys "e$(rep . 300)$(rep w 8)" --norender --frames 310 $V/battery.cub
+play "no pickup, battery stays low"  "battery=0.80" --keys "e$(rep . 300)" --norender --frames 302 $V/battery.cub
+
+echo "== stalkers"
+D30=$(rep . 30)
+play "dormant during grace"          "stalker=dormant@11.50,1.50" --keys "e" --frames 25 $V/chase.cub
+play "hunts the lit player"          "state=PLAYING .*stalker=hunt" --keys "e" --frames 45 $V/chase.cub
+play "does not see in the dark"      "light=0 .*stalker=wander" --keys "ef" --frames 60 $V/chase.cub
+play "walls block its sight"         "light=1 .*stalker=wander" --keys "e" --frames 60 $V/stealth.cub
+play "walking is not heard"          "stalker=wander" --keys "ef${D30}$(rep w 5)" --frames 40 $V/hearing.cub
+play "sprinting is heard"            "stalker=hunt" --keys "ef${D30}$(rep z 5)" --frames 40 $V/hearing.cub
+play "caught = jump scare"           "state=CAUGHT lives=3" --keys "e" --frames 80 $V/chase.cub
+play "life lost after the scare"     "state=PLAYING lives=2 .*stalker=dormant@11.50" --keys "e" --frames 110 $V/chase.cub
+play "three catches = game over"     "state=GAME_OVER lives=0" --keys "e" --norender --frames 300 $V/chase.cub
+play "game over -> new run"          "state=PLAYING lives=3" --keys "e$(rep . 298)e" --norender --frames 301 $V/chase.cub
+# Frame-rate independence: same chase outcome at 60 Hz and 240 Hz.
+play "free at 7.7s @60Hz"   "state=PLAYING .*stalker=hunt@2.[01]" --dt 0.0166666667 --norender --frames 463 --keys e $V/chase.cub
+play "free at 7.7s @240Hz"  "state=PLAYING .*stalker=hunt@2.[01]" --dt 0.0041666667 --norender --frames 1849 --keys e $V/chase.cub
+play "caught by 7.8s @60Hz"  "state=CAUGHT" --dt 0.0166666667 --norender --frames 469 --keys e $V/chase.cub
+play "caught by 7.8s @240Hz" "state=CAUGHT" --dt 0.0041666667 --norender --frames 1873 --keys e $V/chase.cub
+
+echo "== audio"
+play "all sounds load"               "sounds=18 muted=0" --keys "e" --frames 3
+out=$(run "$BIN" --dt 0.1 --keys "e" --frames 3 2>&1)
+grep -q "Warning" <<<"$out" && ko "no audio warnings" "$out" || ok "no audio warnings"
+play "M toggles mute"                "muted=1" --keys "em" --frames 3
+play "M again unmutes"               "muted=0" --keys "em.m" --frames 5
+play "every sound event plays"       "state=TITLE" \
+	--keys "e$(rep w 8)fpp$(rep z 30)$(rep w 30)e.e" --frames 80 $V/key_door.cub
+mkdir -p "$TMP/game" && cp -r assets "$TMP/game/" && rm "$TMP/game/assets/sounds/sfx_key.wav"
+out=$(cd "$TMP/game" && run "$OLDPWD/$BIN" --dt 0.1 --keys "e" --frames 3 2>&1); rc=$?
+if [ $rc -eq 0 ] && grep -q "Warning: cannot load assets/sounds/sfx_key.wav" <<<"$out" \
+	&& grep -q "sounds=17" <<<"$out"; then ok "missing sound is not fatal"
+else ko "missing sound is not fatal" "rc=$rc $out"; fi
 
 echo "== rendering"
 out=$(run "$BIN" --dt 0.1 --frames 2 --screenshot "$TMP/shot.bmp" 2>&1); rc=$?
 if [ $rc -eq 0 ] && [ -s "$TMP/shot.bmp" ]; then ok "screenshot of a frame"
 else ko "screenshot of a frame" "rc=$rc $out"; fi
-for m in tests/maps/valid/*.cub assets/maps/*.cub; do
-	out=$(run "$BIN" --dt 0.05 --keys "wwwwlllllwwwwwjjjwwww" --frames 25 "$m" 2>&1); rc=$?
+for m in assets/maps/*/*.cub tests/maps/valid/*.cub; do
+	out=$(run "$BIN" --dt 0.05 --keys "e$(rep w 4)$(rep l 5)$(rep z 5)$(rep j 3)fw.f$(rep w 4)n" \
+		--frames 30 "$m" 2>&1); rc=$?
 	[ $rc -eq 0 ] && ok "renders + walks: $m" || ko "renders + walks: $m" "rc=$rc $(tail -n 2 <<<"$out")"
 done
 

@@ -12,6 +12,10 @@
 
 typedef struct s_platform	t_platform;
 
+/* Handle into the platform's sound cache. */
+typedef int					t_sound;
+# define SOUND_NONE			(-1)
+
 /* Handle into the platform's GPU texture cache (overlays, HUD sprites). */
 typedef int					t_tex;
 # define TEX_NONE			(-1)
@@ -32,6 +36,8 @@ typedef enum e_action
 	ACT_STRAFE_R,
 	ACT_TURN_L,
 	ACT_TURN_R,
+	ACT_SPRINT,
+	ACT_LIGHT,
 	ACT_CONFIRM,
 	ACT_RESTART,
 	ACT_PAUSE,
@@ -72,6 +78,11 @@ bool		input_held(const t_input *in, t_action action);
 /* Relative mouse mode (mouse look). Natively on by default. */
 void		platform_capture_mouse(t_platform *p, bool on);
 
+/* Best escape time in milliseconds (0 = none): localStorage in the
+** browser, session-only natively. */
+int			platform_load_best(void);
+void		platform_save_best(int ms);
+
 double		platform_time_seconds(void);
 /* Native-only frame cap when vsync is unavailable; no-op in the browser. */
 void		platform_limit_fps(t_platform *p, double frame_start, int max_fps);
@@ -96,5 +107,24 @@ void		platform_fill_rect(t_platform *p, int x, int y, int w, int h,
 void		platform_present(t_platform *p);
 /* Saves the last presented frame as a BMP (testing / screenshots). */
 bool		platform_save_screenshot(t_platform *p, const char *path);
+
+/*
+** Audio: a small software mixer (several effect voices plus one looping
+** music voice). Every call is a safe no-op when no audio device could be
+** opened, so the game simply runs silently.
+*/
+bool		platform_audio_open(t_platform *p);
+t_sound		platform_load_sound(t_platform *p, const char *path);
+/* volume: 0.0 .. 1.0 */
+void		platform_play_sound(t_platform *p, t_sound s, float volume);
+/* Loops s; keeps playing (no restart) if s is already the current track. */
+void		platform_play_music(t_platform *p, t_sound s, float volume);
+void		platform_stop_music(t_platform *p);
+void		platform_pause_music(t_platform *p, bool paused);
+void		platform_set_muted(t_platform *p, bool muted);
+bool		platform_is_muted(const t_platform *p);
+/* Mute preference: localStorage in the browser, session-only natively. */
+bool		platform_load_muted(void);
+void		platform_save_muted(bool muted);
 
 #endif

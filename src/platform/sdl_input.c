@@ -39,6 +39,8 @@ static void	map_key(t_input *in, SDL_Keycode key)
 		input_push(in, ACT_RESTART);
 	else if (key == SDLK_p)
 		input_push(in, ACT_PAUSE);
+	else if (key == SDLK_f)
+		input_push(in, ACT_LIGHT);
 	else if (key == SDLK_TAB)
 		input_push(in, ACT_MAP);
 	else if (key == SDLK_m)
@@ -72,6 +74,8 @@ static uint32_t	held_keys(void)
 		held |= ACT_BIT(ACT_TURN_L);
 	if (k[SDL_SCANCODE_RIGHT])
 		held |= ACT_BIT(ACT_TURN_R);
+	if (k[SDL_SCANCODE_LSHIFT] || k[SDL_SCANCODE_RSHIFT])
+		held |= ACT_BIT(ACT_SPRINT);
 	return (held);
 }
 

@@ -2,15 +2,54 @@
 
 #include <SDL_image.h>
 #include <stdlib.h>
+
+#ifdef __EMSCRIPTEN__
+# include <emscripten.h>
+#endif
 #include <string.h>
 #include <unistd.h>
 
 #ifdef __EMSCRIPTEN__
 /* In the browser the canvas keeps the logical size; CSS scales it. */
 # define WINDOW_FLAGS 0
+
+EM_JS(int, js_load_best, (void), {
+	try {
+		var v = window.localStorage.getItem("darkmaze.best_ms");
+		return v === null ? 0 : (parseInt(v, 10) | 0);
+	} catch (e) {
+		return 0;
+	}
+});
+
+EM_JS(void, js_save_best, (int ms), {
+	try {
+		window.localStorage.setItem("darkmaze.best_ms", String(ms));
+	} catch (e) {}
+});
 #else
 # define WINDOW_FLAGS (SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)
 #endif
+
+/* Best escape time in ms: localStorage in the browser, session-only
+** natively (load returns 0, save is a no-op). */
+int	platform_load_best(void)
+{
+#ifdef __EMSCRIPTEN__
+	return (js_load_best());
+#else
+	return (0);
+#endif
+}
+
+void	platform_save_best(int ms)
+{
+#ifdef __EMSCRIPTEN__
+	js_save_best(ms);
+#else
+	(void)ms;
+#endif
+}
 
 const char	*platform_error(void)
 {
@@ -112,6 +151,7 @@ void	platform_destroy(t_platform *p)
 		return ;
 	if (p->mouse_captured)
 		SDL_SetRelativeMouseMode(SDL_FALSE);
+	platform_audio_close(p);
 	i = 0;
 	while (i < MAX_TEXTURES)
 	{

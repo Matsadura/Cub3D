@@ -12,6 +12,8 @@
 
 # define MAX_TEXTURES 64
 
+typedef struct s_audio	t_audio;
+
 struct s_platform
 {
 	SDL_Window		*window;
@@ -25,6 +27,10 @@ struct s_platform
 	bool			mouse_captured;
 	int				logical_w;
 	int				logical_h;
+	/* NULL when no audio device could be opened (the game stays silent). */
+	t_audio			*audio;
 };
+
+void	platform_audio_close(t_platform *p);
 
 #endif
