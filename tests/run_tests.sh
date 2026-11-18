@@ -163,6 +163,12 @@ echo "== rendering"
 out=$(run "$BIN" --dt 0.1 --frames 2 --screenshot "$TMP/shot.bmp" 2>&1); rc=$?
 if [ $rc -eq 0 ] && [ -s "$TMP/shot.bmp" ]; then ok "screenshot of a frame"
 else ko "screenshot of a frame" "rc=$rc $out"; fi
+# A left-red/right-blue texture seen facing N, S, E and W: never mirrored.
+for d in N S E W; do
+	out=$(run "$BIN" --dt 0.05 --keys "en" --frames 3 --screenshot "$TMP/o$d.bmp" \
+		tests/maps/runtime/orient_$d.cub 2>&1 && python3 tests/check_orientation.py "$TMP/o$d.bmp"); rc=$?
+	[ $rc -eq 0 ] && ok "textures not mirrored facing $d" || ko "textures not mirrored facing $d" "$out"
+done
 for m in assets/maps/*/*.cub tests/maps/valid/*.cub; do
 	out=$(run "$BIN" --dt 0.05 --keys "e$(rep w 4)$(rep l 5)$(rep z 5)$(rep j 3)fw.f$(rep w 4)n" \
 		--frames 30 "$m" 2>&1); rc=$?

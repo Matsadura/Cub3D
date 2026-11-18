@@ -30,7 +30,7 @@ static int	texture_column(const t_hit *h, const t_image *t, double rdx,
 	tx = (int)(h->wall_x * t->w);
 	if (tx >= t->w)
 		tx = t->w - 1;
-	if ((h->side == 0 && rdx > 0) || (h->side == 1 && rdy < 0))
+	if ((h->side == 0 && rdx < 0) || (h->side == 1 && rdy > 0))
 		tx = t->w - tx - 1;
 	return (tx);
 }

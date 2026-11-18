@@ -1,0 +1,10 @@
+NO tests/fixtures/left_red_right_blue.png
+SO tests/fixtures/left_red_right_blue.png
+WE tests/fixtures/left_red_right_blue.png
+EA tests/fixtures/left_red_right_blue.png
+F 30,30,30
+C 30,30,30
+
+111
+1N1
+111
