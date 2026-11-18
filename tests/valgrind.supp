@@ -1,0 +1,603 @@
+# Valgrind suppressions for third-party SDL2 start-up internals only.
+{
+   sdl_startup_sdl_init_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_cond
+   Memcheck:Cond
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_value8
+   Memcheck:Value8
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_value4
+   Memcheck:Value4
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_addr1
+   Memcheck:Addr1
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_addr2
+   Memcheck:Addr2
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_addr4
+   Memcheck:Addr4
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_addr8
+   Memcheck:Addr8
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_addr16
+   Memcheck:Addr16
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_param
+   Memcheck:Param
+   *
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_overlap
+   Memcheck:Overlap
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_init_free
+   Memcheck:Free
+   ...
+   fun:SDL_Init*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_cond
+   Memcheck:Cond
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_value8
+   Memcheck:Value8
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_value4
+   Memcheck:Value4
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_addr1
+   Memcheck:Addr1
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_addr2
+   Memcheck:Addr2
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_addr4
+   Memcheck:Addr4
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_addr8
+   Memcheck:Addr8
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_addr16
+   Memcheck:Addr16
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_param
+   Memcheck:Param
+   *
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_overlap
+   Memcheck:Overlap
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_initsubsystem_free
+   Memcheck:Free
+   ...
+   fun:SDL_InitSubSystem*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_cond
+   Memcheck:Cond
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_value8
+   Memcheck:Value8
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_value4
+   Memcheck:Value4
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_addr1
+   Memcheck:Addr1
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_addr2
+   Memcheck:Addr2
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_addr4
+   Memcheck:Addr4
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_addr8
+   Memcheck:Addr8
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_addr16
+   Memcheck:Addr16
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_param
+   Memcheck:Param
+   *
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_overlap
+   Memcheck:Overlap
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_sdl_videoinit_free
+   Memcheck:Free
+   ...
+   fun:SDL_VideoInit*
+   ...
+}
+{
+   sdl_startup_img_init_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_cond
+   Memcheck:Cond
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_value8
+   Memcheck:Value8
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_value4
+   Memcheck:Value4
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_addr1
+   Memcheck:Addr1
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_addr2
+   Memcheck:Addr2
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_addr4
+   Memcheck:Addr4
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_addr8
+   Memcheck:Addr8
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_addr16
+   Memcheck:Addr16
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_param
+   Memcheck:Param
+   *
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_overlap
+   Memcheck:Overlap
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_img_init_free
+   Memcheck:Free
+   ...
+   fun:IMG_Init*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_cond
+   Memcheck:Cond
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_value8
+   Memcheck:Value8
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_value4
+   Memcheck:Value4
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_addr1
+   Memcheck:Addr1
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_addr2
+   Memcheck:Addr2
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_addr4
+   Memcheck:Addr4
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_addr8
+   Memcheck:Addr8
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_addr16
+   Memcheck:Addr16
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_param
+   Memcheck:Param
+   *
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_overlap
+   Memcheck:Overlap
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createwindow_free
+   Memcheck:Free
+   ...
+   fun:SDL_CreateWindow*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_cond
+   Memcheck:Cond
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_value8
+   Memcheck:Value8
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_value4
+   Memcheck:Value4
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_addr1
+   Memcheck:Addr1
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_addr2
+   Memcheck:Addr2
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_addr4
+   Memcheck:Addr4
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_addr8
+   Memcheck:Addr8
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_addr16
+   Memcheck:Addr16
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_param
+   Memcheck:Param
+   *
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_overlap
+   Memcheck:Overlap
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_createrenderer_free
+   Memcheck:Free
+   ...
+   fun:SDL_CreateRenderer*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_cond
+   Memcheck:Cond
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_value8
+   Memcheck:Value8
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_value4
+   Memcheck:Value4
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_addr1
+   Memcheck:Addr1
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_addr2
+   Memcheck:Addr2
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_addr4
+   Memcheck:Addr4
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_addr8
+   Memcheck:Addr8
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_addr16
+   Memcheck:Addr16
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_param
+   Memcheck:Param
+   *
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_overlap
+   Memcheck:Overlap
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
+{
+   sdl_startup_sdl_openaudiodevice_free
+   Memcheck:Free
+   ...
+   fun:SDL_OpenAudioDevice*
+   ...
+}
