@@ -28,6 +28,11 @@ static const char	*g_messages[MAP_ERR_COUNT] = {
 	"no player start (N, S, E or W)",
 	"more than one player start",
 	"map is not enclosed by walls",
+	"too many items (max 64 keys and batteries)",
+	"too many stalkers (max 8)",
+	"keys (K) need an exit door (X)",
+	"cannot be reached from the player start",
+	"stalker (M) starts too close to the player",
 };
 
 const char	*map_error_str(t_map_error err)

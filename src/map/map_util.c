@@ -49,5 +49,5 @@ bool	map_is_solid(const t_map *m, int x, int y)
 	char	c;
 
 	c = map_cell(m, x, y);
-	return (c == '1' || c == ' ');
+	return (c == '1' || c == ' ' || c == 'X');
 }

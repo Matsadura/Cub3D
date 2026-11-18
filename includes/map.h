@@ -15,6 +15,10 @@
 # define MAP_MAX_W			256
 # define MAP_MAX_H			256
 # define MAP_MAX_PATH		1024
+# define MAP_MAX_ITEMS		64
+# define MAP_MAX_STALKERS	8
+/* Stalkers may not spawn closer than this (cells) to the player. */
+# define MAP_STALKER_MIN_DIST	4
 
 typedef enum e_map_error
 {
@@ -41,6 +45,11 @@ typedef enum e_map_error
 	MAP_ERR_NO_PLAYER,
 	MAP_ERR_MULTI_PLAYER,
 	MAP_ERR_OPEN_WALL,
+	MAP_ERR_TOO_MANY_ITEMS,
+	MAP_ERR_TOO_MANY_STALKERS,
+	MAP_ERR_KEYS_NO_EXIT,
+	MAP_ERR_UNREACHABLE,
+	MAP_ERR_STALKER_TOO_CLOSE,
 	MAP_ERR_COUNT
 }	t_map_error;
 
@@ -53,6 +62,18 @@ typedef enum e_side
 	SIDE_COUNT
 }	t_side;
 
+/*
+** Horror-maze extensions (old maps stay valid):
+**   X  exit door (a wall that opens once every key is held)
+**   K  key        B  flashlight battery        M  stalker spawn
+*/
+typedef struct s_spawn
+{
+	int		x;
+	int		y;
+	char	kind;
+}	t_spawn;
+
 typedef struct s_map
 {
 	/* Texture paths, resolved so that they exist (see map_header.c). */
@@ -61,11 +82,20 @@ typedef struct s_map
 	uint32_t	ceil_rgb;
 	int			w;
 	int			h;
-	/* w * h cells: ' ' void, '1' wall, '0' floor (spawn letter cleared). */
+	/* w * h cells: ' ' void, '1' wall, 'X' exit door, '0' floor (spawn,
+	** item and stalker letters are cleared to '0' and listed below). */
 	char		*cells;
 	int			spawn_x;
 	int			spawn_y;
 	char		spawn_dir;
+	t_spawn		items[MAP_MAX_ITEMS];
+	int			item_count;
+	int			key_count;
+	t_spawn		stalkers[MAP_MAX_STALKERS];
+	int			stalker_count;
+	int			exit_count;
+	/* File line (0-based) of the grid's first row, for error messages. */
+	int			grid_line;
 	/* Where the first error was found (1-based; 0 = not applicable). */
 	int			err_line;
 	int			err_col;
@@ -81,7 +111,8 @@ void		map_describe_error(const t_map *m, t_map_error err, char *buf,
 
 /* Cell at (x, y); ' ' (void) outside the grid. */
 char		map_cell(const t_map *m, int x, int y);
-/* Walls, void and everything outside the grid block movement and rays. */
+/* Walls, doors, void and everything outside the grid block movement and
+** rays. */
 bool		map_is_solid(const t_map *m, int x, int y);
 
 #endif

@@ -22,6 +22,9 @@ t_map_error	map_parse_header(const char *map_path, t_lines *l, t_map *m,
 /* map_grid.c: builds and validates the grid from lines[first..]. */
 t_map_error	map_parse_grid(t_lines *l, int first, t_map *m);
 
+/* map_reach.c: every key, battery, stalker and one exit reachable. */
+t_map_error	map_check_reachable(t_map *m);
+
 /* map_util.c */
 bool		is_blank(const char *s);
 const char	*skip_ws(const char *s);
